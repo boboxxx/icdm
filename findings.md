@@ -4,6 +4,10 @@
 
 Historical A4 improved mean PSNR over A3 by 0.599 dB across 200 image pairs and repeated conditions. Its power estimates often worsened and occasionally became extreme. This is evidence of useful receiver feedback in the evaluated implementation, not evidence of a calibrated posterior or of accurate physical power recovery.
 
+The completed pairing audit found identical keys, weights, image paths and initialization. A 10,000-resample image-pair-cluster bootstrap gives +0.599 dB [0.551,0.648]. Burst −7 and −4 dB contrasts remain negative: −0.174 [−0.224,−0.126] and −0.109 [−0.197,−0.025]. These are exploratory stratum intervals, not multiplicity-controlled confirmation.
+
+New Gaussian-surrogate calibration is implemented, with fixed-q descent and end-to-end sampler CPU tests. No new pretrained-image A5 result exists yet. Artemis jobs are submitted with integrity/math gates; the 8-hour validation job must not be mistaken for a completed experiment.
+
 ## Evidence corrections required
 
 - Resample whole image-pair clusters, preserving seeds/SINR/profiles. The historical record-level normal intervals underestimate dependence.

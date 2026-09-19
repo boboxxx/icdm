@@ -9,11 +9,17 @@ compute:
   python: /mnt/nfs2/engdes/wc296/venvs/hitac-rtx-cu128/bin/python
   gpu_request: "gpu:RTX:1"
   max_concurrent_gpu_jobs: 1
-  jobs: []
+  jobs:
+    - {id: 11397374, role: gpu_math_checks, status: submitted}
+    - {id: 11397384, role: cpu_asset_integrity, status: running}
+    - {id: 11397387, role: gpu_smoke_then_validation, status: submitted_dependencies, depends_on: [11397374, 11397384]}
   asset_transfer: in_progress_user_explicitly_authorized
+  transfer_session: 93330
+  asset_inventory: configs/artemis_asset_inventory.json
+  gpu_output: results/moment_validation_v1
 hypotheses:
   - id: H0
-    status: active
+    status: supported_historical_exploratory
     statement: "Historical A4 advantage survives image-cluster inference and pairing checks."
   - id: H1
     status: pending
@@ -26,7 +32,7 @@ hypotheses:
     statement: "A validation-selected receiver gate prevents high-SINR overcorrection."
 protocol: experiments/moment-calibration/protocol.md
 system_model: research/SYSTEM_MODEL_VTC2027.md
-next_action: "Validate algebra on CPU and RTX GPU; verify transferred checkpoints; run validation-only smoke then bounded ablation."
+next_action: "Monitor transfer 93330 and three recorded Slurm jobs. GPU job 11397387 serially runs smoke then fixed validation only after math and SHA256 verification pass. Retrieve and audit results on completion; do not run test confirmation yet."
 limits:
   no_test_tuning: true
   no_retraining: true
