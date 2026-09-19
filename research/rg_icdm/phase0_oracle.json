@@ -1,0 +1,21 @@
+{
+  "phase": "historical_exploratory",
+  "paired_trials": 10800,
+  "oracle_routing": {
+    "modes": [
+      "NO_ICDM",
+      "A2",
+      "A3"
+    ],
+    "best_fixed": "A3",
+    "best_fixed_psnr_db": 19.845278358180913,
+    "oracle_psnr_db": 20.706343633084813,
+    "headroom_db": 0.8610652749039005,
+    "selection_fraction": {
+      "NO_ICDM": 0.37907407407407406,
+      "A2": 0.17064814814814816,
+      "A3": 0.4502777777777778
+    },
+    "warning": "Oracle uses ground-truth quality for analysis, never for receiver routing."
+  }
+}

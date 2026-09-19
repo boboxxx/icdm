@@ -1,0 +1,73 @@
+{
+  "model_config": "configs/models/SwinJSCC_3.yaml",
+  "out_channels": 8,
+  "image_size": 128,
+  "interference_model": "SwinJSCC",
+  "interference_image_size": 32,
+  "channel_type": "awgn",
+  "split": "val",
+  "weights": {
+    "encoder": {
+      "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/encoder.pth"
+    },
+    "decoder": {
+      "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/decoder.pth"
+    },
+    "infencoder": {
+      "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/infencoder.pth"
+    },
+    "icdm_s": {
+      "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/icdm_s.pth"
+    },
+    "icdm_z": {
+      "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/icdm_z.pth"
+    }
+  },
+  "expected_weights_sha256": {
+    "encoder": "3daa190606afc26f100f92708f3b36b69e04e563acff41dae41812aded098d34",
+    "decoder": "b966699596b360f84670f52b62d56988124c2c8dea54bc33f8a683d2b4e586e9",
+    "infencoder": "31a5d3fa38b566c1dd4819a196cdccaf047cc576a426e2f121ce2e9ac88a0317",
+    "icdm_s": "751296cd69e666316808fdc429a4f2d3b0be31db15ff5838cfc6080d4f0e6863",
+    "icdm_z": "e9d2dc8510ed4f16c48fb3077efff5ae6147663a2306cb80532307ee083b7326"
+  },
+  "images": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0",
+  "interference_images": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0",
+  "max_images": 2,
+  "evaluation_batch_size": 1,
+  "seeds": [
+    700
+  ],
+  "snr_sinr_pairs": [
+    [
+      20,
+      -7
+    ],
+    [
+      20,
+      0
+    ],
+    [
+      20,
+      10
+    ]
+  ],
+  "block_size": 64,
+  "profiles": [
+    "stationary",
+    "burst"
+  ],
+  "modes": [
+    "NO_ICDM",
+    "A2",
+    "A3",
+    "B1",
+    "B2",
+    "B3",
+    "B_GUIDE",
+    "B_COUPLED"
+  ],
+  "protocol": "research/rg_icdm/PROTOCOL.md",
+  "metrics": [
+    "psnr"
+  ]
+}
