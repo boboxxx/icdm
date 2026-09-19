@@ -1,0 +1,26 @@
+# Local data and model artifacts
+data/
+datasets/
+assets/
+weights/
+checkpoints/
+results/
+logs/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.bin
+*.jsonl
+
+# Generated/cache files
+__pycache__/
+*.py[cod]
+.DS_Store
+tmp/
+.pytest_cache/
+
+# Local research execution artifacts
+research/sheng_*/
+configs/artemis_asset_inventory.json
+research-state.yaml

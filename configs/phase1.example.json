@@ -1,0 +1,22 @@
+{
+  "model_config": "configs/models/SwinJSCC_3.yaml",
+  "out_channels": 8,
+  "image_size": 128,
+  "interference_model": "SwinJSCC",
+  "interference_image_size": 32,
+  "channel_type": "awgn",
+  "weights": {
+    "encoder": {"path": "/REPLACE/encoder.pth"},
+    "decoder": {"path": "/REPLACE/decoder.pth"},
+    "infencoder": {"path": "/REPLACE/infencoder.pth"},
+    "icdm_s": {"path": "/REPLACE/icdm_s.pth"},
+    "icdm_z": {"path": "/REPLACE/icdm_z.pth"}
+  },
+  "images": "/REPLACE/test_images",
+  "interference_images": "/REPLACE/test_interference_images",
+  "max_images": 32,
+  "seeds": [0, 1, 2],
+  "snr_sinr_pairs": [[20, 0], [5, 0], [20, 20]],
+  "block_size": 64,
+  "profiles": ["stationary", "alternating", "burst"]
+}
