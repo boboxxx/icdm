@@ -1,0 +1,35 @@
+project:
+  title: "ICDM self-calibration for IEEE VTC2027 Spring"
+  status: active
+  started: "2026-09-19"
+  question: "Does observation-conditioned moment calibration improve over equally regularized point updates under unknown block interference?"
+compute:
+  host: artemis-ood
+  root: /mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027
+  python: /mnt/nfs2/engdes/wc296/venvs/hitac-rtx-cu128/bin/python
+  gpu_request: "gpu:RTX:1"
+  max_concurrent_gpu_jobs: 1
+  jobs: []
+  asset_transfer: in_progress_user_explicitly_authorized
+hypotheses:
+  - id: H0
+    status: active
+    statement: "Historical A4 advantage survives image-cluster inference and pairing checks."
+  - id: H1
+    status: pending
+    statement: "Equal stabilization explains some or all apparent benefits of moment calibration."
+  - id: H2
+    status: pending
+    statement: "Observation-induced x-z covariance improves amplitude calibration beyond variance alone."
+  - id: H3
+    status: pending
+    statement: "A validation-selected receiver gate prevents high-SINR overcorrection."
+protocol: experiments/moment-calibration/protocol.md
+system_model: research/SYSTEM_MODEL_VTC2027.md
+next_action: "Validate algebra on CPU and RTX GPU; verify transferred checkpoints; run validation-only smoke then bounded ablation."
+limits:
+  no_test_tuning: true
+  no_retraining: true
+  no_unrelated_jobs_cancelled: true
+  historical_test_status: exploratory
+  confirmation_requires_frozen_config: true
