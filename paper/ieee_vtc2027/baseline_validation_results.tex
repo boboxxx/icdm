@@ -1,0 +1,53 @@
+Table~\ref{tab:published-baselines} reports the complete validation run.  The
+blind A4 receiver obtains the lowest arithmetic mean image MSE and LPIPS and
+the highest mean MS-SSIM.  CDDM-RX with true global SINR obtains the highest
+mean per-image PSNR, exceeding A4 by 1.011~dB.  This is not a numerical
+inconsistency: PSNR is computed per image before averaging, whereas the MSE
+column is the arithmetic mean of the per-image squared errors.  A small number
+of difficult images therefore have substantially greater influence on mean
+MSE than on mean PSNR.
+
+\begin{table*}[t]
+\centering
+\caption{Paired receiver validation with a fixed SwinJSCC representation
+($64$ image pairs, two channel seeds, six SINRs, and three interference
+profiles; $2304$ matched conditions per receiver).  Oracle receivers know the
+true global SINR; A4 does not.}
+\label{tab:published-baselines}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lcccc}
+\toprule
+Receiver & PSNR (dB) $\uparrow$ & Image MSE $\downarrow$ & LPIPS-VGG $\downarrow$ & MS-SSIM $\uparrow$ \\
+\midrule
+SwinJSCC direct & 18.866 & 0.028305 & 0.4314 & 0.7067 \\
+CDDM-RX ($N_0$ only) & 19.044 & 0.027870 & 0.4283 & 0.7101 \\
+CDDM-RX (global-SINR oracle) & \textbf{21.583} & 0.019567 & 0.3425 & 0.8126 \\
+ICDM (global-SINR oracle) & 19.147 & 0.025458 & 0.3760 & 0.7619 \\
+SC-ICDM A4 (blind) & 20.571 & \textbf{0.015922} & \textbf{0.3407} & \textbf{0.8271} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Under exact pairing, A4 improves on direct SwinJSCC by 1.705~dB PSNR,
+$0.012383$ MSE, $0.0907$ LPIPS, and $0.1204$ MS-SSIM on average.  Relative to
+the global-SINR ICDM receiver, the corresponding changes are $+1.424$~dB,
+$-0.009535$, $-0.0353$, and $+0.0652$.  By contrast, A4 has higher PSNR than
+global-SINR CDDM-RX in only $26.7\%$ of the matched conditions.  Its better
+overall MSE, LPIPS, and MS-SSIM means are driven by large improvements in the
+most difficult conditions, rather than small improvements in most cases.
+
+The conditional results locate that benefit.  Against global-SINR CDDM-RX,
+A4 changes PSNR by $+2.098$ and $+0.403$~dB at $-7$ and $-4$~dB SINR,
+respectively, while also improving all three remaining metrics.  From 0 to
+10~dB, CDDM-RX is better in all four metrics.  A4 is likewise inferior for
+stationary interference ($-2.446$~dB PSNR), where a global variance is an
+adequate description.  For burst interference, A4 improves all four metrics,
+including $+0.352$~dB PSNR, $-0.011719$ MSE, $-0.0749$ LPIPS, and $+0.0980$
+MS-SSIM.  Alternating interference lies between these cases: A4 has
+$0.940$~dB lower PSNR but slightly better mean MSE, LPIPS, and MS-SSIM.
+
+These results support a conditional receiver rather than a universal
+superiority claim: direct decoding at high SINR, global denoising when the
+interference is approximately stationary, and local self-calibration for
+strong nonstationary interference.  In particular, A4 loses 1.484~dB PSNR to
+direct SwinJSCC at 10~dB SINR, so a high-SINR bypass is required by the data.

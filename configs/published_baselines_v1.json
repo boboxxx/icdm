@@ -1,0 +1,11 @@
+{
+  "base_manifest": "configs/a4_full_eval.json",
+  "images": "/mnt/d/ICDM_SC_data_full/celeba/val/class0",
+  "interference_images": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0",
+  "max_images": 64,
+  "evaluation_batch_size": 4,
+  "seeds": [700, 701],
+  "modes": ["SWINJSCC", "CDDM_RX_N0", "CDDM_RX_ORACLE", "ICDM_ORACLE", "SC_ICDM_A4"],
+  "cddm_steps": 40,
+  "protocol": "published-baselines-v1; validation only; receiver-only CDDM port; no retraining; no tuning on these results"
+}
