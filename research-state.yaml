@@ -10,11 +10,11 @@ compute:
   gpu_request: "gpu:RTX:1"
   max_concurrent_gpu_jobs: 1
   jobs:
-    - {id: 11397374, role: gpu_math_checks, status: submitted}
-    - {id: 11397384, role: cpu_asset_integrity, status: running}
-    - {id: 11397387, role: gpu_smoke_then_validation, status: submitted_dependencies, depends_on: [11397374, 11397384]}
-  asset_transfer: in_progress_user_explicitly_authorized
-  transfer_session: 93330
+    - {id: 11397374, role: gpu_math_checks, status: cancelled_before_start}
+    - {id: 11397384, role: cpu_asset_integrity, status: completed}
+    - {id: 11397387, role: gpu_smoke_then_validation, status: cancelled_before_start}
+    - {id: 11398036, role: gpu_math_smoke_validation, status: pending_resources}
+  asset_transfer: complete_and_sha256_verified
   asset_inventory: configs/artemis_asset_inventory.json
   gpu_output: results/moment_validation_v1
 hypotheses:
@@ -32,10 +32,11 @@ hypotheses:
     statement: "A validation-selected receiver gate prevents high-SINR overcorrection."
 protocol: experiments/moment-calibration/protocol.md
 system_model: research/SYSTEM_MODEL_VTC2027.md
-next_action: "Monitor transfer 93330 and three recorded Slurm jobs. GPU job 11397387 serially runs smoke then fixed validation only after math and SHA256 verification pass. Retrieve and audit results on completion; do not run test confirmation yet."
+next_action: "Monitor Slurm job 11398036. It checks the RTX PRO 6000 identity and CUDA math tests, then runs the 4-pair smoke and fixed 64-pair validation. Retrieve and audit results on completion; do not run test confirmation yet."
 limits:
   no_test_tuning: true
   no_retraining: true
   no_unrelated_jobs_cancelled: true
   historical_test_status: exploratory
   confirmation_requires_frozen_config: true
+  concise_evidence_policy: "No large seed sweep and no mean-plus/minus-standard-deviation tables. Use two fixed matched validation channel seeds and paired image-cluster effect intervals."
