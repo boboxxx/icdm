@@ -1,0 +1,46 @@
+{
+  "status": "pending_resources",
+  "date": "2026-09-20",
+  "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
+  "remote_root": "/mnt/nfs2/engdes/wc296/ICDM_RG_20260920",
+  "ssh_host": "artemis-ood",
+  "python": "/mnt/nfs2/engdes/wc296/venvs/hitac-rtx-cu128/bin/python",
+  "automation_id": "icdm-artemis",
+  "protocol_commit": "acaa5d1",
+  "implementation_commit": "95cfc7f",
+  "max_concurrent_gpus": 1,
+  "outputs": [
+    "results/rg_smoke_v1",
+    "results/rg_validation_v1"
+  ],
+  "checks": {
+    "cpu_selective": 3,
+    "cpu_moment_regression": 5,
+    "cpu_phase1_regression": 13
+  },
+  "known_results": {
+    "historical_oracle_headroom_db": 0.8610652749039005,
+    "prior_A5_FULL_vs_A4_R_validation_db": -0.6004632977653113
+  },
+  "next_action": "Verify job receipt and RTX PRO 6000 identity; retrieve smoke then validation records and run strict paired analysis. No test confirmation or paper success claim yet.",
+  "remaining": [
+    "Full RG validation",
+    "Select and freeze gate using validation only",
+    "LPIPS and semantic consistency with verified pretrained metric weights",
+    "Random unaligned piecewise and same-distribution interference robustness",
+    "Independent untouched confirmation split",
+    "IEEE-style report grounded in measured results"
+  ],
+  "slurm_job_id": 11399316,
+  "partitions": [
+    "general",
+    "enginf"
+  ],
+  "available_assets": {
+    "val_pairs": 128,
+    "test_pairs": 700,
+    "historically_inspected_test_prefix": 200,
+    "potential_uninspected_test_indices": "200:700; confirm usage history and training disjointness before claim",
+    "verification": "1661 files SHA256 verified; val/test hash intersection zero; training overlap not yet audited"
+  }
+}
