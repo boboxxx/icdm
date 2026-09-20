@@ -10,4 +10,14 @@ Historical phase-0 oracle routing headroom is 0.861065 dB over A3 on 10,800 pair
 
 No new RG performance claim yet. Metrics in the first run are PSNR, MSE, harm fraction, lower tail, NFE and elapsed time. Artemis currently has no lpips, transformers or open_clip in this runtime and no verified cached perceptual weights. Perceptual and semantic metrics remain explicit follow-up work, not silently replaced by pixel metrics.
 
-The icdm-artemis heartbeat checks progress every 20 minutes and stays quiet when unchanged. It must retrieve completed records, audit pairing, report negative results and continue the remaining staged work. Consult STATE.json for the receipt and latest stage.
+## Completed RG validation
+
+Slurm job **11399316** completed successfully on an NVIDIA RTX PRO 6000 Blackwell Server Edition in 2:57:36. The run produced all 18,432 prospectively specified validation records. GPU tests and provenance checks passed.
+
+The strongest method was B_COUPLED at 20.5773 dB. Relative to A3 it gained 0.5600 dB on average, won 76.65% of paired conditions, reduced the rate of losses larger than 0.5 dB to 6.29%, and had a fifth-percentile paired change of -0.6617 dB. B3, which adapts amplitude while freezing initial guidance, gained 0.4414 dB over A3. B_GUIDE gained 0.3381 dB over A3. This supports both amplitude feedback and coupled control; guidance-only adaptation was weaker.
+
+B2 bypassed 17.19% of frames overall, including all 10 dB frames and 3.125% of 7 dB frames. It reduced mean prior NFE from 80 to 66.25. At 10 dB, B2/B3/B_GUIDE/B_COUPLED exactly matched direct decoding at 27.3225 dB, while A3 reached 24.9739 dB. The bypass did not activate from -7 through 4 dB.
+
+The result is developmental validation on a previously inspected split. It supports continuing the RG-ICDM direction but is not independent confirmation. Archived summaries are `rg_validation_analysis.json` and `rg_validation_metadata.json`. The remaining scientific work is frozen configuration selection, robustness to unaligned/random and same-distribution interference, verified perceptual/semantic metrics, and evaluation on an untouched confirmation split.
+
+The icdm-artemis heartbeat checks follow-up progress every 20 minutes and stays quiet when unchanged. Consult STATE.json for the latest stage.

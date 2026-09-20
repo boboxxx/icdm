@@ -1,0 +1,451 @@
+{
+  "status": "complete",
+  "phase": "validation",
+  "input_signature": "dd49bd22ddadc69329e64921301a3d74b77651215dff179347049207d13a425c",
+  "records": 13824,
+  "primary": {
+    "target": "A5_FULL",
+    "reference": "A4_R",
+    "profile": null,
+    "sinrs": null,
+    "image_clusters": 64,
+    "mean_db": -0.6004632977653113,
+    "ci95_db": [
+      -0.6763207105306156,
+      -0.5321287126185985
+    ]
+  },
+  "low_sinr_burst": {
+    "target": "A5_FULL",
+    "reference": "A4_R",
+    "profile": "burst",
+    "sinrs": [
+      -7,
+      -4
+    ],
+    "image_clusters": 64,
+    "mean_db": -0.08479103995834433,
+    "ci95_db": [
+      -0.15066325949554557,
+      -0.01776982403420887
+    ]
+  },
+  "exploratory_contrasts": [
+    {
+      "target": "A5_FULL",
+      "reference": "A4_R",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.6004632977653113,
+      "ci95_db": [
+        -0.6763207105306156,
+        -0.5321287126185985
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A4_R",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.6599341155710996,
+      "ci95_db": [
+        -0.7388368816165812,
+        -0.5843925840353763
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A4_R",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.6148542460296054,
+      "ci95_db": [
+        -0.6937149924293269,
+        -0.5413100558104726
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A4_R",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.5266015316952288,
+      "ci95_db": [
+        -0.6183751121769797,
+        -0.4480829934498119
+      ]
+    },
+    {
+      "target": "A5_DIAG",
+      "reference": "A4_R",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.11064036548954868,
+      "ci95_db": [
+        -0.14335532053078237,
+        -0.07283243584916732
+      ]
+    },
+    {
+      "target": "A5_DIAG",
+      "reference": "A4_R",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.12776812370551868,
+      "ci95_db": [
+        -0.1698480932194701,
+        -0.08364289185588852
+      ]
+    },
+    {
+      "target": "A5_DIAG",
+      "reference": "A4_R",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.11751118128892721,
+      "ci95_db": [
+        -0.1556899561836625,
+        -0.07304674826974802
+      ]
+    },
+    {
+      "target": "A5_DIAG",
+      "reference": "A4_R",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.08664179147420015,
+      "ci95_db": [
+        -0.12531932800696385,
+        -0.04393779335539535
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A5_DIAG",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.48982293227576257,
+      "ci95_db": [
+        -0.5618757751491796,
+        -0.4257196384843629
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A5_DIAG",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.5321659918655809,
+      "ci95_db": [
+        -0.6012082057145041,
+        -0.4628794578032114
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A5_DIAG",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.4973430647406781,
+      "ci95_db": [
+        -0.5724100535163471,
+        -0.42963772405115375
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "A5_DIAG",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": -0.4399597402210286,
+      "ci95_db": [
+        -0.5239572731845978,
+        -0.3721100638255998
+      ]
+    },
+    {
+      "target": "A4_R",
+      "reference": "A4",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.05016203161406081,
+      "ci95_db": [
+        -0.01905098456577714,
+        0.13063284004794773
+      ]
+    },
+    {
+      "target": "A4_R",
+      "reference": "A4",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.019980046696001202,
+      "ci95_db": [
+        -0.046789400432405044,
+        0.09591052544714887
+      ]
+    },
+    {
+      "target": "A4_R",
+      "reference": "A4",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.054145533870650644,
+      "ci95_db": [
+        -0.030123908106128104,
+        0.15125613069046553
+      ]
+    },
+    {
+      "target": "A4_R",
+      "reference": "A4",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.07636051427553056,
+      "ci95_db": [
+        -0.0033142849618003995,
+        0.16638146358664266
+      ]
+    },
+    {
+      "target": "A4",
+      "reference": "A3",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.6065551592298926,
+      "ci95_db": [
+        0.49446827274876487,
+        0.702482529564371
+      ]
+    },
+    {
+      "target": "A4",
+      "reference": "A3",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.7012007199432008,
+      "ci95_db": [
+        0.5859943165229096,
+        0.8060213836840833
+      ]
+    },
+    {
+      "target": "A4",
+      "reference": "A3",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.6179049772470517,
+      "ci95_db": [
+        0.48899699109533007,
+        0.7283070691092713
+      ]
+    },
+    {
+      "target": "A4",
+      "reference": "A3",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.5005597804994251,
+      "ci95_db": [
+        0.38132475176425457,
+        0.6089768419410289
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "NO_ICDM",
+      "profile": null,
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 1.1391262368861437,
+      "ci95_db": [
+        0.7811929580779565,
+        1.515130682678252
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "NO_ICDM",
+      "profile": "stationary",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 0.3571436359145555,
+      "ci95_db": [
+        0.007995017501237203,
+        0.7364395636085858
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "NO_ICDM",
+      "profile": "alternating",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 1.1191635501489885,
+      "ci95_db": [
+        0.7528476073373073,
+        1.5044162512666677
+      ]
+    },
+    {
+      "target": "A5_FULL",
+      "reference": "NO_ICDM",
+      "profile": "burst",
+      "sinrs": null,
+      "image_clusters": 64,
+      "mean_db": 1.9410715245948866,
+      "ci95_db": [
+        1.5492943560860153,
+        2.3486950676645737
+      ]
+    }
+  ],
+  "summaries": {
+    "NO_ICDM": {
+      "mean_psnr": 18.86559581709669,
+      "mean_receiver_seconds_per_image": 0.0035532317898388202
+    },
+    "A3": {
+      "mean_psnr": 19.948468160904188,
+      "mean_receiver_seconds_per_image": 0.38091589668809117,
+      "nominal_block_power_rmse": 0.9286280148394445
+    },
+    "A4": {
+      "mean_psnr": 20.555023320134083,
+      "mean_receiver_seconds_per_image": 0.3899540919459368,
+      "nominal_block_power_rmse": 192.0852967293511
+    },
+    "A4_R": {
+      "mean_psnr": 20.605185351748144,
+      "mean_receiver_seconds_per_image": 0.3889103393631659,
+      "nominal_block_power_rmse": 1.3161623894983314,
+      "max_power_seen": {
+        "min": 0.0,
+        "mean": 1.5807506722575309,
+        "max": 29.665388107299805
+      },
+      "max_objective_increase": {
+        "min": 0.0,
+        "mean": 4.554706499016674e-08,
+        "max": 5.900859832763672e-05
+      },
+      "candidate_at_cap": {
+        "min": 0.0,
+        "mean": 0.0,
+        "max": 0.0
+      },
+      "candidate_at_floor": {
+        "min": 0.0,
+        "mean": 0.08574761284722222,
+        "max": 1.0
+      },
+      "denominator": {
+        "min": 1.1121996641159058,
+        "mean": 64.00000012724841,
+        "max": 262.27520751953125
+      },
+      "mean_residual_energy": {
+        "min": 0.007221618667244911,
+        "mean": 0.13869741845953992,
+        "max": 2.3055620193481445
+      }
+    },
+    "A5_DIAG": {
+      "mean_psnr": 20.494544986258592,
+      "mean_receiver_seconds_per_image": 0.38964667947816956,
+      "nominal_block_power_rmse": 0.9575017676036498,
+      "max_power_seen": {
+        "min": 0.0,
+        "mean": 1.5654593066835412,
+        "max": 24.868684768676758
+      },
+      "max_objective_increase": {
+        "min": 0.0,
+        "mean": 1.1241201944338769e-07,
+        "max": 5.963444709777832e-05
+      },
+      "candidate_at_cap": {
+        "min": 0.0,
+        "mean": 0.0,
+        "max": 0.0
+      },
+      "candidate_at_floor": {
+        "min": 0.0,
+        "mean": 0.0871853298611111,
+        "max": 1.0
+      },
+      "denominator": {
+        "min": 1.6394554376602173,
+        "mean": 63.449817160800905,
+        "max": 244.79653930664062
+      },
+      "mean_residual_energy": {
+        "min": 0.006497456692159176,
+        "mean": 0.13473206754486,
+        "max": 2.449756622314453
+      }
+    },
+    "A5_FULL": {
+      "mean_psnr": 20.00472205398283,
+      "mean_receiver_seconds_per_image": 0.3896188591134483,
+      "nominal_block_power_rmse": 0.8480505161774088,
+      "max_power_seen": {
+        "min": 0.0,
+        "mean": 1.603018299829967,
+        "max": 24.868684768676758
+      },
+      "max_objective_increase": {
+        "min": 0.0,
+        "mean": 7.634973347539993e-07,
+        "max": 5.472265183925629e-05
+      },
+      "candidate_at_cap": {
+        "min": 0.0,
+        "mean": 0.0,
+        "max": 0.0
+      },
+      "candidate_at_floor": {
+        "min": 0.0,
+        "mean": 0.085205078125,
+        "max": 1.0
+      },
+      "denominator": {
+        "min": 1.5024274587631226,
+        "mean": 63.12104146520465,
+        "max": 243.18943786621094
+      },
+      "mean_residual_energy": {
+        "min": 0.005937093403190374,
+        "mean": 0.16663863642677118,
+        "max": 2.53090238571167
+      }
+    }
+  },
+  "validation_gate_passed": false,
+  "caveats": [
+    "Gaussian-surrogate moments are not exact neural posterior moments.",
+    "Image clusters, not records, are bootstrap units.",
+    "Stratum intervals exploratory; no multiplicity adjustment.",
+    "Validation only; no independent held-out test evidence."
+  ]
+}

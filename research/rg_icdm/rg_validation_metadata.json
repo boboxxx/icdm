@@ -1,0 +1,675 @@
+{
+  "manifest": {
+    "model_config": "configs/models/SwinJSCC_3.yaml",
+    "out_channels": 8,
+    "image_size": 128,
+    "interference_model": "SwinJSCC",
+    "interference_image_size": 32,
+    "channel_type": "awgn",
+    "split": "val",
+    "weights": {
+      "encoder": {
+        "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/encoder.pth"
+      },
+      "decoder": {
+        "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/decoder.pth"
+      },
+      "infencoder": {
+        "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/infencoder.pth"
+      },
+      "icdm_s": {
+        "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/icdm_s.pth"
+      },
+      "icdm_z": {
+        "path": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/weights/icdm_z.pth"
+      }
+    },
+    "expected_weights_sha256": {
+      "encoder": "3daa190606afc26f100f92708f3b36b69e04e563acff41dae41812aded098d34",
+      "decoder": "b966699596b360f84670f52b62d56988124c2c8dea54bc33f8a683d2b4e586e9",
+      "infencoder": "31a5d3fa38b566c1dd4819a196cdccaf047cc576a426e2f121ce2e9ac88a0317",
+      "icdm_s": "751296cd69e666316808fdc429a4f2d3b0be31db15ff5838cfc6080d4f0e6863",
+      "icdm_z": "e9d2dc8510ed4f16c48fb3077efff5ae6147663a2306cb80532307ee083b7326"
+    },
+    "images": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0",
+    "interference_images": "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0",
+    "max_images": 64,
+    "evaluation_batch_size": 1,
+    "seeds": [
+      700,
+      701
+    ],
+    "snr_sinr_pairs": [
+      [
+        20,
+        -7
+      ],
+      [
+        20,
+        -4
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        20,
+        4
+      ],
+      [
+        20,
+        7
+      ],
+      [
+        20,
+        10
+      ]
+    ],
+    "block_size": 64,
+    "profiles": [
+      "stationary",
+      "alternating",
+      "burst"
+    ],
+    "modes": [
+      "NO_ICDM",
+      "A2",
+      "A3",
+      "B1",
+      "B2",
+      "B3",
+      "B_GUIDE",
+      "B_COUPLED"
+    ],
+    "protocol": "research/rg_icdm/PROTOCOL.md",
+    "metrics": [
+      "psnr"
+    ]
+  },
+  "weights_sha256": {
+    "encoder": "3daa190606afc26f100f92708f3b36b69e04e563acff41dae41812aded098d34",
+    "decoder": "b966699596b360f84670f52b62d56988124c2c8dea54bc33f8a683d2b4e586e9",
+    "infencoder": "31a5d3fa38b566c1dd4819a196cdccaf047cc576a426e2f121ce2e9ac88a0317",
+    "icdm_s": "751296cd69e666316808fdc429a4f2d3b0be31db15ff5838cfc6080d4f0e6863",
+    "icdm_z": "e9d2dc8510ed4f16c48fb3077efff5ae6147663a2306cb80532307ee083b7326"
+  },
+  "protocol_sha256": "dc9b4d01148d57d63caf82dc5c732e17f221f26593f41f78674150c8f6551606",
+  "model_config_sha256": "949487a67258fcd0f1959e93e11db55c56320c0a2f7acec91e0c569c68145fdc",
+  "images": [
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000000.png",
+      "5e0f2e28ccd04484424a880d8b6ee4b70f6e4a654712decb88075975750bfc06"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000001.png",
+      "ba399f6d24fb9bedb0f043eaa73112b91cf1fff93b108cc6944a420c1818e4cc"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000002.png",
+      "295ee097c6fbb843bb88d370ebd4f32ccb490178333e471495811a258bc552f7"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000003.png",
+      "525f7d25043ee2856017bbd6b1130b012382f32054c761b6622ba663035b0577"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000004.png",
+      "340e0685120256d39c5dbac34cfd710049c23328384afe378134f4c5fc2483ca"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000005.png",
+      "d570c590cc39477e80ec06e26f7e55894c72f6353df115513bf8fce07003883e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000006.png",
+      "baeffb52adacea87ba78d34647ca41dfb98552d9ac1bfa4538488c0ad225652b"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000007.png",
+      "12a9622b5a31aee9ad824d13265b73eff1021fb14a383df760ad5bb0f0703515"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000008.png",
+      "b68c5ff376898049f11503b70b4ec381fba1faab0cd5f533bb23fb6d3075da01"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000009.png",
+      "d6a6445739a81c1e9c3a0c6c340dba6c9bd23c7dd4cb4feeb0ed1a9aaf7517a8"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000010.png",
+      "aa5fad0941edde627953be529b65808788b9290df27e9e761ec54aef2f941d42"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000011.png",
+      "976eb5b2c8711514baa14f87a869b37b05cb840e50d25600ab03d8cb1727775e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000012.png",
+      "c2787138228a5d31791e28c0a6e2f5dc49ab565c360808540727d8ce0514c5f5"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000013.png",
+      "467e6212f77a1602f337f4b099e8ca4600f662805f8eeaefe277f4352329c481"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000014.png",
+      "398dd47228556c8d31c4b8c69700c0cb78223953a8f4ae39260adc174878f033"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000015.png",
+      "f4d6cfb245b27830aefd7cc5e1685d42a4a5188f3df1f7adfd59769510d05c7e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000016.png",
+      "99ee65a8654a7cbfd81314f8b3c9661e76f6429c54b8c4091483115ac6badf1a"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000017.png",
+      "64bebc52a5b03ff7e9631089b3abda554f929176c5d5732a30553a1b9bc5a9d1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000018.png",
+      "3f0b3f16a2eceb45ac6a63ece7886874ed5c9cd56ea9509393ce9b5365ea2ddb"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000019.png",
+      "e21b8faffac2ca7dbc3642029d24c1fc5346fd32aae82fc0ccc3aa70ae364c68"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000020.png",
+      "b875fbca7b821f8b3c17b05e2477c797ecf4abb52d2288ef85374ebeddafe71b"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000021.png",
+      "c8da40bed5f734b8e8d56b5c6c0d11cbf6eb7b509b71bccb9a86a25d2f3ff554"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000022.png",
+      "82f1e549a0d5554b28fed1268423f49dfa1eebc5ce5e88179646346e63f0f258"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000023.png",
+      "9d1e6e6a5c4fb009c6fe46514f07521ad992d3082eff309adb3e67b45a564ee2"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000024.png",
+      "960f77bc3093542a3311b405e4c448ddd2998d979105534329d19b481bc5da35"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000025.png",
+      "d3021f6b6ae33f87106b0ab057cce3fcf50b68bce8a51ad15fcc39d9220871e4"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000026.png",
+      "d0dd10d6de017f83e458eef54c8bd162dab5fa9b0fe39a487304ac124ba35005"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000027.png",
+      "d0081d55c3969374328dd564e9ec426f49e1f2c943a388ee48cb1016494aa5a8"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000028.png",
+      "c587d7bdd38bc238058b41d480ef4415cb7f8a36cfb77ab6f2aa3095053886f1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000029.png",
+      "bbd0a8b57628c22054264167d2bd4bfe0910070791a0b0c2dacd10cfc975da13"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000030.png",
+      "1e9f94a565d0b6b5555cee4c06173c1d0443e5869ffa1158394facc05ded6fb0"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000031.png",
+      "37c96f85150b53cf4e6a64efcf05d0be3ed0077b5ee320fa8e0c3aad4852c2dd"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000032.png",
+      "17e6813eb01db1755f4353b708ff3c9a87a32d671100a6c9260a1ba1f28eaa7f"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000033.png",
+      "63cfbf2461a8b524dc0a14305f112144ed1d00fc9180e848feb2bf0feb953bca"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000034.png",
+      "4b31848937d81addaafd76c32dfd5555651a3d1d43d34935c02855fd96776a3f"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000035.png",
+      "1a7b132f5d0b204e356219793ee2abbdb44483b8553f63f4fcc212a0f88bdfdf"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000036.png",
+      "75c5fd73a93a359e6ed30626f2ff9764ff1ea6011ded37a4649401a1442d58f5"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000037.png",
+      "ef811c45458fa090c20a433e2e0bad1e3f3d8107485abf704805670ae43ee8a0"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000038.png",
+      "83f8ae365bd0e5039f2abe1b9407606fc56d513784893971572c2472391f72e1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000039.png",
+      "7eabf6664569ee8751914b1d86a121af005966e9fabb36280bc7788e9e301ed4"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000040.png",
+      "a7e90cf67f491172b44eb843bb21c18cfd81b90cc9aa6a4ae23b0d1caf0885b9"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000041.png",
+      "98f5a08c0d8a798b6b6e256ff2ff85532e7e62ae3875398427d2be1b4239d171"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000042.png",
+      "efdca8a67cd50c4b6d9639aa35ec9b5fb6943b6a70f54661ca771c8289aa32bf"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000043.png",
+      "86b9596f91049b14beac91544a01b27171bc607e76a4c3e6e29c9290d928d310"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000044.png",
+      "9fe34f2469e76c6585a742a64953343e59494df5168dce42481a368ff6c92f83"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000045.png",
+      "511fe6e352f0e0e9ab210c66c84af443662385768f61abbc598ed14420e8b7dd"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000046.png",
+      "9ed02d76d1c6e01bcf9559cccec748d8142651fbf4633391739eea75fd09b0c1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000047.png",
+      "bce1dc7d3a50c2adead819176814dc4ee0c32871e240d6e25c888e3e75ce9974"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000048.png",
+      "9fc36ab1ef2d905205682a281582e030e832b81eb4c13c3646ed9618979d05d5"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000049.png",
+      "0a897003142ca5418089de0e4b721a15b99dd6b254eb6961a5213ce2e989b3c8"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000050.png",
+      "c00dc7f810096ae8d1b992dbbf05dd134d2784ec490183802db378b5772d3e78"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000051.png",
+      "da7144c58f75856d8922144abcfaf711325d65e3b03214ed534793efb59a2905"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000052.png",
+      "4f38dc606fce60839d4070a387cfda5a26d1439abd529dd6dfaa108aad398467"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000053.png",
+      "a6a7472a1718200fd4b3d973ae5d03cb0fa3a30a28c1f31feaafe16a9f29f050"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000054.png",
+      "b0a2442297ebf80922fa9dd11eee0c413bfc8275ec9387c22b3f74b3ee2ccc9e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000055.png",
+      "717e064920e85cbe796dc2632d3df42ff6d79c9e0e18b5d85163176a1337f2b3"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000056.png",
+      "a6e88e42fff34c0b3b662d329f54c317965a49edbd6dc471e47b9ccc9b633a01"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000057.png",
+      "9a3b301d4874d6323aed329d4b907609832fd0fed842ebc32f6840f4c0e44286"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000058.png",
+      "bbdd9c321baea6415c0a8eebda4d66d856e553c900a8f4a564471fcf945947c0"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000059.png",
+      "14711ff5c2c82b60a42d325e8ac1ba75f8b4709659dde005278c29fef787427a"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000060.png",
+      "80caa693c92f66cc38febc6a934d77618815ec5202064e26d4804dfe1dc7f290"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000061.png",
+      "662475bee3ddefc280380478cad8631d3e2d754faf1ec9a35f45112efd368abd"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000062.png",
+      "b64c7e7e371ca94e1616a85e56385a14e9dfd36e7bab31a0e9f108c075cabf61"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/celeba/val/class0/000063.png",
+      "2e70e02ed20033869440ed5d59c1021164010059b85893dfd82773632f314e37"
+    ]
+  ],
+  "interference_images": [
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000000.png",
+      "0d4964922e2463ad0e2b1cd298e03d5627ff7dad1ab1cdd173ce35e9974e204f"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000001.png",
+      "eaec54ee1aed958f9548d01aff16c41aeba408885da42759890a538888be879e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000002.png",
+      "3873d7fb73cd351df3244c6a16cd52eef264700093746e9ac7f8831b3ce6d2e3"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000003.png",
+      "fce5a6515e44e57d6b4349822f25e2cf941c580c5cc2f5fc637d5743a9057338"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000004.png",
+      "6cfbe4ca868b7da43a30545c2011658082ebf2c63680b221d9adbc9228f31192"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000005.png",
+      "d31b1901b24199172f2f652d0b5d6661a4e346a8c1d6b436e77784e93a1d9ad7"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000006.png",
+      "2362c09b8f26a398daac5f4edc5d04739c8b95b7adddad4e49dd6012d9e8fa1d"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000007.png",
+      "84f9dc0df9d001f30ef3c0268a4250e13bc84c680494f2abf4ac10307253ffad"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000008.png",
+      "d77efc76eaf52c5f4f9b76e1e313f462e7426bfebb212e431b5e10fdf7e91128"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000009.png",
+      "5da75a70e31bfb9e28e6e5d82a4f1045227da16a82e359e27bd5a53f74a49d8d"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000010.png",
+      "c50e97f0b6841005b23a108d01b6fe18ab1e59a0c84c9ed0d989fa854b0c9a87"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000011.png",
+      "a7e6dca0f8fb57a9371015ee5ec609411bcf9f96c85177b5ef280c0d80b3bfe8"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000012.png",
+      "b80d290cd1eb025112ea752b9877272fedeb7287f7d492e47bd7b31b94637aae"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000013.png",
+      "3fe4359cdb1453db950f44a70289d4c4f75a4f92e5d822ff88a771769a085f65"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000014.png",
+      "bdae32f37b5de6a6924aa5af401898bfd6c696f9572749a156e4cc6316c30a4e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000015.png",
+      "576c3d2292dd9f4effa0caa321a9da7cf774b0502ef50940443d797ff77be3ca"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000016.png",
+      "c588d7a98d8a73cbc23a9cac274894bdb432b1394bce6647664ea8188dc1bc85"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000017.png",
+      "9ac91edf5ca7fb19669943ce81f690dc155f245eb014ecf217b5ae16478ace05"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000018.png",
+      "06ef95c8900cc444bf45ee23e86f9c7470eed6fba2c5290a1ae970ec708ea00e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000019.png",
+      "c7dfa89248f0c00066429fbc80a741d02e4a4328822280ef2c41f9c0b2c41f94"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000020.png",
+      "034bb77c9a5689146a2481a0a1dcaa96903417184c22648c3ced0d69bc2337e3"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000021.png",
+      "f86e26bedc5b45261ee4ebbf1d46283ae49afddc6446d0877c4c5f9d25976e34"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000022.png",
+      "98f25198e889566cd670b5448ec04eead374bb96bab02281d529c6f6d3dd3e47"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000023.png",
+      "8167a00efbf5716c49f4e7b7f2053efad35292e04371f6ed3be04237f07cce10"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000024.png",
+      "f833951d5d1ad7bf674c4adb926d6c884825edb07fa70d200c12da8a725200ef"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000025.png",
+      "7e3f2362c8b957c274baf547a4f52bc9821dcc40b35fd7c9df1236bdb71c7369"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000026.png",
+      "276a9c153199e6394a561af9bde651038de0616c62ae7da6ae5c50b485ba4417"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000027.png",
+      "34b4d3ecd1c77059cce04bb78f091bac68200135459af3b7fa210b3229c9c84c"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000028.png",
+      "c4c7f8cbcc0b29dd555b011bb335295d253d2c17e9a2452eee17b37559e94f87"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000029.png",
+      "e8d72dda2cb854158239a58d412d3b2d84e6ea7d895d96da74e3d138254a23a9"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000030.png",
+      "4f64c8251f87fa7263a295e5b0b5f54d869dbfb4658d90ab965a22bfb125c43b"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000031.png",
+      "29d8e5a675686bab4d837b9b64bd5787ff048c866f5558c07cf41e9b43f24653"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000032.png",
+      "f8d4984fbc857b0a62c21cf7dd8d7658a2be36a4ce8178f1779a4af3242e9b95"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000033.png",
+      "053ee83844fca677741287411c46cfa9a60d616a812c426104803e80488f016e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000034.png",
+      "64cd3d5ec850321f311c709523e86c8096345d99ceca0a433b54a727730d0ea2"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000035.png",
+      "8c0d407e14319bb40e59e091b49dc9c29a65f26ad4b0be007e1d458b6a5d8926"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000036.png",
+      "d5f51a299843a26985aefcc6999f215d6dce45a8ad71f9c5ce60e9de2312799a"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000037.png",
+      "3b3c27b4b11492db37c5da365a51c3fe5da764aeee31e2dd4d11a2fb66796bfc"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000038.png",
+      "52d1e93c0fc3d39353a5348b45fcb94e043fb8ff81b01021080e56bdcd26ad2a"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000039.png",
+      "124fe0d58fd5b6d1b2c8303957733e69ce0aa00499b2403055f559d37bc832ce"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000040.png",
+      "b3d117b7e37d2279f2ebec0771134eb7d7448369aeeefaaa8ef6258e81f1fc9e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000041.png",
+      "f7ee465bab6c553ed35d6db97a525de12c66d5c8803ad6922f82e052178fe812"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000042.png",
+      "7b7cd7122b879a270d2fec55a697913210a2a5a7a0319526ae9e683a7f477d03"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000043.png",
+      "29dbe7775b3ae1072076ed0571e100db724f034c576b6cf8eef9781abda88031"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000044.png",
+      "4c4ddbdb0af0ca30c400273b14006644ddf3d72595f7977f449941df46782d63"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000045.png",
+      "0780a009d3f31541437457e5eb3bd7009603d4895f2cbdd4bdc35583ed6492ae"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000046.png",
+      "39c5c20f135309755019d1b8bd9f7760c3ef4896eeec7b0adb036c2a8cf3ab6e"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000047.png",
+      "8fb13c3342576f459486fb1280970955cd8d6657f401ad18a93457010612a8ee"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000048.png",
+      "526d7e7ebc0df2f1fda8e022da98f2e56f471e967d886cafb1b73a150ea15734"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000049.png",
+      "c62e511bb6da690fc76966f8ed79afe040e4b9034c68bec050cf113f9b7fe092"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000050.png",
+      "2c21cb7e06ac4916a5978ea069e59270168d28c237274a82f3a17c2fca42e5d1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000051.png",
+      "d037b4332d317e2f519e07b63877412775c350e0972128a2512f657537227686"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000052.png",
+      "3b5caff315cb5cd0c290b5424dca129b31cd2a0da5e0023cd392ddbb0b2381f4"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000053.png",
+      "a4eece54a418b63e879c6e06473f3776d0e92ddbfabfdde4dd65b5675df37208"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000054.png",
+      "a1f2506fa853ded3e7665d9e0391dfd55eab716410e3e97d62d55349c2d5c2b1"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000055.png",
+      "e315720b4fc9eed457fd844be69a1e3a244c7b846a742b8ef8ed3bd7684020eb"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000056.png",
+      "3605f8ce33d3ac2dafd1189c7ce8463cad8a5f7a0d701b3262c600b31808f4ff"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000057.png",
+      "e40f936c8a91b0165102599d10ce13c955e55005a3c3dceedd259efacfbb70ba"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000058.png",
+      "ee6fc76f5414fcc64ad02c9283954b8d71a9d4beeea84dd16993bc5ad55a1246"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000059.png",
+      "b2e9f994ed2d12ba7fb7c386078270021267e2190035cde660575e7ba532f86f"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000060.png",
+      "00aa3379074339b78fb76a2de658589d1e62661c3667dc8defb55a5d70592885"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000061.png",
+      "2e216c90327261c7a99bbbff94d25852e98f060cb16bfeba2e197b8241615195"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000062.png",
+      "03c9cd1c670fd2cf65c6fe9a182b4a229b1bcf4864e1180257faa38b2f931f35"
+    ],
+    [
+      "/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/assets/data/cifar10/val/class0/000063.png",
+      "1d79deeddae5692c1ac1b743102a1c5948e9cad023c53a58ce1fb0e09d08caed"
+    ]
+  ],
+  "metrics": [
+    "psnr"
+  ],
+  "source_sha256": {
+    "Diffusion/Diffusion.py": "e63fd265721995175c5dc18f2e77a77f4db833c0466f810fd727df99628c184c",
+    "Diffusion/Train.py": "2b1c369c458658812ab0d00cabd1d8a693ddf88cfb5f994c356e06ec21975122",
+    "Diffusion/__init__.py": "bf387aff56c1e31c9ab393fb0730bf242c2e1966977689b533c91bcff2b0664a",
+    "Diffusion/calibration.py": "0813792c017ae01917901d00d0249e36866acabf64672c7d0d45e81d7c948d0d",
+    "Diffusion/moment_calibration.py": "ce5a5bbdce181daace28d5e82800dbaf96e090f6a085fd1968878fbd68be0f58",
+    "Diffusion/sampling.py": "755a47aabf8aebab46f01db649ee14142156a29b23a874cbb3e6b0e419ad2de7",
+    "Diffusion/sde_lib.py": "6f1e755bc75a9a059821117b277688297b985f39d75122949592cecb0cf6c503",
+    "Diffusion/selective.py": "2238fa59976c72005f5466d440a7e285582f380ddfb132843c20869133a14c67",
+    "Diffusion/uni_pc.py": "0c8a31d268c0c0d2b5b938ee0550ceab965f87fd4bfd900bd1a066837626a7e5",
+    "Diffusion/utils.py": "30a98e61618f32a2673b296c07f495b66ff11dd3075198e1ef68ff644720ef93",
+    "Autoencoder/DeepJSCC/decoder.py": "0c453a26e46e79b274cefe927f0f681e3ed9e2d53c641fe07cb60cd3d9a3e776",
+    "Autoencoder/DeepJSCC/encoder.py": "8fa104a2badb9143562bf2270987f828b4beae4b4063d5ebd80cd4589455cb58",
+    "Autoencoder/DeepJSCC/modules.py": "341213cd8f59e983045acd7354ca2d0768da58389fc346ee9516856ecd90e6ce",
+    "Autoencoder/JSCCeval.py": "4688ca499e0db303dd9b21ac7d5afa69e34edd3ba8a98cb8ed685581cc0f89cd",
+    "Autoencoder/JSCCtrain.py": "9894f1383cec981562ebe5cfe6fdb652ccb512858be6f25cc33306b5cbcd70c4",
+    "Autoencoder/MambaJSCC/decoder.py": "cf8baec7a32b3b99ff64a1be740e3e1f60b73c69e24df1107dfd3e71b75736b8",
+    "Autoencoder/MambaJSCC/encoder.py": "82a22753fd61554458d06162c9c5a77b9254953c74c4ffcd07a264ec7729cfdf",
+    "Autoencoder/MambaJSCC/vmamba.py": "bf00ef072f1a051036401753f44d3c20b371544d3edc1f4cfb034f011b73f132",
+    "Autoencoder/SwinJSCC/decoder.py": "fceced55c93390b861b7fcf99e299b038fda94d21960375586d36994b0120ecd",
+    "Autoencoder/SwinJSCC/encoder.py": "204195f35e3ad288f731ca3aa77e03565690ee973c16baffd962b7cafcb941a6",
+    "Autoencoder/SwinJSCC/modules.py": "06805c3d8b14dc2f4503203937083d95379d562eda26059163f06fe904486e7a",
+    "Autoencoder/channel.py": "6362ab7535931cc546f3bcef71d0fdefe4bea701d783cbfc956f6bd95886d8c5",
+    "Autoencoder/data/datasets.py": "2ffc85122ffba15cbabad5192505d92a8b2beca77af0e8c8892fe32fbcb055b3",
+    "Autoencoder/loss/distortion.py": "8b02884a542b73db1c3a55faf698368132395aa2344feac0cc1c8083d8836402",
+    "Autoencoder/loss/eval_matrix.py": "aacaa32e6c525d01bdf56b3b3c9a0f8d3f52ec2c11ed4c8aadfbf1029e1cdc77",
+    "Autoencoder/network.py": "78e3f71a72fb2dbad9baab8f85ba74d27cf6220c5a01bfae9d305280914e2407",
+    "DiT/__init__.py": "2c128034b64522de25e48993b3481a2de351e04b2f4ab4a81633478cac9abdf8",
+    "DiT/diffusion_utils.py": "4bc929a713a1136bd96b5d88605f41707bf484fbabe448b0407764eb21502add",
+    "DiT/gaussian_diffusion.py": "c0a86799ef4db1d7466b154d0937fa445b8b58e794be188bdc5573db45176178",
+    "DiT/models.py": "1a32d207beddf07291ec27bb49cd57b0d94fd281b899e1c0d312095894899cd6",
+    "DiT/respace.py": "9dde1492dd9d03e47caa12c7a7293dd7a5af1a79f3ddb0629f1692d97c856903",
+    "DiT/timestep_sampler.py": "5e7c21f48cf85b91ff0030a9b5f33b74580e56d75004ed310aba9927a4a030ed",
+    "scripts/analyze_moment_validation.py": "97ef44259491858a4ee10adcb327aaa9976e78c05111d03d2beb95fed49f3d9b",
+    "scripts/analyze_published_baselines.py": "53b0a75826eb8793972c8cf12aaecadc61073b952d14e402b1dada3b0ad67e7f",
+    "scripts/analyze_rg.py": "ba87b86036167b1de497958bdb99ea6882fe83274c587c464e267355204a9dd6",
+    "scripts/audit_a4_clusters.py": "a2b8798f6dcb60cda37b696f4cfc9fe86d3c2dd4a8c46d6b8c4a14ffff37bf41",
+    "scripts/baseline_metrics.py": "ae75bef744bc3c3fe80aab661343ed222cd79f253308bd72feec63c6e9728663",
+    "scripts/cddm_receiver.py": "a6591dc87d6827657eea8af0ca67a8dc144e2abf5673e14ae20c9246f60cfb2d",
+    "scripts/export_eval_subset.py": "bf1ec6a699523351bdeecf6820350a4d7522dfde1126e6b6a69cb817286281e5",
+    "scripts/prepare_phase1_2k.py": "2b8f12b2cf4e14ffd81ed4a5fc1ab6dae56eaa27f2ac0d888f353d0686eca95b",
+    "scripts/prepare_phase1_full.py": "866a81138ff1bdd9dbe60a127eb135a60b7d1e488eecac464539cb77fd73a416",
+    "scripts/run_moment_validation.py": "b80dc8f2326c567f70f7616e3e261fd3aa52bf7c33196a87cd24d5c8c22d6ef0",
+    "scripts/run_phase1.py": "a44eda94ae941af9ad143c4969b5b5d8984be546005380dee9553a54240a3294",
+    "scripts/run_published_baselines.py": "7214ab72d5fd4383089f870c9512a6f437aa85f45117c54f66d0b4c8d752c823",
+    "scripts/run_rg_validation.py": "5b54edb64071cce154115cb078f5a88ade622d60b664994eb8c1b041a01ab34a",
+    "scripts/train_phase1_2k.py": "bcac598092f40eb939c3de513759d19ece59a5afc2f7a8c81c1eda28e2b35455",
+    "scripts/verify_artemis_assets.py": "434daf5fcd45fe154884b3cb3cf2cb54b5d59fa82a8845cf56333feae68bfb85"
+  },
+  "torch": "2.7.1+cu128",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "hostname": "artemis-rtx-01.local",
+  "slurm_job_id": "11399316",
+  "input_signature": "b118d81bce7be67608cc1b3cfdab099fc3dd9fbd0f3c6702f70c8f8081a8ace4",
+  "status": "complete",
+  "expected_records": 18432,
+  "source_archive_sha256": "b07b9df5d1461d9cb34597a66cd3bc1012d2fa58ab43b99ba09dd91aaf86f45f",
+  "records": 18432
+}

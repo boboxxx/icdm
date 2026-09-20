@@ -1,5 +1,5 @@
 {
-  "status": "pending_resources",
+  "status": "validation_complete",
   "date": "2026-09-20",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_root": "/mnt/nfs2/engdes/wc296/ICDM_RG_20260920",
@@ -22,7 +22,7 @@
     "historical_oracle_headroom_db": 0.8610652749039005,
     "prior_A5_FULL_vs_A4_R_validation_db": -0.6004632977653113
   },
-  "next_action": "Verify job receipt and RTX PRO 6000 identity; retrieve smoke then validation records and run strict paired analysis. No test confirmation or paper success claim yet.",
+  "next_action": "Freeze the validation-selected B_COUPLED configuration, add unaligned random-piecewise and same-distribution robustness protocols, then use a genuinely untouched confirmation split. Do not retune on test data.",
   "remaining": [
     "Full RG validation",
     "Select and freeze gate using validation only",
@@ -42,5 +42,20 @@
     "historically_inspected_test_prefix": 200,
     "potential_uninspected_test_indices": "200:700; confirm usage history and training disjointness before claim",
     "verification": "1661 files SHA256 verified; val/test hash intersection zero; training overlap not yet audited"
+  },
+  "uploaded_source_tar_sha256": "7bb9e6728287d43575136f2211f4627112605182947226682947171aa7f3ac06"
+  ,"completed_validation": {
+    "slurm_state": "COMPLETED",
+    "elapsed": "02:57:36",
+    "exit_code": "0:0",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "records": 18432,
+    "best_method": "B_COUPLED",
+    "best_psnr_db": 20.57727368262632,
+    "B_COUPLED_minus_A3_db": 0.5600123232511012,
+    "B3_minus_A3_db": 0.4413529272416235,
+    "bypass_fraction": 0.171875,
+    "mean_prior_nfe": 66.25,
+    "developmental_validation_only": true
   }
 }
