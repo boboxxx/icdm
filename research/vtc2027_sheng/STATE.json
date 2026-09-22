@@ -1,6 +1,6 @@
 {
-  "status": "complete_reviewed_delivered",
-  "updated_at": 1790069847,
+  "status": "backbone_extension_training",
+  "updated_at": 1790088196,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -13,7 +13,7 @@
   },
   "local_delivery_session_id": 79985,
   "heartbeat_id": "sheng-vtc-2027",
-  "heartbeat_status": "PAUSED after completion",
+  "heartbeat_status": "ACTIVE for DeepJSCC/MambaJSCC extension",
   "old_artemis_automations": "PAUSED; do not resume",
   "expected_records": {
     "development": 8064,
@@ -71,7 +71,7 @@
     "Negative confirmation changes claims, not data",
     "Final scientific and visual review is still required, even when automatic assembly succeeds"
   ],
-  "next_action": "Scientific work and delivery are complete. Replace author placeholders only after the user supplies real author and affiliation information; do not submit automatically.",
+  "next_action": "Monitor the nonduplicated sheng backbone pipeline; after completion, audit, retrieve, visually review, update Chinese report, and push all evidence.",
   "latest_observed_development_records": 8064,
   "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
   "last_check_utc": "2026-09-22T09:37:27Z",
@@ -116,11 +116,20 @@
   "final_results": {
     "selector_psnr_db": 21.592856475617737,
     "delta_vs_a4_db": 1.3336998530042667,
-    "ci95_vs_a4_db": [1.2654545760804066, 1.4035933144144817],
+    "ci95_vs_a4_db": [
+      1.2654545760804066,
+      1.4035933144144817
+    ],
     "delta_vs_blind_gaussian_db": 0.7503349838985337,
-    "ci95_vs_blind_gaussian_db": [0.6980972712251565, 0.8062572157644253],
+    "ci95_vs_blind_gaussian_db": [
+      0.6980972712251565,
+      0.8062572157644253
+    ],
     "delta_vs_same_gate_db": 1.1396686192084517,
-    "ci95_vs_same_gate_db": [1.0749405264763887, 1.2045188302782157],
+    "ci95_vs_same_gate_db": [
+      1.0749405264763887,
+      1.2045188302782157
+    ],
     "nfe_reduction_vs_a4_percent": 34.72778320312499,
     "scope": "matched confirmation population only"
   },
@@ -130,7 +139,13 @@
     "source_weight_policy_hash_audit": "passed",
     "citation_audit": "passed",
     "latex_compile": "passed",
-    "pdf_pages_visual_reviewed": [1, 2, 3, 4, 5],
+    "pdf_pages_visual_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "author_placeholder_retained": true,
     "submission_performed": false
   },
@@ -145,5 +160,17 @@
     "local_post_review_package_newer": true,
     "post_review_upload": "blocked by Tailscale SSH additional authentication check",
     "local_delivery_complete": true
+  },
+  "backbone_extension": {
+    "scope": "matched-retrained DeepJSCC and official MambaJSCC direct-codec anchors",
+    "remote_pipeline_pid": 95566,
+    "remote_status": "research/backbone_baselines/pipeline_status.json",
+    "remote_stage": "training_deepjscc_source",
+    "expected_confirmation_records": 18432,
+    "deepjscc_repo_commit": "2665e0dc6d8bf216daf9442c5d6e5d69c5ad2f06",
+    "mambajscc_repo_commit": "8323f9799f48c0efddce0521100d5c4e12ebf699",
+    "implementation_commit": "db2755f",
+    "started_at": 1790087992.989041,
+    "scientific_boundary": "Direct codec anchors only; not full original CDDM or ICDM reproductions."
   }
 }
