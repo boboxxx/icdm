@@ -33,6 +33,13 @@ Raw datasets and the five large checkpoints are not redistributed in this
 manuscript source archive. This is a shared-weight receiver study, not a full
 retraining reproduction of every cited publication.
 
+The project also archives a separate no-fine-tuning public-checkpoint diagnostic
+for DeepJSCC and two official MambaJSCC variants under
+`research/pretrained_baselines/`. Its 27,648 records are explicitly labelled as
+protocol-mismatched external anchors. They are not mixed with the matched
+confirmation ranking; the public DeepJSCC checkpoint also uses substantially
+more channel symbols than the locked 1/48-CBR protocol.
+
 Target checked 2026-09-21: IEEE VTC 2027 Spring, Hamburg, 20–23 June 2027.
 Official regular-paper deadline at that check: 30 September 2026.
 https://events.vtsociety.org/vtc2027-spring/

@@ -1,14 +1,24 @@
 {
   "status": "scientific_and_visual_review_complete",
-  "reviewed_at_utc": "2026-09-22T09:26:00Z",
+  "reviewed_at_utc": "2026-09-22T16:05:20Z",
   "paper_pages": 5,
   "paired_record_audit": "passed",
   "source_weight_policy_signature_audit": "passed",
   "citation_audit": "passed",
   "latex_compile": "passed",
   "pdf_mechanical_audit": "passed",
-  "pdf_visual_review_pages": [1, 2, 3, 4, 5],
+  "pdf_visual_review_pages": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
-  "scope_caveat": "Shared-DiT receiver-only CDDM port; not a reproduction of the full retrained published CDDM system"
+  "scope_caveat": "Shared-DiT receiver-only CDDM port; not a reproduction of the full retrained published CDDM system",
+  "public_pretrained_diagnostic_audit": "passed: 27648/27648 unique finite records; protocol mismatch label retained",
+  "public_pretrained_signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
+  "manuscript_sha256": "4812cdd1d6c738d54917b6fa57ca2c37ccfd7a4497272d6bf568e53a9634e8c9",
+  "latex_zip_sha256": "3760d17fbf4c5a9bfcd5b38bef36ad5ed0fb93de6810be4b25cd71aa48a13ee6"
 }

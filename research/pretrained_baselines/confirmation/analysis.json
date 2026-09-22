@@ -1,0 +1,388 @@
+{
+  "status": "complete",
+  "scope": "public pretrained; protocol mismatch; descriptive external anchors only",
+  "signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
+  "reference_signature": "4413eb09d4bb999452546332fb590aa910dbdaaaf6cc66aac71a45d582a0f23d",
+  "records": 27648,
+  "images": 256,
+  "means": {
+    "deepjscc_public_imagenet_snr19": {
+      "psnr": 13.755158158303756,
+      "mse": 0.06772938410641574,
+      "lpips_vgg": 0.6598842151094383,
+      "ms_ssim": 0.5252914565729571,
+      "receiver_seconds": 0.0015308691244323807,
+      "complex_channel_uses": 7990.0,
+      "cbr": 0.16255696614583334,
+      "records": 9216
+    },
+    "mambajscc_public_awgn10_clic2021": {
+      "psnr": 17.01955802914583,
+      "mse": 0.0566673976608614,
+      "lpips_vgg": 0.5048052325954713,
+      "ms_ssim": 0.5970685354496921,
+      "receiver_seconds": 0.010087509090264271,
+      "complex_channel_uses": 1024.0,
+      "cbr": 0.02083333333333333,
+      "records": 9216
+    },
+    "mambajscc_public_rayleigh_div2k": {
+      "psnr": 16.65046632103622,
+      "mse": 0.05737964712094544,
+      "lpips_vgg": 0.5202665716399982,
+      "ms_ssim": 0.6068372644019915,
+      "receiver_seconds": 0.010222614336953484,
+      "complex_channel_uses": 1024.0,
+      "cbr": 0.02083333333333333,
+      "records": 9216
+    }
+  },
+  "by_sinr": {
+    "deepjscc_public_imagenet_snr19": {
+      "-7": {
+        "psnr": 8.305172951736798,
+        "mse": 0.157387402493138,
+        "lpips_vgg": 0.7569403098120043,
+        "ms_ssim": 0.23530047453718575,
+        "receiver_seconds": 0.001545633792981486,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      },
+      "-4": {
+        "psnr": 9.715316128917038,
+        "mse": 0.11620036398502027,
+        "lpips_vgg": 0.7302940189256333,
+        "ms_ssim": 0.32499627244515256,
+        "receiver_seconds": 0.0015305741957642265,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      },
+      "0": {
+        "psnr": 12.195447370099524,
+        "mse": 0.06725451059658856,
+        "lpips_vgg": 0.6866237575110669,
+        "ms_ssim": 0.4691148578325131,
+        "receiver_seconds": 0.0015313667329337477,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      },
+      "4": {
+        "psnr": 15.160762932151556,
+        "mse": 0.0341437007764398,
+        "lpips_vgg": 0.6363721541711129,
+        "ms_ssim": 0.6166766643582378,
+        "receiver_seconds": 0.0015595216132169298,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      },
+      "7": {
+        "psnr": 17.476195033018787,
+        "mse": 0.019770679327242153,
+        "lpips_vgg": 0.5956408174630875,
+        "ms_ssim": 0.7141147503086055,
+        "receiver_seconds": 0.0014954329925179384,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      },
+      "10": {
+        "psnr": 19.67805453389883,
+        "mse": 0.011619647460065607,
+        "lpips_vgg": 0.5534342327737249,
+        "ms_ssim": 0.7915457199560478,
+        "receiver_seconds": 0.001522685419179955,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 1536
+      }
+    },
+    "mambajscc_public_awgn10_clic2021": {
+      "-7": {
+        "psnr": 8.0485251157855,
+        "mse": 0.16268871957436204,
+        "lpips_vgg": 0.7665928379865363,
+        "ms_ssim": 0.1667716031757228,
+        "receiver_seconds": 0.010038775029973598,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "-4": {
+        "psnr": 10.089468120286861,
+        "mse": 0.10469895805969524,
+        "lpips_vgg": 0.717185318392391,
+        "ms_ssim": 0.27753929808585553,
+        "receiver_seconds": 0.010125721844360669,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "0": {
+        "psnr": 13.594848456792533,
+        "mse": 0.04930168216227079,
+        "lpips_vgg": 0.5946486500518707,
+        "ms_ssim": 0.5021339937472172,
+        "receiver_seconds": 0.010115003232613162,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "4": {
+        "psnr": 18.918981588756044,
+        "mse": 0.016079219169493324,
+        "lpips_vgg": 0.40428197421715595,
+        "ms_ssim": 0.7698510873209065,
+        "receiver_seconds": 0.010075736282639506,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "7": {
+        "psnr": 24.091934757928055,
+        "mse": 0.005018891858677914,
+        "lpips_vgg": 0.2962861144527172,
+        "ms_ssim": 0.9072839198634028,
+        "receiver_seconds": 0.010082892559466927,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "10": {
+        "psnr": 27.373590135325987,
+        "mse": 0.002216915140669092,
+        "lpips_vgg": 0.24983650047215633,
+        "ms_ssim": 0.9588313105050474,
+        "receiver_seconds": 0.01008692559253177,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      }
+    },
+    "mambajscc_public_rayleigh_div2k": {
+      "-7": {
+        "psnr": 8.425648612591127,
+        "mse": 0.15010934326952943,
+        "lpips_vgg": 0.7425254147189359,
+        "ms_ssim": 0.17877407482371224,
+        "receiver_seconds": 0.010197627029735182,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "-4": {
+        "psnr": 9.828513196048638,
+        "mse": 0.11218371440797152,
+        "lpips_vgg": 0.7024970816758772,
+        "ms_ssim": 0.276539128636814,
+        "receiver_seconds": 0.010196151041100165,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "0": {
+        "psnr": 12.96308265067637,
+        "mse": 0.05979511538059038,
+        "lpips_vgg": 0.604837516361537,
+        "ms_ssim": 0.5122225788295415,
+        "receiver_seconds": 0.01023237903533906,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "4": {
+        "psnr": 19.793467498694856,
+        "mse": 0.013997816923013792,
+        "lpips_vgg": 0.4387773618994591,
+        "ms_ssim": 0.816767434036592,
+        "receiver_seconds": 0.010292986669734697,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "7": {
+        "psnr": 23.64717221756776,
+        "mse": 0.0048693781173672806,
+        "lpips_vgg": 0.34366506624307175,
+        "ms_ssim": 0.9132462258761128,
+        "receiver_seconds": 0.010256419220771326,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      },
+      "10": {
+        "psnr": 25.244913750638563,
+        "mse": 0.003322514627200235,
+        "lpips_vgg": 0.28929698894110817,
+        "ms_ssim": 0.9434741442091763,
+        "receiver_seconds": 0.010160123025040472,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 1536
+      }
+    }
+  },
+  "by_profile": {
+    "deepjscc_public_imagenet_snr19": {
+      "alternating": {
+        "psnr": 13.769121203882,
+        "mse": 0.06575389389248205,
+        "lpips_vgg": 0.6921322934213094,
+        "ms_ssim": 0.5169383963986446,
+        "receiver_seconds": 0.0015427850170984432,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 3072
+      },
+      "burst": {
+        "psnr": 12.278895077140382,
+        "mse": 0.0847233199956463,
+        "lpips_vgg": 0.7360653179736497,
+        "ms_ssim": 0.42848818148289664,
+        "receiver_seconds": 0.0015084438006927787,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 3072
+      },
+      "stationary": {
+        "psnr": 15.217458193888888,
+        "mse": 0.05271093843111885,
+        "lpips_vgg": 0.5514550339333558,
+        "ms_ssim": 0.6304477918373301,
+        "receiver_seconds": 0.0015413785555059196,
+        "complex_channel_uses": 7990.0,
+        "cbr": 0.16255696614583331,
+        "records": 3072
+      }
+    },
+    "mambajscc_public_awgn10_clic2021": {
+      "alternating": {
+        "psnr": 16.978681608413655,
+        "mse": 0.05688247719451548,
+        "lpips_vgg": 0.5059064288458709,
+        "ms_ssim": 0.5966777946180079,
+        "receiver_seconds": 0.010079627609608602,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      },
+      "burst": {
+        "psnr": 17.776387228940923,
+        "mse": 0.04932992110837139,
+        "lpips_vgg": 0.4963908168283524,
+        "ms_ssim": 0.6210030127088851,
+        "receiver_seconds": 0.010051357282312287,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      },
+      "stationary": {
+        "psnr": 16.30360525008291,
+        "mse": 0.06378979467969732,
+        "lpips_vgg": 0.5121184521121904,
+        "ms_ssim": 0.5735247990221831,
+        "receiver_seconds": 0.010131542378871927,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      }
+    },
+    "mambajscc_public_rayleigh_div2k": {
+      "alternating": {
+        "psnr": 16.6260589795808,
+        "mse": 0.057311847558385885,
+        "lpips_vgg": 0.5202035763019618,
+        "ms_ssim": 0.6072150234502706,
+        "receiver_seconds": 0.010236132689859309,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      },
+      "burst": {
+        "psnr": 17.323341094888747,
+        "mse": 0.04922324790549245,
+        "lpips_vgg": 0.5143326864878569,
+        "ms_ssim": 0.6352743648858876,
+        "receiver_seconds": 0.010217899691156163,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      },
+      "stationary": {
+        "psnr": 16.00199888863911,
+        "mse": 0.065603845898958,
+        "lpips_vgg": 0.5262634521301758,
+        "ms_ssim": 0.5780224048698163,
+        "receiver_seconds": 0.01021381062984498,
+        "complex_channel_uses": 1024.0,
+        "cbr": 0.020833333333333332,
+        "records": 3072
+      }
+    }
+  },
+  "comparisons": {
+    "deepjscc_public_imagenet_snr19": {
+      "direct": {
+        "mean_delta_psnr": -4.909937260439619,
+        "ci95_image_cluster": [
+          -5.240482553892071,
+          -4.584899229768458
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      },
+      "select": {
+        "mean_delta_psnr": -7.837698317313981,
+        "ci95_image_cluster": [
+          -8.102728509874497,
+          -7.577905216242005
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      }
+    },
+    "mambajscc_public_awgn10_clic2021": {
+      "direct": {
+        "mean_delta_psnr": -1.6455373895975451,
+        "ci95_image_cluster": [
+          -1.840379092502149,
+          -1.4468140407568881
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      },
+      "select": {
+        "mean_delta_psnr": -4.573298446471906,
+        "ci95_image_cluster": [
+          -4.718065212542812,
+          -4.425774450309109
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      }
+    },
+    "mambajscc_public_rayleigh_div2k": {
+      "direct": {
+        "mean_delta_psnr": -2.0146290977071555,
+        "ci95_image_cluster": [
+          -2.2077626731673567,
+          -1.8172116712899882
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      },
+      "select": {
+        "mean_delta_psnr": -4.942390154581517,
+        "ci95_image_cluster": [
+          -5.077463699564234,
+          -4.8038833872583275
+        ],
+        "image_clusters": 256,
+        "interpretation": "descriptive only; public-pretrained protocol mismatch"
+      }
+    }
+  }
+}

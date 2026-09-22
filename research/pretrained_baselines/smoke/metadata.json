@@ -1,0 +1,190 @@
+{
+  "manifest": {
+    "model_config": "configs/models/SwinJSCC_3.yaml",
+    "out_channels": 8,
+    "image_size": 128,
+    "interference_model": "SwinJSCC",
+    "interference_image_size": 32,
+    "channel_type": "awgn",
+    "split": "test",
+    "weights": {
+      "encoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/encoder.pth"
+      },
+      "decoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/decoder.pth"
+      },
+      "infencoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/infencoder.pth"
+      },
+      "icdm_s": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/icdm_s.pth"
+      },
+      "icdm_z": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/icdm_z.pth"
+      }
+    },
+    "expected_weights_sha256": {
+      "encoder": "3daa190606afc26f100f92708f3b36b69e04e563acff41dae41812aded098d34",
+      "decoder": "b966699596b360f84670f52b62d56988124c2c8dea54bc33f8a683d2b4e586e9",
+      "infencoder": "31a5d3fa38b566c1dd4819a196cdccaf047cc576a426e2f121ce2e9ac88a0317",
+      "icdm_s": "751296cd69e666316808fdc429a4f2d3b0be31db15ff5838cfc6080d4f0e6863",
+      "icdm_z": "e9d2dc8510ed4f16c48fb3077efff5ae6147663a2306cb80532307ee083b7326"
+    },
+    "images": "/mnt/d/ICDM_SC_data_full/celeba/test/class0",
+    "interference_images": "/mnt/d/ICDM_SC_data_full/cifar10/test/class0",
+    "max_images": 256,
+    "evaluation_batch_size": 1,
+    "seeds": [
+      2700,
+      2701
+    ],
+    "block_size": 64,
+    "modes": [
+      "DIRECT",
+      "CDDM_N0",
+      "CDDM_BLIND",
+      "A3",
+      "A4",
+      "SELECT"
+    ],
+    "stage": "confirmation",
+    "offset": 512,
+    "conditions": [
+      {
+        "snr": 20,
+        "sinr": -7,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": -7,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": -7,
+        "profile": "burst"
+      },
+      {
+        "snr": 20,
+        "sinr": -4,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": -4,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": -4,
+        "profile": "burst"
+      },
+      {
+        "snr": 20,
+        "sinr": 0,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": 0,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": 0,
+        "profile": "burst"
+      },
+      {
+        "snr": 20,
+        "sinr": 4,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": 4,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": 4,
+        "profile": "burst"
+      },
+      {
+        "snr": 20,
+        "sinr": 7,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": 7,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": 7,
+        "profile": "burst"
+      },
+      {
+        "snr": 20,
+        "sinr": 10,
+        "profile": "stationary"
+      },
+      {
+        "snr": 20,
+        "sinr": 10,
+        "profile": "alternating"
+      },
+      {
+        "snr": 20,
+        "sinr": 10,
+        "profile": "burst"
+      }
+    ],
+    "policy": "results/development/policy.json"
+  },
+  "smoke": true,
+  "protocol_sha256": "bee99bfa6583a89d9fd15a58b46718d17a4157e929c5fede911d510c45e6a951",
+  "evaluator_sha256": "a3baddca8a86b4b6a56a677efeb54456d28a7742cd63fa192ebd923642e969b9",
+  "weights_sha256": {
+    "deep": "00b33bac630555d9a0d72a76d0fea9103cef9a38df0d5547be53c5320a451d44",
+    "mamba_awgn_encoder": "6fdf1dbff0cd5cb2706a6a09a3e75257b05defdf8116abf06a0ee2428edfee72",
+    "mamba_awgn_decoder": "37a24e209428a2adf9ed755fac85ed8229f30f17acb34a427eaf3e97f55cbb09",
+    "mamba_rayleigh_encoder": "6282cdea3f2e89813d00c25ccde7babbef5d741e3a2a393dabfdea2cfe7d68b9",
+    "mamba_rayleigh_decoder": "bb394b67804a9de410e21202687ff7579429f5e798c01b057903c894e14e0423"
+  },
+  "deep_historical_source_sha256": "133c4357f980e66bdfbb61703751aa0df5d74f20678473eef8ef17ec4ce1a70a",
+  "cuda_extensions_sha256": {
+    "external_baselines/mambajscc/selective_scan/selective_scan_cuda_core.cpython-310-x86_64-linux-gnu.so": "1a6902f3ab2b084a8d0f1d1a45d289870386364ae4b32574387cba784029e7c7",
+    "external_baselines/mambajscc/adaptive_selective_scan/adaptive_selective_scan_cuda_core.cpython-310-x86_64-linux-gnu.so": "326940e81858d0f47173c1c95d525ce77f96026fe34c73bed1872969dafdd704"
+  },
+  "images": [
+    {
+      "index": 512,
+      "image": "/mnt/d/ICDM_SC_data_full/celeba/test/class0/000512.png",
+      "image_sha256": "267103899b5fa882b78c4c7646597b549537fc2fbef2b1384386304f616da9f9",
+      "interference": "/mnt/d/ICDM_SC_data_full/cifar10/test/class0/000512.png",
+      "interference_sha256": "c78b11502e399bad34c2a99d4b2a29786f1bb74be9c4c757ee57ea583fac8b99"
+    }
+  ],
+  "signature": "f96b95b6770c7c80e8f7a850f9fcf80219803696ae052738f49bb6f1220bac4d",
+  "status": "complete",
+  "expected_records": 3,
+  "host": "DESKTOP-UGDDO8T",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "torch": "2.5.0+cu118",
+  "metrics": {
+    "input": "float32 RGB [0,1]; identical clipping; no resizing/quantization",
+    "mse": "per-image mean over C,H,W, then arithmetic mean over images",
+    "psnr": "per-image -10 log10(MSE), then arithmetic mean; floor=1e-12",
+    "lpips": "official lpips 0.1 VGG; inputs explicitly transformed to [-1,1]",
+    "ms_ssim": "4 scales for 128x128, Gaussian 11 sigma1.5, valid convolution, K=.01,.03; normalized first four Wang weights; product once then RGB mean",
+    "ms_ssim_db": "per-image -10 log10(1-MS-SSIM); floor=1e-12",
+    "lpips_db_optional": "10 log10(mean LPIPS), lower is better (ICDM convention)",
+    "warning": "MSE and PSNR share pixel-error information; not independent wins. Four-scale MS-SSIM is not directly comparable with five-scale scores."
+  },
+  "started_at": 1790092262.5896485,
+  "records": 3,
+  "completed_at": 1790092264.3634071
+}

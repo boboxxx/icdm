@@ -96,7 +96,9 @@ For absolute codec context, we also train direct DeepJSCC
 \cite{wu2024mambajscc} architectures under the same source split, channel-use
 budget, SNR, and confirmation population. Their independently learned latent
 spaces make them landscape anchors rather than controls for the receiver
-decision.
+decision. A separate no-fine-tuning diagnostic uses their public checkpoints;
+we label its training-domain and bandwidth mismatches and exclude it from
+matched rankings.
 
 Receiver adaptation also extends beyond these two methods. ISEC iteratively
 corrects latent errors using a learned source prior \cite{pmlr-v206-lee23c}.
@@ -282,7 +284,12 @@ retraining. The two direct codec anchors are separately retrained for 40 epochs
 at SNR 20 dB with 1,024 complex channel uses (CBR $1/48$); each also trains a
 matched CIFAR-10 interference encoder. DeepJSCC uses a pinned public PyTorch
 reproduction because the original 2019 implementation has no matched public
-checkpoint, while MambaJSCC uses its official repository.
+checkpoint, while MambaJSCC uses its official repository. For reproducibility,
+we additionally evaluate repository-released weights without fine-tuning on the
+same confirmation conditions. The public MambaJSCC variants retain CBR $1/48$
+but differ in training data, channel and resolution; the available public
+DeepJSCC weight has CBR $0.16256$ and is therefore a higher-bandwidth diagnostic.
+These results are archived separately and are not used for superiority claims.
 
 Development uses 64 validation image pairs and seed 1700. Confirmation reserves
 256 previously unevaluated test pairs with seeds 2700 and 2701.

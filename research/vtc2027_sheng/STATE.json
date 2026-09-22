@@ -1,6 +1,6 @@
 {
-  "status": "backbone_extension_training",
-  "updated_at": 1790088196,
+  "status": "backbone_extension_training_public_pretrained_complete",
+  "updated_at": 1790092777,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -71,10 +71,10 @@
     "Negative confirmation changes claims, not data",
     "Final scientific and visual review is still required, even when automatic assembly succeeds"
   ],
-  "next_action": "Monitor the nonduplicated sheng backbone pipeline; after completion, audit, retrieve, visually review, update Chinese report, and push all evidence.",
+  "next_action": "Continue the nonduplicated matched DeepJSCC/MambaJSCC pipeline; then audit, retrieve, update Table I/Fig. 1, recompile, visually review, and push final evidence.",
   "latest_observed_development_records": 8064,
   "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
-  "last_check_utc": "2026-09-22T09:37:27Z",
+  "last_check_utc": "2026-09-22T16:03:43Z",
   "last_check": {
     "pipeline_stage": "experiment_complete",
     "server_delivery_stage": "manuscript_assembled",
@@ -172,5 +172,25 @@
     "implementation_commit": "db2755f",
     "started_at": 1790087992.989041,
     "scientific_boundary": "Direct codec anchors only; not full original CDDM or ICDM reproductions."
+  },
+  "public_pretrained_extension": {
+    "status": "complete",
+    "scope": "No-fine-tuning external diagnostic; protocol mismatch; separate from matched rankings.",
+    "remote_output": "research/pretrained_baselines/confirmation",
+    "records": 27648,
+    "expected_records": 27648,
+    "images": 256,
+    "seeds": 2,
+    "conditions": 18,
+    "signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
+    "records_sha256": "7a023fa2ff1c89f2f7ccfc4c487d895b9597729998a7f198bdcdae86ed4d37b0",
+    "analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
+    "means_psnr_db": {
+      "deepjscc_public_imagenet_snr19": 13.755158158303756,
+      "mambajscc_public_awgn10_clic2021": 17.01955802914583,
+      "mambajscc_public_rayleigh_div2k": 16.65046632103622
+    },
+    "scientific_boundary": "Mamba weights match 1/48 CBR but not training domain/channel/resolution; Deep checkpoint uses CBR 0.16256. Contrasts are descriptive only.",
+    "github_commit": "d9f4602"
   }
 }
