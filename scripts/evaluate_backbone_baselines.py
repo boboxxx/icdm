@@ -8,12 +8,17 @@ from pathlib import Path
 import platform
 import random
 import subprocess
+import sys
 import time
 from types import SimpleNamespace
 
 import numpy as np
 from PIL import Image
 import torch
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from scripts.baseline_metrics import ImageMetrics, METRIC_PROTOCOL
 from scripts.run_phase1 import block_powers, digest, files, load_image, sync

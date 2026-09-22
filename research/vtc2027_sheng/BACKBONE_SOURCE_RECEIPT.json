@@ -13,6 +13,26 @@
     "provenance": "official paper repository",
     "official_original_release": true
   },
-  "pretrained_weights_used": false,
-  "reason_for_retraining": "Available weights do not match the CelebA source split, CIFAR-10 interferer, AWGN SNR 20 dB, 128x128 resolution, or 1/48 complex channel-use budget."
+  "matched_track_pretrained_weights_used": false,
+  "reason_for_retraining": "Available weights do not match the CelebA source split, CIFAR-10 interferer, AWGN SNR 20 dB, 128x128 resolution, or the complete 1/48 complex channel-use protocol.",
+  "public_pretrained_diagnostic": {
+    "used": true,
+    "scope": "No-fine-tuning external reference; kept separate from matched rankings.",
+    "deepjscc": {
+      "repository_checkpoint": "out/imagenet_10_0.33_200.00_32_19.pth",
+      "historical_source_commit": "e1cef6aeadedde9ff359760936a2ddf2540dd821",
+      "weight_sha256": "00b33bac630555d9a0d72a76d0fea9103cef9a38df0d5547be53c5320a451d44",
+      "effective_complex_cbr_at_128": 0.16255696614583334,
+      "warning": "Bandwidth is about 7.8 times the locked 1/48 target."
+    },
+    "mambajscc": {
+      "official_checkpoint_folder": "https://drive.google.com/drive/folders/1nrX6FiULN04PomW2eVaWwNDmM3Hhka0Y?usp=sharing",
+      "awgn_encoder_sha256": "6fdf1dbff0cd5cb2706a6a09a3e75257b05defdf8116abf06a0ee2428edfee72",
+      "awgn_decoder_sha256": "37a24e209428a2adf9ed755fac85ed8229f30f17acb34a427eaf3e97f55cbb09",
+      "rayleigh_encoder_sha256": "6282cdea3f2e89813d00c25ccde7babbef5d741e3a2a393dabfdea2cfe7d68b9",
+      "rayleigh_decoder_sha256": "bb394b67804a9de410e21202687ff7579429f5e798c01b057903c894e14e0423",
+      "effective_complex_cbr_at_128": 0.020833333333333332,
+      "warning": "Bandwidth matches, but training data, training channel, and training resolution do not."
+    }
+  }
 }
