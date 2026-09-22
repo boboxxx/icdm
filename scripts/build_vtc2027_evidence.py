@@ -26,6 +26,7 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--results',type=Path,required=True)
     p.add_argument('--paper',type=Path,required=True)
+    p.add_argument('--backbones',type=Path)
     a=p.parse_args()
     stages={}
     for stage,count in [('development',64),('confirmation',256),('pressure',64)]:
@@ -57,6 +58,16 @@ def main():
     figdir=a.paper/'figures';figdir.mkdir(parents=True,exist_ok=True)
     d,c,pres=(x[3] for x in [dev,conf,pressure])
     means=c['means']; sel=means['SELECT']
+    backbone=None
+    if a.backbones:
+        backbone=json.loads((a.backbones/'analysis.json').read_text())
+        backbone_meta=json.loads((a.backbones/'metadata.json').read_text())
+        if backbone['status']!='complete' or backbone_meta['status']!='complete':
+            raise ValueError('External backbone evidence is incomplete')
+        if backbone['signature']!=backbone_meta['signature']:
+            raise ValueError('Stale external backbone analysis')
+        if backbone['reference_signature']!=conf[0]['signature']:
+            raise ValueError('External backbones use a different confirmation reference')
     comparisons={r['reference']:r for r in c['comparisons']}
     ca,cg,cgate=(comparisons[k] for k in ['A4','CDDM_BLIND','A4_GATE'])
     nfe=sel['nfe_signal']+sel['nfe_interference']
@@ -112,13 +123,19 @@ def main():
                             f"with {100*frac:.1f}\\% Gaussian choices")
     profile_text=("Disaggregating blind Gaussian/joint/selector PSNR gives "+", ".join(profile_bits)+". "
                   "This profile dependence is consistent with complementary receiver utility, but does not identify the physical cause of the heterogeneity statistic. ")
+    anchor_text=""
+    if backbone:
+        dm=backbone['means']['deepjscc']; mm=backbone['means']['mambajscc']
+        anchor_text=(f"Separately matched direct-codec anchors attain {dm['psnr']:.3f} dB for DeepJSCC "
+                     f"and {mm['psnr']:.3f} dB for MambaJSCC; these use independently trained latent spaces "
+                     "and serve as landscape references rather than receiver-only controls. ")
     text=(r"Table~\ref{tab:main} and Fig.~\ref{fig:quality} report the independent experiment. "
           +"The selector changes mean PSNR by "+effect('A4','calibrated joint sampling')+", "
           +effect('CDDM_BLIND','blind Gaussian denoising')+", and "
           +effect('A4_GATE','the same-gate control')+". "+interpretation
           +f"Estimating total disturbance changes the Gaussian receiver from {means['CDDM_N0']['psnr']:.3f} to "
            f"{means['CDDM_BLIND']['psnr']:.3f} dB, so the thermal-noise-only port is insufficient as the sole Gaussian baseline. "
-          +profile_text)
+          +profile_text+anchor_text)
     write(generated/'confirmation_result.tex',text)
 
     table=[r'\scriptsize\setlength{\tabcolsep}{2.4pt}',r'\begin{tabular}{lrrrrrr}',r'\toprule',
@@ -127,6 +144,11 @@ def main():
         v=means[mode]
         table.append(f"{LABEL[mode]} & {v['psnr']:.2f} & {v['mse']*1000:.2f} & {v['lpips_vgg']:.3f} & "
                      f"{v['ms_ssim']:.3f} & {v['nfe_signal']+v['nfe_interference']:.1f} & {v['receiver_seconds']*1000:.0f}"+r'\\')
+        if mode=='DIRECT' and backbone:
+            for architecture,label in [('deepjscc','DeepJSCC direct'),('mambajscc','MambaJSCC direct')]:
+                q=backbone['means'][architecture]
+                table.append(f"{label} & {q['psnr']:.2f} & {q['mse']*1000:.2f} & {q['lpips_vgg']:.3f} & "
+                             f"{q['ms_ssim']:.3f} & {q['nfe']:.1f} & {q['receiver_seconds']*1000:.0f}"+r'\\')
     table.extend([r'\bottomrule',r'\end{tabular}'])
     write(generated/'main_table.tex','\n'.join(table))
 
@@ -194,8 +216,15 @@ def main():
         vals=[np.mean([r['psnr'] for r in rs if r['sinr']==snr]) for snr in sinrs]
         ax.plot(sinrs,vals,label=LABEL[mode],color=COLORS[mode],marker=markers[j],
                 markersize=3,linewidth=1.4 if mode!='SELECT' else 2)
+    if backbone:
+        anchors=[('deepjscc','DeepJSCC direct','#6A3D9A','x'),
+                 ('mambajscc','MambaJSCC direct','#D55E00','+')]
+        for architecture,label,color,marker in anchors:
+            vals=[backbone['by_sinr'][architecture][str(snr)]['psnr'] for snr in sinrs]
+            ax.plot(sinrs,vals,label=label,color=color,marker=marker,markersize=3.4,
+                    linewidth=1.15,linestyle='--')
     ax.set(xlabel='Nominal SINR (dB)',ylabel='Mean PSNR (dB)',xticks=sinrs)
-    ax.legend(loc='lower center',bbox_to_anchor=(.5,1.01),ncol=2)
+    ax.legend(loc='lower center',bbox_to_anchor=(.5,1.01),ncol=2,fontsize=6.2)
     save(fig,'confirmation_quality')
     fig,ax=plt.subplots(figsize=(3.4,2.2),layout='constrained')
     for mode,color in [('CDDM_BLIND',COLORS['CDDM_BLIND']),('SELECT',COLORS['SELECT'])]:
@@ -225,6 +254,9 @@ def main():
              'same_gate_positive_ci':cgate['ci95_image_cluster'][0]>0,
              'pressure_means':pressure_details,'nfe_reduction_percent':saving,
              'author_information':'pending'}
+    if backbone:
+        receipt['backbone_signature']=backbone['signature']
+        receipt['backbone_reference_signature']=backbone['reference_signature']
     write(generated/'evidence_receipt.json',json.dumps(receipt,indent=2))
     print(json.dumps(receipt,indent=2))
 

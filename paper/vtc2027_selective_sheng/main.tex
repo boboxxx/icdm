@@ -91,6 +91,12 @@ desired-signal and interference priors for joint inference
 isolate the disturbance-model decision. Consequently, our Gaussian receiver is
 a receiver-only port, not a reproduction of the complete CDDM system; our
 results cannot establish superiority over its separately trained codec.
+For absolute codec context, we also train direct DeepJSCC
+\cite{bourtsoulatze2019deep} and official MambaJSCC
+\cite{wu2024mambajscc} architectures under the same source split, channel-use
+budget, SNR, and confirmation population. Their independently learned latent
+spaces make them landscape anchors rather than controls for the receiver
+decision.
 
 Receiver adaptation also extends beyond these two methods. ISEC iteratively
 corrects latent errors using a learned source prior \cite{pmlr-v206-lee23c}.
@@ -269,9 +275,14 @@ $(128,192,256)$ and depths $(2,2,6)$; its 8-channel $16\times16$ real latent
 corresponds to 1,024 complex symbols and CBR $1/48$.
 Five frozen checkpoints contain the desired encoder/decoder, interference
 encoder, and two DiT predictors, each with 28 blocks, width 1,152, 16 heads
-and patch size two. The original training schedule uses
+and patch size two. The original frozen-study training schedule uses
 100 interference-codec epochs, 40 desired-codec epochs, and 50/20 epochs for
-the signal/interference predictors. This study adds no neural retraining.
+the signal/interference predictors. The selector study adds no neural
+retraining. The two direct codec anchors are separately retrained for 40 epochs
+at SNR 20 dB with 1,024 complex channel uses (CBR $1/48$); each also trains a
+matched CIFAR-10 interference encoder. DeepJSCC uses a pinned public PyTorch
+reproduction because the original 2019 implementation has no matched public
+checkpoint, while MambaJSCC uses its official repository.
 
 Development uses 64 validation image pairs and seed 1700. Confirmation reserves
 256 previously unevaluated test pairs with seeds 2700 and 2701.
@@ -295,14 +306,19 @@ the previous coupled-feedback receiver and a Gaussian port given nominal
 total disturbance power. The latter is a privileged diagnostic, not a
 guaranteed upper bound. Neither diagnostic is used as a confirmatory claim of
 superiority over a published system.
+DeepJSCC and MambaJSCC direct decoding are reported as absolute anchors using
+their own desired and interference codewords under the same channel grid.
 
 The prespecified power thresholds are
 $0$, $0.1$, $0.2$, $0.35$, $0.5$, $0.75$, $1$, $1.5$, $2$, $3$, $4$, $8$ and $10^6$;
 heterogeneity thresholds are $\{0.05,0.1,0.2,0.4,0.8,1.6\}$.
 Including both assignment directions, the families contain 26 and 2,028
 candidate rules.
-All methods see identical received tensors. Channel randomness is separate from
-sampler randomness; both CPU and GPU sampler states are reset per frame.
+All SwinJSCC receiver variants see identical received tensors. The two direct
+anchors use separately encoded, unit-power codewords at the same budget and
+reuse the image pairs, conditions, and channel seeds. Channel randomness is
+separate from sampler randomness; both CPU and GPU sampler states are reset per
+frame.
 Measurements use float32, batch one, TF32 disabled, four CPU threads, and one
 RTX 4090. Synchronized receiver time includes selection, sampling and decoding,
 but excludes encoding, image-quality evaluation and one-time model loading.
@@ -324,7 +340,8 @@ intervals do not certify safety over arbitrary future channels.
 \centering
 \caption{Independent confirmation. Quality is averaged per image and frame.
 NFE counts both priors; latency is synchronized batch-one receiver time.
-The same-gate control's latency is a component estimate.}
+The same-gate control's latency is a component estimate. DeepJSCC and
+MambaJSCC rows are matched-retrained direct-codec anchors.}
 \label{tab:main}
 \input{generated/main_table.tex}
 \end{table}
@@ -332,9 +349,8 @@ The same-gate control's latency is a component estimate.}
 \centering
 \ResultFigure{figures/confirmation_quality.pdf}
 \caption{Independent confirmation by nominal SINR, averaging all three
-interference profiles. Curves distinguish Gaussian denoising, explicit
-separation and their frozen selection; they do not compare separately
-retrained published systems.}
+interference profiles. Solid curves compare receivers in the frozen SwinJSCC
+latent space; dashed curves are separately retrained direct-codec anchors.}
 \label{fig:quality}
 \end{figure}
 

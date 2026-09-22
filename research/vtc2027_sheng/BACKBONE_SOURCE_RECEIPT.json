@@ -1,0 +1,18 @@
+{
+  "retrieved_at_utc": "2026-09-22",
+  "deepjscc": {
+    "repository": "https://github.com/chunbaobao/Deep-JSCC-PyTorch.git",
+    "commit": "2665e0dc6d8bf216daf9442c5d6e5d69c5ad2f06",
+    "provenance": "public PyTorch reproduction",
+    "official_original_release": false,
+    "reason": "The original 2019 paper has no directly usable public checkpoint for this matched 128x128, CBR 1/48 protocol."
+  },
+  "mambajscc": {
+    "repository": "https://github.com/Wireless3C-SJTU/MambaJSCC.git",
+    "commit": "8323f9799f48c0efddce0521100d5c4e12ebf699",
+    "provenance": "official paper repository",
+    "official_original_release": true
+  },
+  "pretrained_weights_used": false,
+  "reason_for_retraining": "Available weights do not match the CelebA source split, CIFAR-10 interferer, AWGN SNR 20 dB, 128x128 resolution, or 1/48 complex channel-use budget."
+}
