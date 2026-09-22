@@ -1,0 +1,149 @@
+{
+  "status": "complete_reviewed_delivered",
+  "updated_at": 1790069847,
+  "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
+  "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
+  "remote_host": "sheng@100.94.183.27",
+  "remote_root": "/home/sheng/ICDM_VTC2027_20260921",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "remote_pids": {
+    "development": 83141,
+    "sequential_pipeline": 83254,
+    "server_manuscript_finalizer": 83841
+  },
+  "local_delivery_session_id": 79985,
+  "heartbeat_id": "sheng-vtc-2027",
+  "heartbeat_status": "PAUSED after completion",
+  "old_artemis_automations": "PAUSED; do not resume",
+  "expected_records": {
+    "development": 8064,
+    "confirmation": 55296,
+    "pressure": 1792
+  },
+  "stage_order": [
+    "development",
+    "freeze policy",
+    "confirmation",
+    "pressure",
+    "scientific review",
+    "final PDF visual review",
+    "delivery"
+  ],
+  "protocol": "PROTOCOL.md",
+  "amendment": "SELECTOR_AMENDMENT.md",
+  "excluded_remote_run": "results/development_initial_direction_excluded",
+  "formal_quality_inspected": true,
+  "tests": {
+    "total": 32,
+    "passed": 31,
+    "skipped": 1,
+    "skip_reason": "upstream Git reference absent from source-only server checkout"
+  },
+  "engineering_smoke": {
+    "records": 42,
+    "status": "complete, excluded"
+  },
+  "paper_source": "paper/vtc2027_selective_sheng/main.tex",
+  "paper_current_status": "Complete five-page manuscript with audited experimental evidence and final scientific/visual review",
+  "local_draft_pdf": "paper/vtc2027_selective_sheng/build/main.pdf",
+  "remote_draft_pdf": "paper/vtc2027_selective_sheng/build_sheng/main.pdf",
+  "paper_builds": {
+    "local_TeXLive": "passed, 5-page reviewed final manuscript",
+    "server_Tectonic": "passed; template/font cache populated",
+    "synthetic_full_layout": "excluded from scientific evidence",
+    "final_pdf_mechanical_audit": "passed, 5 pages, no horizontal overflow",
+    "final_pdf_visual_review": "passed, every page inspected"
+  },
+  "planned_deliverables": [
+    "output/vtc2027_sheng/VTC2027_Sheng_Manuscript.pdf",
+    "output/vtc2027_sheng/VTC2027_Sheng_LaTeX.zip",
+    "output/vtc2027_sheng/RESULTS_AND_REVIEW_ZH.md"
+  ],
+  "author_information": "Not provided; explicit placeholders retained; do not invent",
+  "literature_review": "research/rg_icdm/literature_review_20260921/RESEARCH_DECISION_ZH.md",
+  "critical_checks": [
+    "Never tune confirmation policy",
+    "Verify expected paired keys and immutable signatures",
+    "Inspect SELECT versus both Gaussian and A4 and the A4_GATE control",
+    "Audit mean PSNR together with MSE/LPIPS/MS-SSIM and harmful tail",
+    "CDDM is a shared-DiT receiver-only port, not original retrained system",
+    "Both power directions selected with image-group validation",
+    "Negative confirmation changes claims, not data",
+    "Final scientific and visual review is still required, even when automatic assembly succeeds"
+  ],
+  "next_action": "Scientific work and delivery are complete. Replace author placeholders only after the user supplies real author and affiliation information; do not submit automatically.",
+  "latest_observed_development_records": 8064,
+  "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
+  "last_check_utc": "2026-09-22T09:37:27Z",
+  "last_check": {
+    "pipeline_stage": "experiment_complete",
+    "server_delivery_stage": "manuscript_assembled",
+    "confirmation_records": 55296,
+    "confirmation_expected": 55296,
+    "confirmation_progress_percent": 100.0,
+    "pressure_records": 1792,
+    "pressure_expected": 1792,
+    "frozen_policy_sha256_unchanged": true,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_mib": 599,
+    "failure_observed": false,
+    "new_scientific_findings": true
+  },
+  "confirmation_quality_inspected": true,
+  "latest_observed_confirmation_records": 55296,
+  "frozen_policy": {
+    "power_threshold_low": 8,
+    "power_threshold_high": 0.5,
+    "heterogeneity_threshold": 0.2,
+    "family": "energy_heterogeneity",
+    "gaussian_side": "below",
+    "scientific_status": "selected_policy",
+    "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+    "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+  },
+  "policy_sha256": "6c98a04f3504d95192123c0c10397e6a33c59136b187244f4ba1f670dd3d8206",
+  "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+  "confirmation_signature": "4413eb09d4bb999452546332fb590aa910dbdaaaf6cc66aac71a45d582a0f23d",
+  "pressure_signature": "bac84956b5a34c41c8fa9a7831b14ff0be65ed7b6d05e84fc44739b7a060339a",
+  "development_review": "research/vtc2027_sheng/DEVELOPMENT_REVIEW_ZH.md",
+  "development_cv_replay_verified": true,
+  "development_policy_interpretation": {
+    "low_heterogeneity_frames": 810,
+    "max_estimated_power_in_low_region": 5.241205215454102,
+    "threshold_8_saturates_development_support": true,
+    "warning": "Do not interpret 8 as an identified physical transition, or claim both features individually necessary."
+  },
+  "final_results": {
+    "selector_psnr_db": 21.592856475617737,
+    "delta_vs_a4_db": 1.3336998530042667,
+    "ci95_vs_a4_db": [1.2654545760804066, 1.4035933144144817],
+    "delta_vs_blind_gaussian_db": 0.7503349838985337,
+    "ci95_vs_blind_gaussian_db": [0.6980972712251565, 0.8062572157644253],
+    "delta_vs_same_gate_db": 1.1396686192084517,
+    "ci95_vs_same_gate_db": [1.0749405264763887, 1.2045188302782157],
+    "nfe_reduction_vs_a4_percent": 34.72778320312499,
+    "scope": "matched confirmation population only"
+  },
+  "final_review": {
+    "paired_record_audit": "passed",
+    "data_hash_audit": "passed",
+    "source_weight_policy_hash_audit": "passed",
+    "citation_audit": "passed",
+    "latex_compile": "passed",
+    "pdf_pages_visual_reviewed": [1, 2, 3, 4, 5],
+    "author_placeholder_retained": true,
+    "submission_performed": false
+  },
+  "deliverables": {
+    "pdf": "output/vtc2027_sheng/VTC2027_Sheng_Manuscript.pdf",
+    "latex_zip": "output/vtc2027_sheng/VTC2027_Sheng_LaTeX.zip",
+    "chinese_review": "output/vtc2027_sheng/RESULTS_AND_REVIEW_ZH.md",
+    "review_receipt": "output/vtc2027_sheng/FINAL_REVIEW_RECEIPT.json"
+  },
+  "remote_final_sync": {
+    "server_assembled_package_present": true,
+    "local_post_review_package_newer": true,
+    "post_review_upload": "blocked by Tailscale SSH additional authentication check",
+    "local_delivery_complete": true
+  }
+}

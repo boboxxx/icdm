@@ -1,6 +1,29 @@
-import torch.nn as nn
-from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 import torch
+import torch.nn as nn
+try:
+    from timm.models.layers import DropPath, to_2tuple, trunc_normal_
+except (ImportError, RuntimeError):
+    # Artemis' Blackwell torch build is newer than its preinstalled torchvision.
+    # These three helpers are the only timm symbols used by SwinJSCC and match
+    # their standard implementations, keeping the model path unchanged.
+    def to_2tuple(x):
+        return (x, x) if not isinstance(x, tuple) else x
+
+    def trunc_normal_(tensor, mean=0., std=1., a=-2., b=2.):
+        return torch.nn.init.trunc_normal_(tensor, mean=mean, std=std, a=a, b=b)
+
+    class DropPath(nn.Module):
+        def __init__(self, drop_prob=0.):
+            super().__init__()
+            self.drop_prob = float(drop_prob)
+
+        def forward(self, x):
+            if self.drop_prob == 0. or not self.training:
+                return x
+            keep_prob = 1. - self.drop_prob
+            shape = (x.shape[0],) + (1,) * (x.ndim - 1)
+            random_tensor = keep_prob + torch.rand(shape, dtype=x.dtype, device=x.device)
+            return x * random_tensor.floor() / keep_prob
 from bisect import bisect
 import torch.nn.functional as F
 import numpy as np

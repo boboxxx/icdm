@@ -1,0 +1,14 @@
+{
+  "status": "scientific_and_visual_review_complete",
+  "reviewed_at_utc": "2026-09-22T09:26:00Z",
+  "paper_pages": 5,
+  "paired_record_audit": "passed",
+  "source_weight_policy_signature_audit": "passed",
+  "citation_audit": "passed",
+  "latex_compile": "passed",
+  "pdf_mechanical_audit": "passed",
+  "pdf_visual_review_pages": [1, 2, 3, 4, 5],
+  "author_information": "pending; explicit placeholders retained",
+  "submission_performed": false,
+  "scope_caveat": "Shared-DiT receiver-only CDDM port; not a reproduction of the full retrained published CDDM system"
+}

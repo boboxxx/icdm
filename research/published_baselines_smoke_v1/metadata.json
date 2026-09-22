@@ -1,0 +1,173 @@
+{
+  "status": "complete",
+  "manifest": {
+    "model_config": "configs/models/SwinJSCC_3.yaml",
+    "out_channels": 8,
+    "image_size": 128,
+    "interference_model": "SwinJSCC",
+    "interference_image_size": 32,
+    "channel_type": "awgn",
+    "weights": {
+      "encoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/encoder.pth"
+      },
+      "decoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/decoder.pth"
+      },
+      "infencoder": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/infencoder.pth"
+      },
+      "icdm_s": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/icdm_s.pth"
+      },
+      "icdm_z": {
+        "path": "/mnt/d/ICDM_SC_runs/phase1_full/weights/icdm_z.pth"
+      }
+    },
+    "images": "/mnt/d/ICDM_SC_data_full/celeba/val/class0",
+    "interference_images": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0",
+    "max_images": 4,
+    "evaluation_batch_size": 4,
+    "seeds": [
+      700
+    ],
+    "snr_sinr_pairs": [
+      [
+        20,
+        -7
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        20,
+        10
+      ]
+    ],
+    "block_size": 64,
+    "profiles": [
+      "stationary",
+      "alternating",
+      "burst"
+    ],
+    "modes": [
+      "SWINJSCC",
+      "CDDM_RX_N0",
+      "CDDM_RX_ORACLE",
+      "ICDM_ORACLE",
+      "SC_ICDM_A4"
+    ],
+    "a4_min_alpha": 0.5,
+    "cddm_steps": 40,
+    "protocol": "published-baselines-v1; validation only; receiver-only CDDM port; no retraining; no tuning on these results"
+  },
+  "metrics": {
+    "input": "float32 RGB [0,1]; identical clipping; no resizing/quantization",
+    "mse": "per-image mean over C,H,W, then arithmetic mean over images",
+    "psnr": "per-image -10 log10(MSE), then arithmetic mean; floor=1e-12",
+    "lpips": "official lpips 0.1 VGG; inputs explicitly transformed to [-1,1]",
+    "ms_ssim": "4 scales for 128x128, Gaussian 11 sigma1.5, valid convolution, K=.01,.03; normalized first four Wang weights; product once then RGB mean",
+    "ms_ssim_db": "per-image -10 log10(1-MS-SSIM); floor=1e-12",
+    "lpips_db_optional": "10 log10(mean LPIPS), lower is better (ICDM convention)",
+    "warning": "MSE and PSNR share pixel-error information; not independent wins. Four-scale MS-SSIM is not directly comparable with five-scale scores."
+  },
+  "study": "engineering_smoke",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "host": "DESKTOP-UGDDO8T",
+  "torch": "2.5.0+cu118",
+  "packages": {
+    "lpips": "0.1.4",
+    "torchvision": "0.20.0+cu118",
+    "pytorch-msssim": "1.0.0"
+  },
+  "weights_sha256": {
+    "encoder": "3daa190606afc26f100f92708f3b36b69e04e563acff41dae41812aded098d34",
+    "decoder": "b966699596b360f84670f52b62d56988124c2c8dea54bc33f8a683d2b4e586e9",
+    "infencoder": "31a5d3fa38b566c1dd4819a196cdccaf047cc576a426e2f121ce2e9ac88a0317",
+    "icdm_s": "751296cd69e666316808fdc429a4f2d3b0be31db15ff5838cfc6080d4f0e6863",
+    "icdm_z": "e9d2dc8510ed4f16c48fb3077efff5ae6147663a2306cb80532307ee083b7326"
+  },
+  "image_pairs": [
+    {
+      "index": 0,
+      "image": "/mnt/d/ICDM_SC_data_full/celeba/val/class0/000000.png",
+      "image_sha256": "5e0f2e28ccd04484424a880d8b6ee4b70f6e4a654712decb88075975750bfc06",
+      "interference": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0/000000.png",
+      "interference_sha256": "0d4964922e2463ad0e2b1cd298e03d5627ff7dad1ab1cdd173ce35e9974e204f"
+    },
+    {
+      "index": 1,
+      "image": "/mnt/d/ICDM_SC_data_full/celeba/val/class0/000001.png",
+      "image_sha256": "ba399f6d24fb9bedb0f043eaa73112b91cf1fff93b108cc6944a420c1818e4cc",
+      "interference": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0/000001.png",
+      "interference_sha256": "eaec54ee1aed958f9548d01aff16c41aeba408885da42759890a538888be879e"
+    },
+    {
+      "index": 2,
+      "image": "/mnt/d/ICDM_SC_data_full/celeba/val/class0/000002.png",
+      "image_sha256": "295ee097c6fbb843bb88d370ebd4f32ccb490178333e471495811a258bc552f7",
+      "interference": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0/000002.png",
+      "interference_sha256": "3873d7fb73cd351df3244c6a16cd52eef264700093746e9ac7f8831b3ce6d2e3"
+    },
+    {
+      "index": 3,
+      "image": "/mnt/d/ICDM_SC_data_full/celeba/val/class0/000003.png",
+      "image_sha256": "525f7d25043ee2856017bbd6b1130b012382f32054c761b6622ba663035b0577",
+      "interference": "/mnt/d/ICDM_SC_data_full/cifar10/val/class0/000003.png",
+      "interference_sha256": "fce5a6515e44e57d6b4349822f25e2cf941c580c5cc2f5fc637d5743a9057338"
+    }
+  ],
+  "source_sha256": {
+    "Autoencoder/DeepJSCC/decoder.py": "0c453a26e46e79b274cefe927f0f681e3ed9e2d53c641fe07cb60cd3d9a3e776",
+    "Autoencoder/DeepJSCC/encoder.py": "8fa104a2badb9143562bf2270987f828b4beae4b4063d5ebd80cd4589455cb58",
+    "Autoencoder/DeepJSCC/modules.py": "341213cd8f59e983045acd7354ca2d0768da58389fc346ee9516856ecd90e6ce",
+    "Autoencoder/JSCCeval.py": "4688ca499e0db303dd9b21ac7d5afa69e34edd3ba8a98cb8ed685581cc0f89cd",
+    "Autoencoder/JSCCtrain.py": "9894f1383cec981562ebe5cfe6fdb652ccb512858be6f25cc33306b5cbcd70c4",
+    "Autoencoder/MambaJSCC/decoder.py": "cf8baec7a32b3b99ff64a1be740e3e1f60b73c69e24df1107dfd3e71b75736b8",
+    "Autoencoder/MambaJSCC/encoder.py": "82a22753fd61554458d06162c9c5a77b9254953c74c4ffcd07a264ec7729cfdf",
+    "Autoencoder/MambaJSCC/vmamba.py": "bf00ef072f1a051036401753f44d3c20b371544d3edc1f4cfb034f011b73f132",
+    "Autoencoder/SwinJSCC/decoder.py": "fceced55c93390b861b7fcf99e299b038fda94d21960375586d36994b0120ecd",
+    "Autoencoder/SwinJSCC/encoder.py": "204195f35e3ad288f731ca3aa77e03565690ee973c16baffd962b7cafcb941a6",
+    "Autoencoder/SwinJSCC/modules.py": "341213cd8f59e983045acd7354ca2d0768da58389fc346ee9516856ecd90e6ce",
+    "Autoencoder/channel.py": "6362ab7535931cc546f3bcef71d0fdefe4bea701d783cbfc956f6bd95886d8c5",
+    "Autoencoder/data/datasets.py": "2ffc85122ffba15cbabad5192505d92a8b2beca77af0e8c8892fe32fbcb055b3",
+    "Autoencoder/loss/distortion.py": "8b02884a542b73db1c3a55faf698368132395aa2344feac0cc1c8083d8836402",
+    "Autoencoder/loss/eval_matrix.py": "aacaa32e6c525d01bdf56b3b3c9a0f8d3f52ec2c11ed4c8aadfbf1029e1cdc77",
+    "Autoencoder/network.py": "78e3f71a72fb2dbad9baab8f85ba74d27cf6220c5a01bfae9d305280914e2407",
+    "DiT/__init__.py": "2c128034b64522de25e48993b3481a2de351e04b2f4ab4a81633478cac9abdf8",
+    "DiT/diffusion_utils.py": "4bc929a713a1136bd96b5d88605f41707bf484fbabe448b0407764eb21502add",
+    "DiT/gaussian_diffusion.py": "c0a86799ef4db1d7466b154d0937fa445b8b58e794be188bdc5573db45176178",
+    "DiT/models.py": "1a32d207beddf07291ec27bb49cd57b0d94fd281b899e1c0d312095894899cd6",
+    "DiT/respace.py": "9dde1492dd9d03e47caa12c7a7293dd7a5af1a79f3ddb0629f1692d97c856903",
+    "DiT/timestep_sampler.py": "5e7c21f48cf85b91ff0030a9b5f33b74580e56d75004ed310aba9927a4a030ed",
+    "Diffusion/Diffusion.py": "2939e9b1540cd3970565bd50174a94123315f6d3a5f7323dfa95c10520ca8441",
+    "Diffusion/Train.py": "2b1c369c458658812ab0d00cabd1d8a693ddf88cfb5f994c356e06ec21975122",
+    "Diffusion/__init__.py": "bf387aff56c1e31c9ab393fb0730bf242c2e1966977689b533c91bcff2b0664a",
+    "Diffusion/calibration.py": "0813792c017ae01917901d00d0249e36866acabf64672c7d0d45e81d7c948d0d",
+    "Diffusion/sampling.py": "755a47aabf8aebab46f01db649ee14142156a29b23a874cbb3e6b0e419ad2de7",
+    "Diffusion/sde_lib.py": "6f1e755bc75a9a059821117b277688297b985f39d75122949592cecb0cf6c503",
+    "Diffusion/uni_pc.py": "c362cbd5607dad76364bbcd35ff5048714b9f1835c57612ace5072b06df67efe",
+    "Diffusion/utils.py": "30a98e61618f32a2673b296c07f495b66ff11dd3075198e1ef68ff644720ef93",
+    "scripts/._prepare_phase1_2k.py": "6d09f3a52e7d4fcec34d67e0a7b414b01c76fe9e816a807ba9a80499bafa1fae",
+    "scripts/._run_phase1.py": "6d09f3a52e7d4fcec34d67e0a7b414b01c76fe9e816a807ba9a80499bafa1fae",
+    "scripts/._train_phase1_2k.py": "6d09f3a52e7d4fcec34d67e0a7b414b01c76fe9e816a807ba9a80499bafa1fae",
+    "scripts/baseline_metrics.py": "ae75bef744bc3c3fe80aab661343ed222cd79f253308bd72feec63c6e9728663",
+    "scripts/cddm_receiver.py": "a6591dc87d6827657eea8af0ca67a8dc144e2abf5673e14ae20c9246f60cfb2d",
+    "scripts/export_eval_subset.py": "bf1ec6a699523351bdeecf6820350a4d7522dfde1126e6b6a69cb817286281e5",
+    "scripts/prepare_phase1_2k.py": "2b8f12b2cf4e14ffd81ed4a5fc1ab6dae56eaa27f2ac0d888f353d0686eca95b",
+    "scripts/prepare_phase1_full.py": "866a81138ff1bdd9dbe60a127eb135a60b7d1e488eecac464539cb77fd73a416",
+    "scripts/run_phase1.py": "a44eda94ae941af9ad143c4969b5b5d8984be546005380dee9553a54240a3294",
+    "scripts/run_published_baselines.py": "7214ab72d5fd4383089f870c9512a6f437aa85f45117c54f66d0b4c8d752c823",
+    "scripts/train_phase1_2k.py": "bcac598092f40eb939c3de513759d19ece59a5afc2f7a8c81c1eda28e2b35455"
+  },
+  "metric_weights_sha256": {
+    "/home/sheng/anaconda3/envs/cv/lib/python3.10/site-packages/lpips/weights/v0.1/vgg.pth": "a78928a0af1e5f0fcb1f3b9e8f8c3a2a5a3de244d830ad5c1feddc79b8432868",
+    "/home/sheng/.cache/torch/hub/checkpoints/vgg16-397923af.pth": "397923af8e79cdbb6a7127f12361acd7a2f83e06b05044ddf496e83de57a5bf0"
+  },
+  "metric_identity_gate": "passed",
+  "complex_channel_uses": 1024,
+  "cbr": 0.020833333333333332,
+  "records": 180,
+  "elapsed_seconds": 34.23529615299776
+}

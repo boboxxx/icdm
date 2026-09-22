@@ -1,0 +1,16 @@
+{
+  "checked_date": "2026-09-15",
+  "repo": "https://github.com/Wireless3C-SJTU/ICDM",
+  "commit": "e6b7f8d5eb8161e345dc5bebd7bcf0f5fcc51925",
+  "releases": 0,
+  "tree_truncated": false,
+  "checkpoint_files": [],
+  "issues": [
+    {
+      "url": "https://github.com/Wireless3C-SJTU/ICDM/issues/1",
+      "title": "The main program entry file",
+      "comments": 0,
+      "body": "Hello!  \n\nThank you very much for sharing your excellent work and making the code publicly available. I truly appreciate the effort you've put into this project.  \n\nI have a question: it seems that the repository doesn’t include a unified entry point (e.g., `main.py` or `run.py`) to run the project. Could you please share the main execution script?\n\nThanks again for your great contribution!  "
+    }
+  ]
+}

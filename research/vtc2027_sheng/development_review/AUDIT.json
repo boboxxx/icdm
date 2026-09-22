@@ -1,0 +1,230 @@
+{
+  "status": "verified_completed_development",
+  "records": 8064,
+  "image_pairs": 64,
+  "paired_frames": 1152,
+  "signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+  "policy_sha256": "6c98a04f3504d95192123c0c10397e6a33c59136b187244f4ba1f670dd3d8206",
+  "freeze_order_confirmed": true,
+  "matching_model_source_and_weights": true,
+  "means_recomputed": true,
+  "policy": {
+    "power_threshold_low": 8,
+    "power_threshold_high": 0.5,
+    "heterogeneity_threshold": 0.2,
+    "family": "energy_heterogeneity",
+    "gaussian_side": "below",
+    "scientific_status": "selected_policy",
+    "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+    "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+  },
+  "development_cv": {
+    "energy": {
+      "cv_psnr": 22.002126151074965,
+      "cv_component_seconds": 0.72162169614886,
+      "fold_rules": [
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        },
+        {
+          "power_threshold_low": 1.5,
+          "power_threshold_high": 1.5,
+          "heterogeneity_threshold": 1000000.0,
+          "family": "energy",
+          "gaussian_side": "below"
+        }
+      ],
+      "full_development_rule": {
+        "power_threshold_low": 1.5,
+        "power_threshold_high": 1.5,
+        "heterogeneity_threshold": 1000000.0,
+        "family": "energy",
+        "gaussian_side": "below"
+      },
+      "candidates": 26
+    },
+    "energy_heterogeneity": {
+      "cv_psnr": 22.2389334100816,
+      "cv_component_seconds": 0.6952335785283341,
+      "fold_rules": [
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        },
+        {
+          "power_threshold_low": 8,
+          "power_threshold_high": 0.5,
+          "heterogeneity_threshold": 0.2,
+          "family": "energy_heterogeneity",
+          "gaussian_side": "below",
+          "scientific_status": "selected_policy",
+          "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+          "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+        }
+      ],
+      "full_development_rule": {
+        "power_threshold_low": 8,
+        "power_threshold_high": 0.5,
+        "heterogeneity_threshold": 0.2,
+        "family": "energy_heterogeneity",
+        "gaussian_side": "below",
+        "scientific_status": "selected_policy",
+        "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+        "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+      },
+      "candidates": 2028
+    },
+    "best_fixed": {
+      "mode": "CDDM_BLIND",
+      "psnr": 21.587510439670748
+    },
+    "selected": {
+      "power_threshold_low": 8,
+      "power_threshold_high": 0.5,
+      "heterogeneity_threshold": 0.2,
+      "family": "energy_heterogeneity",
+      "gaussian_side": "below",
+      "scientific_status": "selected_policy",
+      "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+      "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+    },
+    "offline_oracle_psnr": 22.388289126257103,
+    "warning": "CV is development evidence; component times are estimates, not online selector timings"
+  },
+  "strata_psnr": {
+    "stationary": {
+      "CDDM_BLIND": 22.257721,
+      "A4": 19.802826,
+      "A4_GATE": 20.085465,
+      "CV_energy": 21.62217,
+      "CV_energy_heterogeneity": 22.27407
+    },
+    "alternating": {
+      "CDDM_BLIND": 21.488607,
+      "A4": 20.533873,
+      "A4_GATE": 20.7683,
+      "CV_energy": 21.954749,
+      "CV_energy_heterogeneity": 21.925061
+    },
+    "burst": {
+      "CDDM_BLIND": 21.016203,
+      "A4": 21.477892,
+      "A4_GATE": 21.652424,
+      "CV_energy": 22.42946,
+      "CV_energy_heterogeneity": 22.51767
+    }
+  },
+  "confirmation_outcomes_inspected": false
+}

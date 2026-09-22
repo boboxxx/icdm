@@ -11,6 +11,9 @@ set -euo pipefail
 cd /mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027
 export PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=4 ICDM_TEST_DEVICE=cuda:0
 ICDM_PYTHON=/mnt/nfs2/engdes/wc296/venvs/hitac-rtx-cu128/bin/python
+# Use the project-local torchvision wheel matched to torch 2.7; the shared
+# environment's older wheel cannot register its ops against Blackwell torch.
+export PYTHONPATH=/mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027/vendor/python${PYTHONPATH:+:$PYTHONPATH}
 test -f assets/verified.json
 nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
 "$ICDM_PYTHON" -c 'import torch; name=torch.cuda.get_device_name(); assert "6000" in name and "PRO" in name.upper(), "Requested RTX PRO 6000, got "+name'

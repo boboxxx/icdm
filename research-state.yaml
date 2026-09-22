@@ -2,7 +2,7 @@ project:
   title: "ICDM self-calibration for IEEE VTC2027 Spring"
   status: active
   started: "2026-09-19"
-  question: "Does observation-conditioned moment calibration improve over equally regularized point updates under unknown block interference?"
+  question: "Can receiver-only hierarchical pooling, bypass and trusted feedback improve selective generative reception?"
 compute:
   host: artemis-ood
   root: /mnt/nfs2/engdes/wc296/ICDM_SC_VTC2027
@@ -13,10 +13,17 @@ compute:
     - {id: 11397374, role: gpu_math_checks, status: cancelled_before_start}
     - {id: 11397384, role: cpu_asset_integrity, status: completed}
     - {id: 11397387, role: gpu_smoke_then_validation, status: cancelled_before_start}
-    - {id: 11398036, role: gpu_math_smoke_validation, status: pending_resources}
+    - {id: 11398036, role: gpu_math_smoke_validation, status: failed_scoped_torchvision_mismatch}
+    - {id: 11398826, role: gpu_math_smoke_validation, status: failed_wrong_cuda_arch_stack}
+    - {id: 11398827, role: gpu_math_smoke_validation, status: failed_stale_resume_signature}
+    - {id: 11398828, role: gpu_math_smoke_validation, status: failed_timm_torchvision_import}
+    - {id: 11398870, role: gpu_math_smoke_validation, status: completed}
   asset_transfer: complete_and_sha256_verified
   asset_inventory: configs/artemis_asset_inventory.json
   gpu_output: results/moment_validation_v1
+  current_rg_state: research/rg_icdm/STATE.json
+  current_rg_job: 11399316
+  current_rg_root: /mnt/nfs2/engdes/wc296/ICDM_RG_20260920
 hypotheses:
   - id: H0
     status: supported_historical_exploratory
@@ -32,7 +39,7 @@ hypotheses:
     statement: "A validation-selected receiver gate prevents high-SINR overcorrection."
 protocol: experiments/moment-calibration/protocol.md
 system_model: research/SYSTEM_MODEL_VTC2027.md
-next_action: "Monitor Slurm job 11398036. It checks the RTX PRO 6000 identity and CUDA math tests, then runs the 4-pair smoke and fixed 64-pair validation. Retrieve and audit results on completion; do not run test confirmation yet."
+next_action: "Read research/rg_icdm/STATE.json and STATUS.md. RG job 11399316 is pending Resources. A5 mainline stopped after negative validation. Retrieve and audit RG smoke/validation on completion; continue the staged redesign."
 limits:
   no_test_tuning: true
   no_retraining: true

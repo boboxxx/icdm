@@ -24,3 +24,12 @@ Preserve historical A0–A4 code paths. New methods receive y, SNR/noise, and bl
 ## Open questions
 
 Does the A4 gain survive a better controlled validation/test protocol? Is covariance useful beyond a ridge anchor? Are amplitude changes or guidance-table changes responsible? Can a blind validation-selected bypass fix high-SINR losses?
+
+
+## 2026-09-20 redesign and new verified evidence
+
+Artemis job 11398870 completed its 13,824-record validation. A5_FULL minus A4_R mean PSNR is −0.600463 dB, including −0.084791 dB for severe burst (-7/-4 dB). This replaces the earlier pending status above and supports stopping A5 as the mainline. Full summary is archived under research/rg_icdm/prior_moment_validation_analysis.json.
+
+Historical phase-0 routing audit strictly paired 10,800 trials from NO_ICDM, A2 and A3. Best fixed A3 averages 19.845278 dB; per-trial oracle selection averages 20.706344 dB (headroom 0.861065 dB). This does not measure deployable receiver routing.
+
+RG-ICDM has receiver-only hierarchical pooling, actual direct bypass, and split-coordinate trust checks with separate amplitude/guidance controls. A prospective protocol was committed before submission. Twenty-one CPU tests passed. GPU job 11399316 is queued for one RTX PRO 6000 under general/enginf. No RG image-quality results exist yet. See research/rg_icdm/STATE.json and STATUS.md for the authoritative ongoing state; do not resume the superseded A5 plan.

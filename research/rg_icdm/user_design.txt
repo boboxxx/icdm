@@ -1,0 +1,1540 @@
+明白了。你现在要的不是“怎么把 A5 写得像论文”，而是：
+
+> **承认目前这条路线效果不够好，从 research question、数学模型和 receiver architecture 上重新设计。**
+
+我重新检查了你当前 `boboxxx/icdm` 的 `main`：现有代码仍然围绕 A3/A4/A4_R/A5_DIAG/A5_FULL，`findings.md` 也仍把 A5 定位成待验证机制；历史上真正稳定看到的现象还是 A3 的 global→local 收益、A4 的约 +0.599 dB exploratory gain，以及 power estimation 与 reconstruction quality 的明显脱节。
+
+结合 CDDM、ICDM、BlindDPS、GibbsDDRM、Fast Diffusion EM、TMPD、SecDiff，以及 2025–2026 reliability-aware / generative semantic communication 的新工作，我现在会做一个比较大的方向调整。
+
+# 我的核心建议：停止把 A5 当主线
+
+我会**停止继续投入“Gaussian surrogate covariance / \(C_{xz}\) 修正”这条线作为主贡献**。
+
+不是因为公式一定错误，而是因为它解决的并不是当前项目最根本的问题。
+
+你的现有数据实际上已经告诉我们：
+
+$$
+\boxed{\text{你目前估计的是错误的目标。}}
+$$
+
+你一直在问：
+
+$$
+\text{How accurately can the receiver estimate }a_b?
+$$
+
+但真正应该问的是：
+
+$$
+\boxed{
+\text{When should the generative receiver intervene, and how strongly?}
+}
+$$
+
+这两者完全不同。
+
+---
+
+# 一、为什么我现在认为 A5 方向不值得继续硬救
+
+## 1. Blind parameter estimation 本身已经不新
+
+BlindDPS、GibbsDDRM、Fast Diffusion EM 都已经研究了：
+
+$$
+y=\mathcal A_\phi(x)+n
+$$
+
+中同时估计 \(x\) 和未知 \(\phi\)。
+
+BlindDPS 用两个 diffusion priors 联合推断图像与未知 operator；GibbsDDRM 做 joint posterior sampling；Fast Diffusion EM 明确采用 diffusion reconstruction ↔ unknown parameter estimation 的交替结构。([NeurIPS][1])
+
+通信里，SecDiff 现在甚至已经做了 diffusion reconstruction 与未知信道估计交替，并使用 adaptive guidance 和 power-based masking。([IEEE Xplore][2])
+
+所以继续围绕
+
+$$
+a_b\leftarrow f(\hat x,\hat z)
+$$
+
+不断做更复杂的 estimator，novelty 会越来越难讲。
+
+---
+
+## 2. Covariance 也不是一个足够大的 gap
+
+TMPD 已经明确表明 diffusion inverse problems 中，一阶 point estimate 不够，可以利用 higher-order Tweedie information 改善 conditional approximation。([arXiv][3])
+
+你当前 A5 又不是从 learned score 中得到真正 posterior covariance，而是：
+
+$$
+v_t=
+\frac{0.5\sigma_t^2}{0.5\alpha_t^2+\sigma_t^2}
+$$
+
+这样的 Gaussian surrogate variance。
+
+所以即使实验得到 +0.1~0.2 dB，reviewer 也可能说：
+
+> “这是一个 heuristic moment correction，而不是新的 uncertainty inference framework。”
+
+我不认为这是最值得下注的地方。
+
+---
+
+# 二、更加关键的是：你现在优化错 objective 了
+
+你历史结果中最重要的现象是：
+
+$$
+A4>A3\quad\text{in PSNR}
+$$
+
+但
+
+$$
+\hat a^{A4}
+$$
+
+往往**离真实 interference power 更远**。
+
+甚至出现极大的 power outlier。
+
+这不是一个小 bug。
+
+这是在告诉你：
+
+$$
+\boxed{
+a_{\text{best for reconstruction}}
+\neq
+a_{\text{physical true}}
+}
+$$
+
+为什么？
+
+因为你当前系统实际不是简单的：
+
+$$
+a\rightarrow y=x+az+n.
+$$
+
+而是：
+
+$$
+a
+\rightarrow
+p=a^2
+\rightarrow
+\widehat{\mathrm{SINR}}
+\rightarrow
+(\lambda,\beta)
+\rightarrow
+\text{diffusion trajectory}.
+$$
+
+因此 \(a\) 同时是：
+
+1. physical interference parameter；
+2. diffusion controller parameter。
+
+所以一个物理上“错误”的 \(a\) 反而可能把 diffusion 推到一个更好的 operating point。
+
+这意味着你真正面对的是：
+
+$$
+\boxed{
+\textbf{generative receiver control problem}
+}
+$$
+
+而不仅仅是：
+
+$$
+\text{channel/interference estimation problem}.
+$$
+
+这是我现在认为应该重新设计的出发点。
+
+---
+
+# 三、文献发展也正在往“可靠性/选择性”转
+
+早期 CDDM 的问题是：
+
+> diffusion 能否去掉 channel noise？([IEEE Xplore][4])
+
+ICDM 的问题是：
+
+> diffusion 能否利用 signal/interference priors 消掉 structured interference？([arXiv][5])
+
+最近则开始变成：
+
+> **生成式 receiver 什么时候可信？哪些 feature 应该用，哪些应该丢弃？什么时候应该生成，什么时候不应该生成？**
+
+例如 2026 TWC 的 CoDS 引入 uncertainty-aware network，对不可靠的 received semantic feature 直接丢弃，而不是无条件处理。([IEEE Xplore][6])
+
+2026 的 robust semantic communication 工作同样在研究 selective repair，而不是所有维度统一修复。([IEEE Xplore][7])
+
+“Safeguarded AI-Driven Semantic Communication”也把过度自信和可靠性作为 AI semantic receiver 的核心问题。([IEEE Xplore][8])
+
+这和你自己的失败现象完全一致：
+
+* 高 SINR → **不应该运行 ICDM**；
+* stationary → **不应该强行 local estimation**；
+* strong burst → **某些 iterative updates 不应该接受**；
+* power estimate 不可靠 → **不能无条件拿它更新 guidance**。
+
+所以我认为新的 research question 应该是：
+
+$$
+\boxed{
+\text{When and where should a generative interference canceller intervene?}
+}
+$$
+
+---
+
+# 四、我建议彻底重构成：Selective / Reliability-Gated ICDM
+
+暂时叫：
+
+## **RG-ICDM**
+
+### Reliability-Gated Interference Cancellation Diffusion Model
+
+名字以后可以改。
+
+新的 receiver 不再试图每一步都“更准确地估计 \(a_b\)”。
+
+而是具有三个决策层：
+
+$$
+\boxed{
+\text{Direct}
+\leftrightarrow
+\text{Global ICDM}
+\leftrightarrow
+\text{Local ICDM}
+}
+$$
+
+receiver 自己决定：
+
+> 是否需要 generative intervention？
+
+> 如果需要，是 global interference 还是 local nonstationary interference？
+
+> 当前 diffusion feedback 是否可信到足以更新？
+
+这会直接解决你现在三个失败区域。
+
+---
+
+# 五、第一层：先决定“要不要运行 diffusion”
+
+这是你现在完全缺少的。
+
+现有 receiver 默认：
+
+$$
+\text{ICDM always on}.
+$$
+
+但你的数据已经证明：
+
+10 dB SINR 下 direct decode 可以比 A4 好大约 1 dB。
+
+也就是说：
+
+$$
+\boxed{\text{always-on generative receiver is fundamentally wrong.}}
+$$
+
+新的 receiver 首先计算一个极便宜的 frame-level interference evidence：
+
+$$
+\widehat p_g
+=
+\left[
+\frac{\|y\|^2}{N}
+-1-N_0
+\right]_+.
+$$
+
+这个其实你 A2 已经有。
+
+但不再问：
+
+> “它估出来的 SINR 是多少？”
+
+而是问：
+
+$$
+H_0:\text{no meaningful interference}
+$$
+
+vs
+
+$$
+H_1:\text{interference significant enough to justify ICDM}.
+$$
+
+定义：
+
+$$
+G_{\rm frame}
+=
+\mathbb I(
+\widehat p_g>\tau_{\rm on}
+).
+$$
+
+如果：
+
+$$
+G_{\rm frame}=0,
+$$
+
+直接：
+
+$$
+\boxed{\text{bypass ICDM}}.
+$$
+
+阈值 \(\tau_{\rm on}\) 在 validation 上固定。
+
+也可以做软门：
+
+$$
+g_{\rm frame}
+=
+\sigma
+\left(
+\frac{\widehat p_g-\tau}{T}
+\right).
+$$
+
+关键在于：
+
+**这是 receiver-observable。**
+
+没有 true SINR。
+
+---
+
+# 六、第二层：不要 global 和 blockwise 二选一，做 hierarchical shrinkage
+
+你现在有一个很漂亮、但一直没有充分利用的结果：
+
+stationary：
+
+$$
+A3<A2
+$$
+
+nonstationary：
+
+$$
+A3>A2.
+$$
+
+这本质上就是最经典的：
+
+$$
+\boxed{\text{bias–variance tradeoff}}
+$$
+
+问题。
+
+所以根本不应该：
+
+> 要么 global，要么所有 blocks 独立。
+
+正确做法应该是：
+
+$$
+\boxed{\textbf{partial pooling}}
+$$
+
+即每一个 block 在：
+
+$$
+\text{global estimate}
+$$
+
+和：
+
+$$
+\text{local estimate}
+$$
+
+之间自动收缩。
+
+---
+
+## 新模型
+
+你已经有 global：
+
+$$
+\hat p_g.
+$$
+
+和 local：
+
+$$
+\hat p_b.
+$$
+
+定义：
+
+$$
+\tilde p_b
+=
+(1-w_b)\hat p_g
++
+w_b\hat p_b.
+$$
+
+其中：
+
+$$
+0\leq w_b\leq1.
+$$
+
+关键问题变成：
+
+$$
+w_b
+$$
+
+应该多少。
+
+---
+
+# 七、用 Empirical Bayes / hierarchical model 自动决定 global ↔ local
+
+设局部 interference powers 满足一个 random-effects 模型：
+
+$$
+p_b=p_g+\delta_b,
+$$
+
+$$
+\delta_b\sim\mathcal N(0,\tau^2).
+$$
+
+local estimator：
+
+$$
+\hat p_b=p_b+\epsilon_b,
+$$
+
+其中：
+
+$$
+\operatorname{Var}(\epsilon_b)=s_b^2.
+$$
+
+于是 posterior shrinkage weight 是经典形式：
+
+$$
+\boxed{
+w_b
+=
+\frac{\tau^2}
+{\tau^2+s_b^2}
+}
+$$
+
+因此：
+
+### Stationary interference
+
+真实：
+
+$$
+\tau^2\approx0.
+$$
+
+所以：
+
+$$
+w_b\approx0
+$$
+
+得到：
+
+$$
+\tilde p_b\approx\hat p_g.
+$$
+
+自动退化成 A2。
+
+---
+
+### 强 nonstationarity
+
+$$
+\tau^2\gg s_b^2.
+$$
+
+于是：
+
+$$
+w_b\approx1
+$$
+
+得到：
+
+$$
+\tilde p_b\approx\hat p_b.
+$$
+
+自动接近 A3。
+
+---
+
+### noisy / unreliable block
+
+如果 block 小、denominator 小：
+
+$$
+s_b^2\gg\tau^2,
+$$
+
+则：
+
+$$
+w_b\to0.
+$$
+
+自动回退 global。
+
+这正好解决 A4 的 small denominator / extreme update。
+
+---
+
+# 八、\(\tau^2\) 不需要知道真值
+
+可以直接从 receiver estimates 做 method-of-moments：
+
+$$
+\hat\tau^2
+=
+\left[
+\operatorname{Var}_b(\hat p_b)
+-
+\frac1B\sum_b s_b^2
+\right]_+.
+$$
+
+这非常重要。
+
+它意味着：
+
+receiver 自动判断：
+
+$$
+\boxed{
+\text{当前 frame 到底有多少真正的 nonstationarity}
+}
+$$
+
+而不是 simulation 告诉 receiver：
+
+> stationary / alternating / burst.
+
+这是比现在“固定 block independent estimator”更自然的研究问题。
+
+---
+
+# 九、这条设计我认为比 A5 更符合你的真实数据
+
+看看它如何逐一解释已有结果。
+
+### A2≈A0
+
+说明 global estimate 本身很好。
+
+所以：
+
+$$
+\hat p_g
+$$
+
+应该成为稳定 anchor。
+
+而不是被 A4 轻易抛弃。
+
+---
+
+### A3 stationary 变差
+
+说明 local variance 太大。
+
+hierarchical shrinkage 自动：
+
+$$
+w\to0.
+$$
+
+---
+
+### A3 burst 变好
+
+说明真实 heterogeneity 大。
+
+自动：
+
+$$
+w\to1.
+$$
+
+---
+
+### A4 extreme power
+
+意味着 local regression reliability 不够。
+
+posterior variance：
+
+$$
+s_b^2
+$$
+
+大时自动 shrink。
+
+---
+
+### high SINR diffusion 变差
+
+frame-level gate：
+
+$$
+g_{\rm frame}\to0.
+$$
+
+直接 bypass。
+
+---
+
+这比：
+
+$$
+C_{xz}
+$$
+
+一条公式同时解释的问题多得多。
+
+---
+
+# 十、第三层：如果还要用 diffusion feedback，必须加 trust gate
+
+我不会再像 A4 那样：
+
+> 只要 diffusion 走到 \(\alpha_t>0.5\)，就开始反复更新。
+
+这是一个非常人为的 schedule。
+
+应该问：
+
+> 当前 \(\hat x_t,\hat z_t\) 是否真的提供了支持这一更新的证据？
+
+---
+
+## 当前残差
+
+定义：
+
+$$
+r_{b,t}
+=
+y_b-\hat x_{b,t}.
+$$
+
+当前 amplitude：
+
+$$
+a_{b,t}.
+$$
+
+候选 LS update：
+
+$$
+\hat a_{b,t}
+=
+\left[
+\frac{
+\Re\langle\hat z_{b,t},r_{b,t}\rangle
+}{
+\|\hat z_{b,t}\|^2+\lambda
+}
+\right]_+.
+$$
+
+比较更新前后的 measurement residual：
+
+$$
+E_{\rm old}
+=
+\|r-a_{\rm old}\hat z\|^2,
+$$
+
+$$
+E_{\rm new}
+=
+\|r-\hat a\hat z\|^2.
+$$
+
+定义 evidence：
+
+$$
+\boxed{
+\Delta_{b,t}
+=
+\frac{
+E_{\rm old}-E_{\rm new}
+}{
+L_b\nu_{\rm eff}
+}
+}
+$$
+
+如果：
+
+$$
+\Delta_{b,t}
+$$
+
+很小，
+
+说明：
+
+> 新 amplitude 只是 fitting noise / unstable generative prediction。
+
+那么：
+
+$$
+\boxed{\text{reject update}}.
+$$
+
+---
+
+# 十一、所以 update 变成 trust-region update
+
+不是：
+
+$$
+a_{t+1}=\hat a_t.
+$$
+
+而是：
+
+$$
+a_{t+1}
+=
+a_t+
+g_{b,t}\eta
+\,\operatorname{clip}
+(
+\hat a_t-a_t,
+-\Delta_a,
++\Delta_a
+),
+$$
+
+其中：
+
+$$
+g_{b,t}
+=
+\sigma
+\left(
+\frac{\Delta_{b,t}-\tau_r}{T_r}
+\right).
+$$
+
+这样：
+
+* denoiser 不稳定 → 不更新；
+* denominator 小 → 不更新；
+* residual improvement 不明显 → 不更新；
+* update 太大 → trust region 限制；
+* late clean estimate + strong evidence → 才更新。
+
+这比 A4 的 fixed damping 更具有解释性。
+
+---
+
+# 十二、最关键的一点：暂时冻结 guidance
+
+这一步我会非常强硬地要求。
+
+现在不能再让：
+
+$$
+a
+$$
+
+更新同时自动改变：
+
+$$
+\lambda,\beta.
+$$
+
+否则还是无法知道结果到底来自哪里。
+
+新版实验第一阶段：
+
+$$
+\boxed{
+\text{update amplitude}
+}
+$$
+
+但：
+
+$$
+\boxed{
+\text{keep diffusion guidance fixed}
+}
+$$
+
+guidance 用初始 hierarchical estimate：
+
+$$
+\tilde p_b^{(0)}
+$$
+
+一次性计算。
+
+---
+
+之后再单独做：
+
+$$
+\text{guidance adaptation}.
+$$
+
+最终形成：
+
+| 实验                | amplitude | guidance |
+| ----------------- | --------: | -------: |
+| Fixed             |     fixed |    fixed |
+| Amp adaptive      |  adaptive |    fixed |
+| Guidance adaptive |     fixed | adaptive |
+| Coupled           |  adaptive | adaptive |
+
+这会第一次真正告诉你：
+
+**A4 的 +0.599 dB 是从哪里来的。**
+
+我认为这个信息比继续做 A5_FULL 更重要。
+
+---
+
+# 十三、如果 amplitude-only 根本没有收益怎么办？
+
+那就不要再做 interference-power calibration 论文。
+
+这是非常重要的一条 decision rule。
+
+假如结果是：
+
+$$
+\text{Amp-only}\approx A3
+$$
+
+但：
+
+$$
+\text{Guidance-only}>A3,
+$$
+
+那真正正确的方向其实是：
+
+# **Adaptive Generative Guidance under Unknown Interference**
+
+而不是：
+
+> interference estimation.
+
+这反而可能是更好的论文。
+
+SecDiff 已经说明 adaptive guidance 在恶意 jamming / unknown operator 场景中很有效，所以这不是空白，但你可以把问题限定到 structured semantic interference 与双生成先验。([IEEE Xplore][2])
+
+---
+
+# 十四、我甚至建议把 receiver 看成 mixture-of-experts
+
+最终最合理的 architecture 其实是：
+
+$$
+\boxed{
+\mathcal R
+=
+\{
+R_{\rm direct},
+R_{\rm global},
+R_{\rm local}
+\}
+}
+$$
+
+其中：
+
+$$
+R_{\rm direct}
+$$
+
+是普通 JSCC decoder，
+
+$$
+R_{\rm global}
+$$
+
+是 global ICDM，
+
+$$
+R_{\rm local}
+$$
+
+是 shrinkage/local ICDM。
+
+receiver 不是永远运行最复杂方法。
+
+它要做：
+
+$$
+\boxed{
+m^*
+=
+\operatorname{Route}(y,N_0)
+}
+$$
+
+然后：
+
+$$
+\hat x=R_{m^*}(y).
+$$
+
+这个思想在 generative communications 里非常合理：
+
+> **generation should be invoked selectively, not compulsorily.**
+
+因为生成式模型最大的风险之一，就是在本来已经可靠的数据上“过度修复”甚至 hallucinate。无线 GenAI 的 hallucination/reliability 已经开始成为独立研究问题。([arXiv][9])
+
+---
+
+# 十五、这也比当前项目更加“semantic communication”
+
+你现在的方法本质上还是：
+
+$$
+\text{latent signal processing}.
+$$
+
+semantic 的成分其实主要来自 JSCC encoder/decoder。
+
+新版设计应该明确考虑：
+
+$$
+\boxed{\text{semantic risk of intervention}}
+$$
+
+最终评价不应该只有 PSNR。
+
+当前 generative semantic communication 已经越来越强调 downstream semantics、CLIP / task consistency，而不是 bit-perfect reconstruction。2026 TCCN 的 generative semantic communication 工作直接以 detection、object localization、depth 等 semantic relevance 作为重建价值。([IEEE Xplore][10])
+
+所以我建议至少：
+
+$$
+\boxed{
+\text{PSNR + LPIPS + semantic consistency}
+}
+$$
+
+CelebA 可以用：
+
+* face embedding cosine；
+* attribute consistency；
+* 或 CLIP image embedding similarity。
+
+不要堆十个指标。
+
+三个够了。
+
+---
+
+# 十六、重新设计 interference model
+
+还有一件事我会改。
+
+不要只做：
+
+```text
+stationary
+alternating
+burst
+```
+
+而且刚好和 64-symbol block 对齐。
+
+这是太人工的。
+
+我会加入一个：
+
+## random piecewise-constant interference
+
+例如：
+
+$$
+a_k=a^{(j)}
+$$
+
+在随机 segment 中保持常数。
+
+segment length：
+
+$$
+L_j\sim\text{Geometric}
+$$
+
+或随机：
+
+$$
+L_j\in\{32,64,96,128\}.
+$$
+
+amplitude 从若干 interference levels 采样。
+
+receiver：
+
+**不知道 change point。**
+
+---
+
+# 十七、然后下一步可以自然扩展成 TV / fused calibration
+
+这是我认为比 A5 更有潜力的第二阶段。
+
+把 fine blocks 的 raw estimates 写成：
+
+$$
+\hat p_1,\ldots,\hat p_B.
+$$
+
+求：
+
+$$
+\boxed{
+\min_{p_b\ge0}
+\sum_b
+\frac{(p_b-\hat p_b)^2}{2s_b^2}
++
+\lambda_g
+\sum_b(p_b-p_g)^2
++
+\lambda_{\rm TV}
+\sum_b|p_{b+1}-p_b|
+}
+$$
+
+它有三个作用：
+
+### 第一项
+
+尊重 observed local power。
+
+### 第二项
+
+向 global estimate 收缩。
+
+### 第三项
+
+鼓励 piecewise-constant interference。
+
+所以：
+
+stationary：
+
+$$
+p_1=\cdots=p_B.
+$$
+
+burst：
+
+自动形成 change points。
+
+nonstationary：
+
+允许局部变化。
+
+而且不再需要 simulator 告诉 receiver：
+
+> block boundary 在哪里。
+
+这条线我认为比 Gaussian \(C_{xz}\) 更有 practical meaning。
+
+---
+
+# 十八、为什么不建议现在上一个新的大 neural network？
+
+因为你已经有：
+
+* encoder；
+* decoder；
+* two diffusion priors；
+* trained checkpoints。
+
+再训练一个大型 controller：
+
+$$
+y\rightarrow a_b,\lambda_b,\beta_b
+$$
+
+很容易拿到 performance，
+
+但论文会迅速退化成：
+
+> “我们又训练了一个网络。”
+
+而且需要大量 channel-condition training data。
+
+现在最有价值的是：
+
+$$
+\boxed{
+\text{training-free / lightweight receiver adaptation}
+}
+$$
+
+这是 generative semantic communication 一个很活跃的方向；已有工作正在强调 training-free diffusion receivers 和低延迟生成式通信。([arXiv][11])
+
+所以尽量：
+
+> 不 retrain diffusion prior。
+
+最多训练一个很小的 router，甚至最好第一版完全不用。
+
+---
+
+# 十九、我会怎么设计新的实验矩阵
+
+不要再跑 6 个 SINR × 3 profile × 一大堆 A0–A5 然后看大表。
+
+先回答科学问题。
+
+## Phase 0：确认新方向有没有 headroom
+
+用你已有结果，计算：
+
+### Oracle routing upper reference
+
+对每一个 trial：
+
+$$
+R^*
+=
+\arg\max
+\{
+PSNR_{\rm direct},
+PSNR_{\rm global},
+PSNR_{\rm local}
+\}.
+$$
+
+这是一个**只用于分析的 oracle router**。
+
+然后看：
+
+$$
+PSNR_{\rm oracle-router}
+-
+PSNR_{\rm best-fixed-method}.
+$$
+
+如果 gap 很大，
+
+说明：
+
+> adaptive routing 值得做。
+
+如果 gap 几乎没有，
+
+就不要做 router。
+
+这个实验几乎不需要重新跑模型。
+
+---
+
+# 二十、Phase 1：只测试三个新 mechanism
+
+我建议：
+
+### B0
+
+A3。
+
+### B1
+
+Hierarchical shrinkage initialization。
+
+### B2
+
+B1 + frame bypass。
+
+### B3
+
+B2 + trust-gated late refinement。
+
+先不要 guidance adaptation。
+
+如果：
+
+$$
+B1>A3
+$$
+
+说明 shrinkage 有价值。
+
+如果：
+
+$$
+B2>B1
+$$
+
+说明 selective intervention 有价值。
+
+如果：
+
+$$
+B3>B2
+$$
+
+说明 generative feedback 有额外价值。
+
+三个因果问题一次回答清楚。
+
+---
+
+# 二十一、成功标准不要只看 mean PSNR
+
+我会预先设四个 endpoint：
+
+### 1. Mean reconstruction gain
+
+$$
+E[\Delta PSNR].
+$$
+
+### 2. Harm rate
+
+例如：
+
+$$
+P(
+\Delta PSNR<-0.5\text{ dB}
+).
+$$
+
+这个非常重要。
+
+你现在最大的痛点恰恰是：
+
+> method 有时“修坏”。
+
+---
+
+### 3. Worst-region / 5th percentile
+
+$$
+Q_{0.05}(\Delta PSNR).
+$$
+
+一个可靠 receiver 应该改善 tail。
+
+---
+
+### 4. Runtime
+
+特别报告：
+
+$$
+\text{neural function evaluations}.
+$$
+
+如果新 method 只是简单 shrinkage/gate：
+
+$$
+\text{NFE 不增加}.
+$$
+
+这是很好的卖点。
+
+---
+
+# 二十二、same-distribution interference 必须至少做小规模
+
+这个问题我之前已经提过，但在重新设计后更加重要。
+
+现在：
+
+$$
+x\sim CelebA,
+$$
+
+$$
+z\sim CIFAR10.
+$$
+
+两个 priors 天生很好区分。
+
+至少做一个：
+
+$$
+\boxed{
+CelebA + CelebA
+}
+$$
+
+或相同 encoder distribution 的 interference。
+
+否则 reviewer 可能问：
+
+> 你是在做 interference cancellation，还是在做 two-distribution classification？
+
+如果 same-distribution 明显下降，可以坦诚写：
+
+> user identity / source distinguishability is required.
+
+这不是失败，是 identifiability boundary。
+
+---
+
+# 二十三、如果你想再往“semantic”走一步，下一篇可以做 semantic-risk-aware cancellation
+
+这是我认为真正有 journal 潜力的方向。
+
+现在 residual objective：
+
+$$
+\|y-x-az\|^2
+$$
+
+默认每一个 latent coordinate 一样重要。
+
+但 semantic communication 明显不是这样。
+
+2025–2026 很多工作都在研究：
+
+* semantic importance；
+* task importance；
+* selective feature reliability；
+* semantic-aware resource allocation。([IEEE Xplore][12])
+
+所以以后可以定义：
+
+$$
+w_k
+=
+\text{semantic sensitivity of latent }k,
+$$
+
+然后：
+
+$$
+\min_a
+\sum_k
+w_k
+|y_k-x_k-a_kz_k|^2.
+$$
+
+也就是说：
+
+> 不追求所有 symbols 一样干净；
+
+> 优先保护最影响 semantic output 的 dimensions。
+
+这会比现在单纯 power calibration 更“semantic communication”。
+
+但我不会建议现在同时做。
+
+---
+
+# 二十四、所以新的研究路线我会排成三层
+
+| 路线                                         | 我建议            | 原因                                                       |
+| ------------------------------------------ | -------------- | -------------------------------------------------------- |
+| A5 covariance correction                   | **停止作为主线**     | 机制窄、近邻文献强、解决不了当前主要失败                                     |
+| Reliability-gated hierarchical calibration | **现在主做**       | 直接对应已有 failure，training-free，容易形成闭环                      |
+| Unknown-boundary / TV interference field   | **第二阶段**       | 移除 known-block 假设，理论和 practical value 都更强                |
+| Semantic-risk-aware cancellation           | **journal 方向** | 真正把 interference cancellation 与 semantic importance 联系起来 |
+
+---
+
+# 二十五、如果让我重新写整篇论文的 research question
+
+我会完全换掉现在的问题。
+
+旧问题：
+
+> Can conditional moments improve blind block amplitude estimation?
+
+我不会再用了。
+
+新问题：
+
+> **Can a generative semantic receiver decide when global, local, or no interference cancellation is warranted using only receiver-side evidence?**
+
+然后第二问：
+
+> **Can hierarchical partial pooling stabilize local interference adaptation without sacrificing the gains of blockwise cancellation under genuinely nonstationary interference?**
+
+第三问：
+
+> **Can unreliable diffusion feedback be rejected rather than blindly propagated through the receiver?**
+
+这三个问题比：
+
+$$
+C_{xz}
+$$
+
+更完整。
+
+---
+
+# 二十六、我建议的论文题目
+
+如果新方法效果出来，我会考虑：
+
+### **Selective Diffusion Interference Cancellation for Reliable Semantic Communications**
+
+或者：
+
+### **Reliability-Gated Diffusion Interference Cancellation under Nonstationary Interference**
+
+如果强调统计方法：
+
+### **Hierarchical Self-Calibration for Diffusion Interference Cancellation in Semantic Communications**
+
+如果后面加入 unknown boundaries：
+
+### **Structure-Adaptive Diffusion Interference Cancellation under Unknown Nonstationary Interference**
+
+我最喜欢第二或第四个。
+
+---
+
+# 二十七、如果目标还是 VTC 2027，现实问题必须考虑
+
+VTC2027-Spring Regular Paper 当前官方延期截止是 **2026 年 9 月 30 日**，现在只剩很短时间；常规论文为 5 页，可付费增加到 7 页。([IEEE Conference Framework][13])
+
+所以如果现在重新设计，我不会建议：
+
+* 重新训练 diffusion；
+* 做大型 neural controller；
+* 重建整个 dataset；
+* 做 10 个新 scenario。
+
+我会只做：
+
+$$
+\boxed{
+\text{hierarchical shrinkage}
++
+\text{receiver bypass}
++
+\text{trust-gated update}
+}
+$$
+
+这三个都可以复用现有 checkpoints 和 sampler。
+
+如果这些在 validation 上仍然没有形成稳定优势，**我宁可不硬投 regular VTC 主会**，也不会继续调 A5。VTC 2027 Spring 的 workshop paper 时间比 regular paper晚，官方 workshops 页面目前列出的论文截止是 2026 年 12 月 15 日，可以作为时间更合理的备选。([IEEE Conference Framework][14])
+
+---
+
+# 最终判断
+
+如果现在让我接管这个项目，我会做一个明确决定：
+
+$$
+\boxed{\textbf{A5 到此为止，不再作为主研究方向。}}
+$$
+
+保留它作为 negative result / diagnostic。
+
+新的主线从：
+
+$$
+\text{estimate interference better}
+$$
+
+改成：
+
+$$
+\boxed{
+\textbf{intervene only when the receiver has evidence that intervention is useful}
+}
+$$
+
+具体就是：
+
+$$
+\boxed{
+\begin{aligned}
+&\text{Frame-level bypass}\\
+&\downarrow\\
+&\text{Global/local hierarchical shrinkage}\\
+&\downarrow\\
+&\text{Reliability-gated late diffusion feedback}\\
+&\downarrow\\
+&\text{Direct / global / local selective receiver}
+\end{aligned}}
+$$
+
+这个设计有一个很重要的优点：
+
+**它不是为了追求一个漂亮公式而设计的，而是逐条针对你现在已经观察到的失败模式。**
+
+这在研究中通常是更健康的路径。
+
+当前项目已经告诉我们：
+
+$$
+\boxed{
+\text{“更复杂的 posterior approximation”不是主要瓶颈。}
+}
+$$
+
+真正瓶颈是：
+
+$$
+\boxed{
+\text{生成式 receiver 不知道什么时候该相信自己。}
+}
+$$
+
+我认为把项目从 **blind power estimation** 转成 **reliability-aware selective generative reception**，是目前最值得做的重新设计。
+
+[1]: https://openaccess.thecvf.com/content/CVPR2023/html/Chung_Parallel_Diffusion_Models_of_Operator_and_Image_for_Blind_Inverse_CVPR_2023_paper.html?utm_source=chatgpt.com "CVPR 2023 Open Access Repository"
+[2]: https://ieeexplore.ieee.org/document/11417835/?utm_source=chatgpt.com "SecDiff: Diffusion-Aided Secure Deep Joint Source-Channel Coding Against Adversarial Attacks | IEEE Journals & Magazine | IEEE Xplore"
+[3]: https://arxiv.org/abs/2310.06721?utm_source=chatgpt.com "Tweedie Moment Projected Diffusions For Inverse Problems"
+[4]: https://ieeexplore.ieee.org/document/10480348/?utm_source=chatgpt.com "CDDM: Channel Denoising Diffusion Models for Wireless Semantic Communications | IEEE Journals & Magazine | IEEE Xplore"
+[5]: https://arxiv.org/abs/2505.19983?utm_source=chatgpt.com "ICDM: Interference Cancellation Diffusion Models for Wireless Semantic Communications"
+[6]: https://ieeexplore.ieee.org/document/11554267/?utm_source=chatgpt.com "CoDS: Collaborative Perception via Digital Semantic Communication | IEEE Journals & Magazine | IEEE Xplore"
+[7]: https://ieeexplore.ieee.org/document/11641669/?utm_source=chatgpt.com "Robust Semantic Communication: A Dimension Selective Fading Analysis and Repair Approach | IEEE Journals & Magazine | IEEE Xplore"
+[8]: https://ieeexplore.ieee.org/document/11173943/?utm_source=chatgpt.com "Safeguarded AI-Driven Semantic Communication: Design Principles, Architecture, and Challenges | IEEE Journals & Magazine | IEEE Xplore"
+[9]: https://arxiv.org/abs/2503.06149?utm_source=chatgpt.com "Wireless Hallucination in Generative AI-enabled Communications: Concepts, Issues, and Solutions"
+[10]: https://ieeexplore.ieee.org/document/11505923/?utm_source=chatgpt.com "Generative Semantic Communication: Diffusion Models Beyond Bit Recovery | IEEE Journals & Magazine | IEEE Xplore"
+[11]: https://arxiv.org/abs/2505.01209?utm_source=chatgpt.com "Enabling Training-Free Semantic Communication Systems with Generative Diffusion Models"
+[12]: https://ieeexplore.ieee.org/document/11168870/?utm_source=chatgpt.com "Mixture of Semantics Transmission for Generative AI-Enabled Semantic Communication Systems | IEEE Journals & Magazine | IEEE Xplore"
+[13]: https://events.vtsociety.org/vtc2027-spring/?utm_source=chatgpt.com "Home - VTC2027-Spring Hamburg"
+[14]: https://events.vtsociety.org/vtc2027-spring/workshops/?utm_source=chatgpt.com "Workshops - VTC2027-Spring Hamburg"

@@ -678,6 +678,9 @@ def get_joint_uni_pc_sampler(
         Lambda=1,
         Beta=1,
         return_intermediate=return_intermediate,
+        amplitude_mode="original",
+        interference_amp=None,
+        point_calibration=None,
     ):
         """The UniPC sampler funciton.
         Args:
@@ -698,11 +701,16 @@ def get_joint_uni_pc_sampler(
                 algorithm_type=algorithm_type,
                 correcting_x0_fn="dynamic_thresholding" if thresholding else None,
                 variant=variant,
+                amplitude_mode=amplitude_mode,
+                interference_amp=interference_amp,
+                point_calibration=point_calibration,
             )
             # uni_pc_n = UniPC(noise_pred_fn_n, ns, algorithm_type=algorithm_type, correcting_x0_fn="dynamic_thresholding" if thresholding else None, variant=variant)
             # Initial sample
-            x = sde.prior_sampling(shape).to(device)
-            n = sde.prior_sampling(shape).to(device)
+            actual_shape = deg_feature.shape if deg_feature is not None else shape
+            actual_device = deg_feature.device if deg_feature is not None else device
+            x = sde.prior_sampling(actual_shape).to(actual_device)
+            n = sde.prior_sampling(actual_shape).to(actual_device)
             x, n = joint_uni_pc.sample(
                 x,
                 n,

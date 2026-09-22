@@ -1,0 +1,43 @@
+{
+  "status": "assembled_from_complete_records",
+  "editorial_review": "required",
+  "signatures": {
+    "development": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+    "confirmation": "4413eb09d4bb999452546332fb590aa910dbdaaaf6cc66aac71a45d582a0f23d",
+    "pressure": "bac84956b5a34c41c8fa9a7831b14ff0be65ed7b6d05e84fc44739b7a060339a"
+  },
+  "policy": {
+    "power_threshold_low": 8,
+    "power_threshold_high": 0.5,
+    "heterogeneity_threshold": 0.2,
+    "family": "energy_heterogeneity",
+    "gaussian_side": "below",
+    "scientific_status": "selected_policy",
+    "development_signature": "df58b8d8b20cc9bd38f567226ad0a1ff2135b2e3bbc74404eb0d73b19e46829c",
+    "objective": "mean image PSNR, 8 image-group folds; no confirmation tuning"
+  },
+  "all_fixed_comparisons_positive_ci": true,
+  "same_gate_positive_ci": true,
+  "pressure_means": {
+    "shifted": {
+      "DIRECT": 20.82509705921014,
+      "CDDM_BLIND": 22.990684936443966,
+      "A4": 21.086337611079216,
+      "SELECT": 23.000231951475143
+    },
+    "random_length": {
+      "DIRECT": 20.644110076129436,
+      "CDDM_BLIND": 23.418457778791588,
+      "A4": 22.737822865446407,
+      "SELECT": 23.981139878431957
+    },
+    "stationary": {
+      "DIRECT": 31.37130832672119,
+      "CDDM_BLIND": 31.368310809135437,
+      "A4": 27.73194119334221,
+      "SELECT": 31.368310809135437
+    }
+  },
+  "nfe_reduction_percent": 34.72778320312499,
+  "author_information": "pending"
+}

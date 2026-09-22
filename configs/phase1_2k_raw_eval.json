@@ -1,0 +1,23 @@
+{
+  "model_config": "configs/models/SwinJSCC_3.yaml",
+  "out_channels": 8,
+  "image_size": 128,
+  "interference_model": "SwinJSCC",
+  "interference_image_size": 32,
+  "channel_type": "awgn",
+  "weights": {
+    "encoder": {"path": "/mnt/d/ICDM_SC_runs/phase1_2k/weights/encoder.pth"},
+    "decoder": {"path": "/mnt/d/ICDM_SC_runs/phase1_2k/weights/decoder.pth"},
+    "infencoder": {"path": "/mnt/d/ICDM_SC_runs/phase1_2k/weights/infencoder.pth"},
+    "icdm_s": {"path": "/mnt/d/ICDM_SC_runs/phase1_2k/weights/icdm_s_raw.pth"},
+    "icdm_z": {"path": "/mnt/d/ICDM_SC_runs/phase1_2k/weights/icdm_z_raw.pth"}
+  },
+  "images": "/mnt/d/ICDM_SC_data_2000/celeba/val/class0",
+  "interference_images": "/mnt/d/ICDM_SC_data_2000/cifar10/val/class0",
+  "max_images": 4,
+  "seeds": [0],
+  "snr_sinr_pairs": [[20, 0]],
+  "block_size": 64,
+  "profiles": ["stationary", "alternating", "burst"],
+  "modes": ["NO_ICDM", "A0", "A1", "A2", "A3"]
+}

@@ -1,0 +1,45 @@
+[
+  {
+    "file": "paper/ieee_vtc2027/build/main.pdf",
+    "pages": 5,
+    "sha256": "b05f11330d3f29932ede68ebc020843acaf75f726f2b177d26d431548c5b5f6c",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 164,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 496,
+        "page": 1,
+        "line": 24
+      },
+      {
+        "section": "II. SYSTEM MODEL AND PROBLEM FORMULATION",
+        "words_approx": 272,
+        "page": 2,
+        "line": 90
+      },
+      {
+        "section": "III. SELF-CALIBRATED DIFFUSION RECEIVER",
+        "words_approx": 617,
+        "page": 2,
+        "line": 148
+      },
+      {
+        "section": "IV. SIMULATION RESULTS",
+        "words_approx": 1048,
+        "page": 3,
+        "line": 323
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 86,
+        "page": 5,
+        "line": 550
+      }
+    ]
+  }
+]

@@ -1,0 +1,309 @@
+[
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/alikhani2024.pdf",
+    "pages": 7,
+    "sha256": "c6c5d37b31bcc987c346a0a20e2d70752c1407b637c8ba68ca5a09956b1a7cbc",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 168,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 427,
+        "page": 1,
+        "line": 23
+      },
+      {
+        "section": "II. SYSTEM AND SIGNAL MODEL",
+        "words_approx": 228,
+        "page": 1,
+        "line": 81
+      },
+      {
+        "section": "III. PROBLEM FORMULATION",
+        "words_approx": 366,
+        "page": 2,
+        "line": 123
+      },
+      {
+        "section": "IV. PROPOSED DIGITAL TWIN BASED SOLUTION",
+        "words_approx": 282,
+        "page": 3,
+        "line": 221
+      },
+      {
+        "section": "V. BEAMFORMING AND RIS INTERACTION OPTIMIZATION",
+        "words_approx": 240,
+        "page": 3,
+        "line": 259
+      },
+      {
+        "section": "VI. DIGITAL TWIN-BASED ROBUST TRANSMISSION",
+        "words_approx": 934,
+        "page": 3,
+        "line": 310
+      },
+      {
+        "section": "VII. SIMULATION",
+        "words_approx": 841,
+        "page": 5,
+        "line": 630
+      },
+      {
+        "section": "VIII. CONCLUSION",
+        "words_approx": 103,
+        "page": 6,
+        "line": 796
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/jiang2024.pdf",
+    "pages": 5,
+    "sha256": "5c4a6fa8ff5019b4fbe77b7b7d4fe57584c53cbd25f149fde66168eab3d008b1",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 119,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 576,
+        "page": 1,
+        "line": 18
+      },
+      {
+        "section": "II. SYSTEM MODEL",
+        "words_approx": 516,
+        "page": 2,
+        "line": 103
+      },
+      {
+        "section": "III. DESIGN AND ANALYSIS OF SAMPLE CONFIDENCE",
+        "words_approx": 930,
+        "page": 2,
+        "line": 171
+      },
+      {
+        "section": "IV. SIMULATION RESULTS AND DISCUSSIONS",
+        "words_approx": 647,
+        "page": 4,
+        "line": 408
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 78,
+        "page": 5,
+        "line": 485
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/naseri2024.pdf",
+    "pages": 2,
+    "sha256": "9ce82e6ea046e110d366f2a246bbff6ac3d1b2bcbd6e86c530267bfe56719777",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 113,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 210,
+        "page": 1,
+        "line": 19
+      },
+      {
+        "section": "II. METHODOLOGY",
+        "words_approx": 488,
+        "page": 1,
+        "line": 47
+      },
+      {
+        "section": "III. QUANTITATIVE RESULTS",
+        "words_approx": 245,
+        "page": 2,
+        "line": 109
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/tang2023.pdf",
+    "pages": 5,
+    "sha256": "ca36fafc9f6a94c8f762705ed2b59388e8545acbb276b4d83d72f324364fb845",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 206,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 377,
+        "page": 1,
+        "line": 28
+      },
+      {
+        "section": "II. SYSTEM MODEL",
+        "words_approx": 441,
+        "page": 1,
+        "line": 100
+      },
+      {
+        "section": "III. PROPOSED FRAMEWORK",
+        "words_approx": 1143,
+        "page": 2,
+        "line": 229
+      },
+      {
+        "section": "IV. SIMULATIONS",
+        "words_approx": 880,
+        "page": 4,
+        "line": 438
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 75,
+        "page": 5,
+        "line": 612
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/yu2024.pdf",
+    "pages": 6,
+    "sha256": "caa0b388f1b0679224e6ecdc417272eccd4817eb82138afda312ad87caa6bffe",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 177,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 591,
+        "page": 1,
+        "line": 21
+      },
+      {
+        "section": "II. SYSTEM MODEL AND PROBLEM DESCRIPTION",
+        "words_approx": 701,
+        "page": 2,
+        "line": 126
+      },
+      {
+        "section": "III. PROPOSED PARTIAL SAMPLING BASED SEMANTIC",
+        "words_approx": 987,
+        "page": 3,
+        "line": 290
+      },
+      {
+        "section": "IV. SIMULATION RESULTS",
+        "words_approx": 1103,
+        "page": 4,
+        "line": 480
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 108,
+        "page": 6,
+        "line": 774
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/zhao2024.pdf",
+    "pages": 5,
+    "sha256": "987e107374220554b1a4d2e897ca7e8611176d40b33c80c93d93a23c0ca45968",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 190,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 361,
+        "page": 1,
+        "line": 24
+      },
+      {
+        "section": "II. SYSTEM MODEL AND PROBLEM FORMULATION",
+        "words_approx": 1199,
+        "page": 1,
+        "line": 74
+      },
+      {
+        "section": "III. ALGORITHM DESIGN",
+        "words_approx": 304,
+        "page": 4,
+        "line": 403
+      },
+      {
+        "section": "IV. SIMULATION RESULTS",
+        "words_approx": 452,
+        "page": 4,
+        "line": 582
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 118,
+        "page": 5,
+        "line": 658
+      }
+    ]
+  },
+  {
+    "file": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/research/vtc_section_study/pdfs/zhao_noma2024.pdf",
+    "pages": 5,
+    "sha256": "be12d9839e89e85d46fbbdbb0998156cad2b265a43e614c21f0fe4a7d26cd746",
+    "sections": [
+      {
+        "section": "Abstract",
+        "words_approx": 114,
+        "page": 1,
+        "line": 1
+      },
+      {
+        "section": "I. INTRODUCTION",
+        "words_approx": 938,
+        "page": 1,
+        "line": 18
+      },
+      {
+        "section": "II. SYSTEM MODEL AND PROBLEM FORMULATION",
+        "words_approx": 983,
+        "page": 2,
+        "line": 158
+      },
+      {
+        "section": "III. ALGORITHM DESIGN",
+        "words_approx": 297,
+        "page": 4,
+        "line": 388
+      },
+      {
+        "section": "IV. SIMULATION RESULTS",
+        "words_approx": 105,
+        "page": 4,
+        "line": 522
+      },
+      {
+        "section": "V. CONCLUSION",
+        "words_approx": 145,
+        "page": 5,
+        "line": 536
+      }
+    ]
+  }
+]

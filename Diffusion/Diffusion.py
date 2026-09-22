@@ -104,7 +104,7 @@ class ICDMSampler(nn.Module):
 
         return samples
 
-    def SIC_sampling(self, SNR, SINR, deg_feature, h, Lambda=1, Beta=1, return_intermediate=False):
+    def SIC_sampling(self, SNR, SINR, deg_feature, h, Lambda=1, Beta=1, return_intermediate=False, amplitude_mode="original", interference_amp=None, point_calibration=None):
 
         x_0, z_0 = self.joint_sampling_fn(
             self.model_s,
@@ -116,7 +116,99 @@ class ICDMSampler(nn.Module):
             Lambda=Lambda,
             Beta=Beta,
             return_intermediate=return_intermediate,
+            amplitude_mode=amplitude_mode,
+            interference_amp=interference_amp,
+            point_calibration=point_calibration,
         )
         return x_0, z_0
 
 
+
+    def SIC_sampling_estimated(self, SNR, received, h, channel_type, block_size=None):
+        """A2 (global) / A3 (fixed blockwise energy); never takes true SINR.
+
+        Returns recovered signal, recovered interference, and receiver estimates.
+        A3 is initialization-only, not iterative self-calibration (A4/A5).
+        """
+        from Diffusion.calibration import (
+            estimate_energy_power, expand_blocks, power_to_sinr,
+            guidance_parameters, equalize,
+        )
+        power = estimate_energy_power(received, h, SNR, block_size)
+        block_size = received[0].numel() if block_size is None else block_size
+        sinr = power_to_sinr(power, SNR)
+        lam, beta = guidance_parameters(sinr, channel_type)
+        def real_map(values):
+            mapped = expand_blocks(values, received, block_size)
+            return torch.cat((mapped, mapped), dim=2)
+        x, z = self.SIC_sampling(
+            SNR, None, equalize(received, h, SNR, channel_type), h,
+            Lambda=real_map(lam), Beta=real_map(beta),
+            amplitude_mode="power_consistent", interference_amp=real_map(power.sqrt()),
+        )
+        return x, z, {"power": power, "sinr": sinr, "lambda": lam, "beta": beta}
+
+    def SIC_sampling_alternating(self, SNR, received, h, channel_type, block_size, min_alpha=0.5, variant="A4"):
+        """Blind alternating calibration with point or Gaussian-surrogate moments.
+
+        A3 energy estimates initialize the sampler.  Once the reverse process
+        reaches ``min_alpha``, each corrector uses its current denoised x/z
+        point estimates for a nonnegative least-squares amplitude update.  No
+        clean latent, true SINR or true block power is available. A4 uses only
+        point estimates; A5 uses declared surrogate (not oracle) covariances.
+        """
+        if channel_type != "awgn":
+            raise ValueError("A4 point calibration currently supports AWGN only")
+        if not isinstance(block_size, int) or block_size < 1:
+            raise ValueError("block_size must be a positive integer")
+        if not 0 < min_alpha <= 1:
+            raise ValueError("min_alpha must be in (0, 1]")
+        from Diffusion.calibration import (
+            estimate_energy_power, expand_blocks, power_to_sinr,
+            guidance_parameters, equalize,
+        )
+        initial_power = estimate_energy_power(received, h, SNR, block_size)
+        if variant not in {"A4", "A4_R", "A5_DIAG", "A5_FULL"}:
+            raise ValueError("Unknown alternating variant")
+        start_amplitude = initial_power.sqrt()
+        if variant != "A4":
+            start_amplitude = start_amplitude.clamp(max=8.)
+        starting_power = initial_power if variant == "A4" else start_amplitude.square()
+        initial_sinr = power_to_sinr(starting_power, SNR)
+        initial_lam, initial_beta = guidance_parameters(initial_sinr, channel_type)
+        complex_received = received
+        def real_map(values):
+            mapped = expand_blocks(values, complex_received, block_size)
+            return torch.cat((mapped, mapped), dim=2)
+        state = {
+            "block_size": block_size,
+            "channel_type": channel_type,
+            "min_alpha": min_alpha,
+            "amplitude": start_amplitude,
+            "anchor": start_amplitude.clone(),
+            "variant": variant,
+            "power": starting_power,
+            "sinr": initial_sinr,
+            "lambda": initial_lam,
+            "beta": initial_beta,
+            "updates": 0,
+        }
+        x, z = self.SIC_sampling(
+            SNR, None, equalize(received, h, SNR, channel_type), h,
+            Lambda=real_map(initial_lam), Beta=real_map(initial_beta),
+            amplitude_mode="power_consistent",
+            interference_amp=real_map(start_amplitude),
+            point_calibration=state,
+        )
+        batch = received.shape[0]
+        estimates = {
+            "initial_power": initial_power,
+            "power": state["power"],
+            "sinr": state["sinr"],
+            "lambda": state["lambda"],
+            "beta": state["beta"],
+            "update_count": initial_power.new_full((batch, 1), state["updates"]),
+        }
+        if "diagnostics" in state:
+            estimates.update(state["diagnostics"])
+        return x, z, estimates

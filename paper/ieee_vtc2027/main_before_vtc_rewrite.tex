@@ -1,0 +1,462 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{balance}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\method}{SC-ICDM}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\pos}[1]{\left[#1\right]_{+}}
+\hyphenation{com-mu-ni-ca-tions}
+
+\begin{document}
+
+\title{Self-Calibrated Diffusion Interference Cancellation\\
+under Nonstationary Interference}
+
+\author{
+\IEEEauthorblockN{Author Name(s)}
+\IEEEauthorblockA{
+Department or Institution\\
+City, Country\\
+email@domain.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Interference cancellation diffusion models (ICDMs) can recover semantic
+features by combining separate diffusion priors for the desired signal and
+the interference. Existing ICDM inference, however, requires the receiver to
+know a single frame-level signal-to-interference-plus-noise ratio (SINR).
+That assumption is restrictive when the interference power is unknown and
+changes within a frame. We develop a SINR-blind receiver that estimates
+interference power from the received latent sequence and refines blockwise
+amplitudes during reverse diffusion. The refinement reuses the current
+denoised signal and interference estimates and therefore requires no
+additional neural-network evaluations. In experiments with stationary,
+alternating, and burst interference, blind global calibration remains within
+0.008~dB of the true-global-SINR reference, while one-shot blockwise
+calibration gains 0.819~dB and 2.108~dB in the two nonstationary settings.
+Alternating calibration adds 0.599~dB over the one-shot blockwise receiver
+(95\% image-pair-cluster bootstrap interval: 0.551--0.648~dB). The gain is
+not universal: alternating updates lose 0.109--0.174~dB under the strongest
+burst interference and remain 1.070~dB below direct decoding when
+interference is weak. These results show that reconstruction-optimal
+self-calibration need not recover the physical interference power and
+motivate reliability-gated activation rather than unconditional diffusion
+cancellation.
+\end{abstract}
+
+\begin{IEEEkeywords}
+semantic communications, diffusion models, interference cancellation,
+blind calibration, nonstationary interference
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Diffusion priors provide a natural way to exploit the structure of
+transmitted semantic features at the receiver. In the recently proposed
+interference cancellation diffusion model (ICDM)~\cite{wu2026icdm}, one
+diffusion model represents the desired latent distribution and a second
+model represents the interference distribution. A shared likelihood term
+couples the two reverse processes, allowing the receiver to reconstruct the
+desired feature while explaining structured interference. This design
+substantially improves reconstruction when the interference statistics used
+by the receiver match the channel.
+
+One piece of side information remains easy to overlook: the published
+receiver selects the interference amplitude and guidance coefficients from
+the true frame-level SINR. In deployment, this quantity may be unavailable.
+More importantly, a single scalar cannot describe interference whose power
+changes within a frame. Replacing the true SINR with a global energy estimate
+addresses the first issue but not the second. Estimating each block
+independently captures local variation, but short-block estimates are noisy
+and are computed before the diffusion priors have separated the desired and
+interfering components.
+
+This paper asks whether an ICDM receiver can calibrate itself from the
+received latent sequence, without access to the true SINR, when interference
+power varies within a frame. We answer this question with a receiver-side
+procedure that first obtains blind blockwise power estimates and then updates
+the associated amplitudes from the denoised signal and interference estimates
+produced during reverse diffusion. The update closes a feedback loop between
+reconstruction and calibration without retraining either prior or adding
+neural-network evaluations.
+
+The main contributions are as follows:
+\begin{itemize}
+    \item We formulate a SINR-blind ICDM protocol in which the receiver
+    observes only the noisy latent sequence, noise level, desired-link channel
+    state, and a fixed block partition. Simulated SINR, clean latents, and
+    true block powers are excluded from the proposed receiver.
+    \item We introduce blockwise alternating calibration inside reverse
+    diffusion. The current denoised components update local interference
+    amplitudes and the corresponding guidance coefficients.
+    \item We isolate the value and limits of self-calibration through matched
+    comparisons. Blind global calibration preserves the mean performance of
+    the true-global-SINR reference; local calibration improves nonstationary
+    cases; and alternating feedback adds 0.599~dB over one-shot blockwise
+    calibration. We also identify severe-burst and weak-interference regimes
+    in which unconditional updates or cancellation are undesirable.
+\end{itemize}
+
+The scope is deliberately limited. The experiments use additive white
+Gaussian noise (AWGN), a known block partition, a known noise level, and
+fixed desired and interference priors. The receiver is therefore SINR-blind,
+not fully blind. The evidence does not establish robustness to fading,
+unknown interference families, or unknown change points.
+
+\section{Related Work}
+
+Diffusion models have been used as learned priors for wireless denoising and
+semantic reconstruction. CDDM applies a diffusion prior after channel
+equalization to suppress channel noise~\cite{wu2024cddm}, whereas ICDM
+introduces separate signal and interference priors and couples their reverse
+processes through the observation model~\cite{wu2026icdm}. We retain the
+frozen ICDM priors and sampler but remove the true-SINR input and allow
+interference power to vary across blocks.
+
+Blind diffusion inverse problems also estimate unknown forward operators or
+nuisance parameters. GibbsDDRM alternates posterior sampling with inference
+of an unknown linear operator~\cite{murata2023gibbsddrm}. Moment-projected
+diffusion methods incorporate approximate conditional covariance information
+into inverse-problem guidance~\cite{boys2024tweedie}. These works establish
+that parameter uncertainty and higher-order information are not new in
+diffusion inference. Our contribution is a lightweight point-calibration
+mechanism and a controlled receiver protocol for structured, intra-frame
+interference in semantic communication; we make no posterior-calibration
+claim.
+
+\section{System Model}
+
+\subsection{Blockwise Interference}
+
+An image is encoded into $N$ complex symbols
+$\vect{x}=f_{\mathrm{enc}}(\vect{s})$, normalized such that
+$\norm{\vect{x}}_2^2/N=1$. An independently generated interference image is
+encoded into $\vect{z}$ with the same framewise normalization. A fixed
+partition divides the transmitted order into disjoint blocks
+$\{\mathcal{B}_b\}_{b=1}^{B}$. For AWGN, the observation in block $b$ is
+\begin{equation}
+    \vect{y}_b=\vect{x}_b+a_b\vect{z}_b+\vect{n}_b,\qquad
+    \vect{n}_b\sim\mathcal{CN}(\vect{0},N_0\vect{I}),
+    \label{eq:system}
+\end{equation}
+where $a_b\geq 0$ is an unknown interference amplitude. The nominal
+frame-level interference power is
+\begin{equation}
+    p_{\mathrm{int}}=
+    \frac{1}{N}\sum_{b=1}^{B}|\mathcal{B}_b|a_b^2.
+    \label{eq:nominal_power}
+\end{equation}
+The simulated SINR is
+$10\log_{10}[1/(p_{\mathrm{int}}+N_0)]$. Because both latents are normalized
+over the complete frame rather than within each block, the realized block
+energy need not equal $a_b^2$.
+
+We evaluate three profiles with identical nominal frame power. The stationary
+profile uses the same amplitude in every block. The alternating profile
+repeats normalized power multipliers $(0.25,1.75)$, and the burst profile
+repeats $(0,2)$. Real and imaginary components of one complex symbol share
+the same block coefficient.
+
+\subsection{Receiver Information}
+
+The receiver knows $\vect{y}$, $N_0$, the block partition, and the two frozen
+diffusion priors. It does not observe $\vect{x}$, $\vect{z}$, $a_b$, the
+power-profile label, or the simulated SINR. The block partition is assumed
+known; detecting change points is outside the present scope. True SINR is
+used only to generate and stratify test examples.
+
+\section{Self-Calibrated ICDM}
+
+\subsection{Blind Initialization}
+
+Under the unit-power and independence assumptions, the interference power in
+block $b$ is initialized by subtracting the expected signal and noise powers
+from the received energy:
+\begin{equation}
+\begin{split}
+    \widehat{p}_b^{(0)}
+    &=
+    \pos{
+    \frac{1}{|\mathcal{B}_b|}
+    \sum_{k\in\mathcal{B}_b}|y_k|^2-1-N_0},\\
+    \widehat{a}_b^{(0)}
+    &=\sqrt{\widehat{p}_b^{(0)}}.
+\end{split}
+\label{eq:initialization}
+\end{equation}
+The blind global receiver applies~\eqref{eq:initialization} to the complete
+frame; the blind blockwise receiver applies it separately to each block.
+Each estimated power gives a local SINR
+\begin{equation}
+    \widehat{\gamma}_b
+    =-10\log_{10}\!\left(\widehat{p}_b+N_0\right),
+    \label{eq:estimated_sinr}
+\end{equation}
+which selects the ICDM likelihood-guidance coefficients by linear
+interpolation of the original lookup table. Values outside the table are
+clipped to its endpoints. Neither~\eqref{eq:initialization}
+nor~\eqref{eq:estimated_sinr} accesses the true SINR.
+
+\subsection{Diffusion-in-the-Loop Update}
+
+One-shot energy estimation ignores information revealed as the two diffusion
+priors separate the received mixture. At reverse step $t$, the pretrained
+noise predictors give clean-point estimates
+\begin{equation}
+\begin{split}
+    \widehat{\vect{x}}_0^{(t)}
+    &=
+    \frac{\vect{x}_t-\sigma_t
+    \vect{\epsilon}_{\theta_x}(\vect{x}_t,t)}{\alpha_t},\\
+    \widehat{\vect{z}}_0^{(t)}
+    &=
+    \frac{\vect{z}_t-\sigma_t
+    \vect{\epsilon}_{\theta_z}(\vect{z}_t,t)}{\alpha_t}.
+\end{split}
+\label{eq:denoised}
+\end{equation}
+We project each complete-frame estimate to unit complex power, consistent with
+the transmitter normalization, and denote the projected estimates by
+$\widetilde{\vect{x}}_0^{(t)}$ and $\widetilde{\vect{z}}_0^{(t)}$. Once
+$\alpha_t\geq0.5$, \method{} updates each block by nonnegative least squares:
+\begin{equation}
+    \widehat{a}_b^{(t)}
+    =
+    \pos{
+    \frac{
+    \operatorname{Re}\!
+    \left\langle
+    \widetilde{\vect{z}}_{0,b}^{(t)},
+    \vect{y}_b-\widetilde{\vect{x}}_{0,b}^{(t)}
+    \right\rangle}
+    {\max\!\left(
+    \norm{\widetilde{\vect{z}}_{0,b}^{(t)}}_2^2,\tau_b
+    \right)}}.
+    \label{eq:update}
+\end{equation}
+Here $\tau_b=|\mathcal{B}_b|\epsilon_{\mathrm{machine}}$. If the
+denominator does not exceed $\tau_b$, the preceding amplitude is retained.
+The updated power changes both the interference scale and the interpolated
+guidance coefficients at the next correction. With 40 order-3 UniPC steps,
+the schedule performs 21 updates.
+
+Equation~\eqref{eq:update} reuses model outputs that ICDM already computes, so
+it introduces no additional denoiser call. It is nevertheless a heuristic
+point update: the framewise projection is not a posterior-moment identity,
+and $\widehat{a}_b^{(t)}$ should not be interpreted as a calibrated
+measurement of physical interference power.
+
+\subsection{Compared Receivers}
+
+The experiments compare direct JSCC decoding without diffusion cancellation;
+the global oracle (A0), which receives the true frame-level SINR; blind global
+calibration (A2); one-shot blind blockwise calibration (A3); and the proposed
+alternating receiver \method{} (A4). We also evaluate the power-convention
+correction A1 as an implementation control. A0 is a global-parameter
+reference, not a performance upper bound: it knows the correct frame average
+but not the nonstationary block powers.
+
+\section{Experimental Setup}
+
+We use 200 CelebA test images as desired sources and pair them with CIFAR-10
+interference images. The SwinJSCC encoder and decoder, the interference
+encoder, and both DiT priors are fixed for every receiver. Desired images are
+reconstructed at $128\times128$ resolution. The AWGN SNR is 20~dB, and the
+simulated global SINR belongs to $\{-7,-4,0,4,7,10\}$~dB. Each image pair is
+evaluated with three channel seeds, all three power profiles, and all six
+operating points. The latent block length is 64 complex symbols. Every
+diffusion receiver uses 40 order-3 UniPC steps and identical model
+evaluations.
+
+The baseline run contains 54,000 reconstructions across Direct and A0--A3;
+the matched \method{} run adds 10,800 reconstructions. For each comparison,
+the image, interference image, channel realization, and diffusion
+initialization are identical. Checkpoint and source hashes are retained with
+the raw outputs.
+
+We report PSNR and paired differences. Confidence intervals for \method{}
+contrasts use 10,000 percentile bootstrap resamples of the 200 image-pair
+clusters, keeping every seed, SINR, and profile belonging to an image pair in
+the same resample. The image pair is the experimental unit; treating the
+10,800 repeated records as independent would understate uncertainty. The
+current 200 pairs were inspected during method development, so the intervals
+in this draft are exploratory and not multiplicity-adjusted.
+
+Receiver time includes calibration, diffusion sampling, output normalization,
+and JSCC decoding, with GPU synchronization. Data loading, source encoding,
+and channel simulation are excluded.
+
+\section{Results}
+
+\subsection{Global and Local Blind Calibration}
+
+The blind global receiver tracks the global oracle closely. Its mean
+difference from A0 is $-0.005$~dB under stationary interference, $-0.008$~dB
+under alternating interference, and $-0.005$~dB under burst interference.
+These descriptive gaps do not prove statistical equivalence, but they show
+that true receiver-side SINR is unnecessary for reproducing the mean
+performance of the published global receiver in this setup. Correcting the
+original amplitude convention changes mean PSNR by only
+0.007--0.010~dB and therefore does not explain the gains below.
+
+Local estimation matters when interference is nonstationary. Relative to A0,
+the one-shot blockwise receiver loses 0.292~dB in the stationary case but
+gains 0.819~dB under alternating interference and 2.108~dB under burst
+interference. A correct global average is therefore insufficient when power
+variation within the frame carries useful receiver information.
+
+\begin{table}[t]
+\caption{Mean Reconstruction PSNR (dB)}
+\label{tab:mean_psnr}
+\centering
+\setlength{\tabcolsep}{3.3pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Profile & Direct & A0 & A2 & A3 & \method{} \\
+\midrule
+Stationary  & 18.616 & 19.058 & 19.053 & 18.767 & \textbf{19.446} \\
+Alternating & 18.811 & 18.939 & 18.931 & 19.758 & \textbf{20.352} \\
+Burst       & 19.047 & 18.903 & 18.898 & 21.012 & \textbf{21.535} \\
+\midrule
+All         & 18.825 & 18.967 & 18.961 & 19.845 & \textbf{20.444} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Alternating Feedback}
+
+\method{} improves A3 by 0.599~dB overall, with a 95\% image-pair-cluster
+bootstrap interval of 0.551--0.648~dB. The mean gains are 0.680~dB under
+stationary interference, 0.594~dB under alternating interference, and
+0.523~dB under burst interference; their exploratory cluster intervals are
+0.629--0.729, 0.540--0.649, and 0.469--0.578~dB, respectively. \method{}
+exceeds A3 in 79.1\% of the 10,800 matched trials. Relative to A0, it gains
+1.478~dB overall (95\% cluster interval: 1.392--1.563~dB).
+
+The improvement is strongest at moderate and weak interference. After
+pooling profiles, \method{} gains 0.405~dB at 0~dB SINR, 0.952~dB at 4~dB,
+1.122~dB at 7~dB, and 0.882~dB at 10~dB. Table~\ref{tab:sinr_gain} also
+reveals an important exception: under burst interference, updating the point
+estimate is worse than retaining the A3 initialization at the two strongest
+interference levels.
+
+\begin{table}[t]
+\caption{Paired PSNR Difference: \method{} $-$ A3 (dB)}
+\label{tab:sinr_gain}
+\centering
+\setlength{\tabcolsep}{5.0pt}
+\begin{tabular}{rrrrr}
+\toprule
+SINR & Stationary & Alternating & Burst & All \\
+\midrule
+$-7$ & $+0.323$ & $+0.206$ & $\mathbf{-0.174}$ & $+0.118$ \\
+$-4$ & $+0.452$ & $+0.001$ & $\mathbf{-0.109}$ & $+0.115$ \\
+$0$  & $+0.315$ & $+0.454$ & $+0.446$ & $+0.405$ \\
+$4$  & $+1.084$ & $+0.925$ & $+0.846$ & $+0.952$ \\
+$7$  & $+1.050$ & $+1.109$ & $+1.208$ & $+1.122$ \\
+$10$ & $+0.854$ & $+0.870$ & $+0.923$ & $+0.882$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At burst SINR values of $-7$ and $-4$~dB, the losses are 0.174~dB
+(95\% cluster interval: 0.126--0.224~dB) and 0.109~dB
+(0.025--0.197~dB), respectively. Thus, diffusion-in-the-loop updates should
+not always replace the initial local estimate.
+
+\subsection{Reconstruction Versus Power Recovery}
+
+The reconstruction gain is not explained by more accurate physical power
+estimates. The A3 initializer has an aggregate block-power RMSE of 0.953, yet
+only 28.3\% of \method{} trials finish with a smaller per-trial power RMSE.
+At SINR values of 0, 4, and 10~dB, the median final power estimates are
+0.234, 0.024, and 0.004, whereas the corresponding nominal mean powers are
+0.990, 0.388, and 0.090. Fourteen trials contain at least one estimated block
+power above 100; the maximum is 93,186.656.
+
+Equation~\eqref{eq:update} should therefore not be described as recovering
+the true nuisance parameter. Instead, the updates adapt the interference
+scale and likelihood guidance along the reconstruction trajectory. Scale
+ambiguity among $\vect{x}$, $\vect{z}$, and $a_b$, together with low-energy
+interference estimates, may contribute to the discrepancy, but the historical
+logs do not identify a single cause. The defensible conclusion is narrower:
+reconstruction-optimal self-calibration need not coincide with physical
+interference-power estimation.
+
+\subsection{Runtime and Weak Interference}
+
+The measured receiver times are 0.323~s per image for A3 and 0.347~s for
+\method{} on an RTX~4090, a descriptive difference of 7.2\%. Because these
+values come from separate batch-four runs, they are not a controlled overhead
+measurement. The update itself adds no neural-network call; an interleaved
+same-device benchmark is required for a final runtime claim.
+
+At 10~dB SINR, \method{} is 0.882~dB better than A3 but remains 1.070~dB
+below direct decoding (95\% cluster interval: $-1.270$ to $-0.867$~dB).
+When interference is already weak, running a 40-step cancellation process can
+therefore harm reconstruction. A deployable receiver should include a
+validation-selected bypass based on receiver-observable reliability, not on
+the unavailable true SINR.
+
+\balance
+\section{Discussion and Limitations}
+
+The experiments separate three effects that are often conflated. First, true
+global SINR is not needed to match the mean performance of the original global
+receiver. Second, local power structure matters when interference is
+nonstationary. Third, feeding evolving diffusion estimates back into
+calibration improves reconstruction beyond one-shot local initialization.
+The third effect survives all three profiles on average, but not every
+operating point.
+
+The negative results are part of the contribution. Under severe burst
+interference, early point estimates are not reliable enough to improve the
+block initializer. Under weak interference, diffusion cancellation itself is
+unnecessary. These regimes suggest a three-way receiver decision among direct
+decoding, global calibration, and local iterative cancellation. Designing
+that decision from receiver observables is preferable to using an oracle SINR
+threshold.
+
+Several limitations bound the present claims. The channel is AWGN; the
+receiver knows the noise level and block partition; only one desired-image
+distribution, one interference-image distribution, one block length, and
+fixed matched priors are evaluated; and PSNR is the only reconstruction
+endpoint currently logged. LPIPS should be added to the independent
+confirmation because pixel fidelity alone does not establish perceptual
+improvement. Rayleigh fading, prior mismatch, randomized block boundaries,
+and other block lengths remain untested. Finally, the reported image pairs
+influenced method development. They are suitable for mechanism discovery but
+not for the final confirmatory claim.
+
+\section{Conclusion}
+
+We removed true receiver-side SINR from diffusion interference cancellation
+and studied the harder case in which interference power changes within a
+frame. A blind global estimate preserved the mean performance of the
+true-global-SINR receiver, while blockwise initialization captured gains that
+a global parameter missed under alternating and burst interference. Closing
+the loop between diffusion reconstruction and local amplitude calibration
+added 0.599~dB over the one-shot blockwise receiver in the exploratory
+evaluation. The same experiments exposed two operating boundaries: point
+updates can hurt under severe burst interference, and diffusion cancellation
+can hurt when interference is weak. Moreover, the reconstruction gain does
+not imply accurate recovery of physical interference power. These findings
+support self-calibrated, reliability-gated interference cancellation rather
+than an unconditional receiver driven by oracle SINR.
+
+\begingroup
+\sloppy
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\endgroup
+
+\end{document}

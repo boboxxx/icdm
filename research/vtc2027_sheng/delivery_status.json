@@ -1,0 +1,9 @@
+{
+  "stage": "complete_reviewed_delivered",
+  "updated_at": 1790069847,
+  "pdf": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/output/vtc2027_sheng/VTC2027_Sheng_Manuscript.pdf",
+  "latex": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/output/vtc2027_sheng/VTC2027_Sheng_LaTeX.zip",
+  "chinese_review": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/output/vtc2027_sheng/RESULTS_AND_REVIEW_ZH.md",
+  "review_receipt": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4/output/vtc2027_sheng/FINAL_REVIEW_RECEIPT.json",
+  "note": "Scientific, citation, paired-record and five-page visual reviews passed. Author placeholders remain because real author information was not provided. No submission performed. The server already has its assembled package; upload of the newer local post-review package was blocked by a Tailscale SSH additional-authentication check."
+}

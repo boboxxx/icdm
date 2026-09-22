@@ -947,6 +947,9 @@ class Joint_UniPC:
         thresholding_max_val=1.0,
         dynamic_thresholding_ratio=0.995,
         variant="bh1",
+        amplitude_mode="original",
+        interference_amp=None,
+        point_calibration=None,
     ):
         """Construct a UniPC.
 
@@ -962,6 +965,9 @@ class Joint_UniPC:
         self.thresholding_max_val = thresholding_max_val
 
         self.variant = variant
+        self.amplitude_mode = amplitude_mode
+        self.interference_amp = interference_amp
+        self.point_calibration = point_calibration
         self.predict_x0 = algorithm_type == "data_prediction"
 
     def dynamic_thresholding_fn(self, x0, t=None):
@@ -1372,6 +1378,63 @@ class Joint_UniPC:
             model_tx = self.model_x(x_t, t)
             model_tn = self.model_n(n_t, t)
 
+            if self.point_calibration is not None and alpha_t.item() >= self.point_calibration["min_alpha"]:
+                from Diffusion.calibration import (
+                    estimate_point_amplitude, expand_blocks, guidance_parameters,
+                    normalize_unit_complex_power, power_to_sinr, to_complex,
+                )
+                x_point = (x_t - sigma_t * model_tx) / alpha_t
+                n_point = (n_t - sigma_t * model_tn) / alpha_t
+                x_point = normalize_unit_complex_power(x_point)
+                n_point = normalize_unit_complex_power(n_point)
+                if self.point_calibration.get("variant") == "RG":
+                    from Diffusion.selective import feedback_step
+                    amplitude, rg_lam, rg_beta = feedback_step(
+                        self.point_calibration, deg_feature, x_point, n_point,
+                        SNR, alpha_t, sigma_t,
+                    )
+                elif self.point_calibration.get("variant", "A4") == "A4":
+                    amplitude = estimate_point_amplitude(
+                        deg_feature, x_point, n_point,
+                        self.point_calibration["block_size"],
+                        fallback=self.point_calibration["amplitude"],
+                    )
+                else:
+                    from Diffusion.moment_calibration import bounded_moment_update
+                    amplitude, diagnostics = bounded_moment_update(
+                        deg_feature, x_point, n_point,
+                        self.point_calibration["amplitude"], self.point_calibration["anchor"],
+                        self.point_calibration["block_size"], alpha_t, sigma_t,
+                        SNR, self.point_calibration["variant"],
+                    )
+                    # Maximum over the trajectory, rather than just the final step.
+                    old = self.point_calibration.get("diagnostics", {})
+                    diagnostics["max_power_seen"] = torch.maximum(
+                        old.get("max_power_seen", self.point_calibration["amplitude"].square()), amplitude.square()
+                    )
+                    diagnostics["max_objective_increase"] = torch.maximum(
+                        old.get("max_objective_increase", torch.zeros_like(amplitude)),
+                        diagnostics["objective_change"],
+                    )
+                    self.point_calibration["diagnostics"] = diagnostics
+                power = amplitude.square()
+                sinr = power_to_sinr(power, SNR)
+                if self.point_calibration.get("variant") == "RG":
+                    lam, beta = rg_lam, rg_beta
+                else:
+                    lam, beta = guidance_parameters(sinr, self.point_calibration["channel_type"])
+                complex_like = to_complex(deg_feature)
+                def real_map(values):
+                    mapped = expand_blocks(values, complex_like, self.point_calibration["block_size"])
+                    return torch.cat((mapped, mapped), dim=2)
+                Ap, Lambda, Beta = real_map(amplitude), real_map(lam), real_map(beta)
+                self.interference_amp = Ap
+                self.point_calibration.update(
+                    amplitude=amplitude, power=power, sinr=sinr,
+                    **{"lambda": lam, "beta": beta},
+                )
+                self.point_calibration["updates"] += 1
+
             if D1s_x is not None:  # always True
                 corr_res_x = torch.einsum("k,bkchw->bchw", rhos_c[:-1], D1s_x)
                 corr_res_n = torch.einsum("k,bkchw->bchw", rhos_c[:-1], D1s_n)
@@ -1494,7 +1557,11 @@ class Joint_UniPC:
             ## ------------------------------ proposed
             zeta = 1 / (2 - alpha_t**2)  # (sigma_t**2 + 1)
             A = 1
-            Ap = math.sqrt((1 / (10 ** (SINR / 10)))) - (1 / (10 ** (SNR / 10)))
+            if self.interference_amp is None:
+                from Diffusion.calibration import interference_amplitude
+                Ap = interference_amplitude(SNR, SINR, self.amplitude_mode)
+            else:
+                Ap = self.interference_amp
             deg_feature_t = deg_feature / zeta
 
             if h_channel[0, 0, 0, 0] == h_channel[0, 0, 0, 1] == 1:
@@ -1523,8 +1590,7 @@ class Joint_UniPC:
                 n_t_complex = n_t[:, :, : L // 2, :] + n_t[:, :, L // 2 :, :] * 1j
                 n_t_complex = n_t_complex * Wz
                 x_t_coeef = Ws * A * x_t
-                n_t_coeef = Ap * n_t_complex
-                n_t_coeef = torch.cat((torch.real(n_t_coeef), torch.real(n_t_coeef.imag)), dim=2)
+                n_t_coeef = Ap * torch.cat((n_t_complex.real, n_t_complex.imag), dim=2)
                 mu = deg_feature_t - x_t_coeef - n_t_coeef
                 mu_complex = mu[:, :, : L // 2, :] + mu[:, :, L // 2 :, :] * 1j
                 mu_coeef = WzH * mu_complex
@@ -1632,8 +1698,6 @@ class Joint_UniPC:
 
                 t_prev_list = [t]
                 # deg_feature_init=deg_feature/sigma_t
-                A = 1
-                Ap = math.sqrt((1 / (10 ** (SINR / 10)))) - (1 / (10 ** (SNR / 10)))
                 model_prev_init_x = self.model_x(x, t)
                 model_prev_init_n = self.model_n(n, t)
 

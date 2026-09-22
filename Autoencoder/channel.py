@@ -17,7 +17,7 @@ class Channel(nn.Module):
         self.h = torch.sqrt(torch.randn(1) ** 2 + torch.randn(1) ** 2) / 1.414
 
     def gaussian_noise_layer(self, input_layer, std, name=None):
-        device = input_layer.get_device()
+        device = input_layer.device
 
         # print(np.shape(input_layer))
         noise_real = torch.normal(mean=0.0, std=std, size=np.shape(input_layer), device=device)
@@ -34,8 +34,8 @@ class Channel(nn.Module):
             + 1j * torch.normal(mean=0.0, std=1, size=np.shape(input_layer))
         ) / np.sqrt(2)
 
-        noise = noise.to(input_layer.get_device())
-        h = h.to(input_layer.get_device())
+        noise = noise.to(input_layer.device)
+        h = h.to(input_layer.device)
         return input_layer * h + noise, h
 
     def complex_normalize(self, x, power):
@@ -82,7 +82,7 @@ class Channel(nn.Module):
             # noise = (channel_output - channel_tx).detach()
             # noise.requires_grad = False
             # channel_tx = channel_tx + noise
-            return channel_output, pwr, torch.ones(channel_output.shape).cuda()
+            return channel_output, pwr, torch.ones_like(channel_output.real)
             # if avg_pwr:
             #     return channel_tx * torch.sqrt(avg_pwr * 2)
             # else:
@@ -115,7 +115,7 @@ class Channel(nn.Module):
         # channel_output = channel_output.reshape(input_shape)
         if self.chan_type == 1 or self.chan_type == "awgn":
             # print(cal_power(channel_output))
-            return channel_output, pwr, pwr_inf, torch.ones(channel_output.shape).cuda()
+            return channel_output, pwr, pwr_inf, torch.ones_like(channel_output.real)
             # if avg_pwr:
             #     return channel_tx * torch.sqrt(avg_pwr * 2)
             # else:
@@ -126,6 +126,28 @@ class Channel(nn.Module):
             return channel_output, pwr, pwr_inf, h
         else:
             raise ValueError("Invalid channel type")
+
+    def inf_forward_blockwise(self, input, inf, SNR, block_power, block_size):
+        """Simulation only: caller owns ground-truth block powers.
+
+        Power is applied to a globally normalized interference prior; blocks are
+        not independently renormalized. Real/imag parts share each coefficient.
+        Returns y, signal normalization, interference normalization, desired CSI.
+        """
+        from Diffusion.calibration import to_complex, expand_blocks
+        if input.shape != inf.shape:
+            raise ValueError("Signal and interference latent shapes must agree")
+        channel_tx, pwr = self.complex_normalize(input, power=1)
+        channel_inf, pwr_inf = self.complex_normalize(inf, power=1)
+        z = to_complex(channel_inf)
+        power = torch.as_tensor(block_power, device=z.device, dtype=z.real.dtype)
+        if not torch.isfinite(power).all() or (power < 0).any():
+            raise ValueError("Block powers must be finite and nonnegative")
+        amp = expand_blocks(power.sqrt(), z, block_size)
+        y, h = self.complex_inf_forward(to_complex(channel_tx), z * amp, SNR)
+        if self.chan_type in [1, "awgn"]:
+            h = torch.ones_like(y.real)
+        return y, pwr, pwr_inf, h
 
     def complex_forward(self, channel_in, chan_param):
         if self.chan_type == 0 or self.chan_type == "none":

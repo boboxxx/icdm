@@ -1,0 +1,400 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,bm,booktabs,graphicx,cite}
+\usepackage[hidelinks]{hyperref}
+\usepackage{balance}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\pos}[1]{[#1]_+}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\G}{\mathsf{G}}
+\newcommand{\SIC}{\mathsf{S}}
+\newcommand{\Sel}{\mathsf{Select}}
+\input{generated/values.tex}
+\title{Blind Disturbance-Model Selection for\\Diffusion-Aided Semantic Image Reception}
+\author{\IEEEauthorblockN{Author information pending}
+\IEEEauthorblockA{Affiliations and correspondence to be supplied}}
+\begin{document}
+\maketitle
+\begin{abstract}
+A receiver with a learned interference prior can either separate an interfering
+transmission or absorb it into an effective noise model. Always invoking the
+more detailed model need not yield the most faithful reconstruction when
+interference power is unknown and inference is approximate. We study this
+decision for a frozen semantic image codec and introduce a blind selector
+between a Gaussian diffusion denoiser and a calibrated joint signal--interference
+sampler. The selector uses received energy and, when supported by development
+validation, block-energy heterogeneity; it evaluates only the selected receiver.
+A shared-checkpoint protocol separates receiver choice from retraining and
+compares the method with a blind total-disturbance denoiser, fixed interference
+cancellation, and the same cancellation receiver with a direct-decoding gate.
+\input{generated/abstract_result.tex}
+The scope is image reconstruction under the specified interference family,
+rather than a guarantee of semantic correctness or universal channel robustness.
+\end{abstract}
+\begin{IEEEkeywords}
+Semantic communications, interference cancellation, diffusion models,
+receiver adaptation, deep joint source--channel coding.
+\end{IEEEkeywords}
+\DraftNotice
+
+\section{Introduction}
+Deep joint source--channel coding maps an image directly to channel symbols,
+allowing the learned decoder to accommodate transmission noise
+\cite{bourtsoulatze2019deep,yang2025swinjscc}.
+A frozen codec, however, can encounter co-channel transmissions that differ
+substantially from its training noise. A receiver-side generative prior offers
+two useful responses. It may treat the aggregate disturbance as Gaussian and
+denoise the received latent, as motivated by channel denoising diffusion models
+(CDDM) \cite{wu2024cddm}. Alternatively, it may represent both desired and
+interfering latents and infer them jointly, as in interference cancellation
+diffusion models (ICDM) \cite{wu2026icdm}.
+
+These choices impose different assumptions and computational costs. A Gaussian
+approximation discards interference structure, but avoids estimating a second
+latent and its unknown amplitude. Explicit separation preserves a structured
+interference hypothesis, but must resolve an underdetermined mixture using
+imperfect priors and finite-step inference. Even accurate measurement fitting
+does not establish that the desired component has been recovered. Thus, adding
+an interference prior is not by itself a reason to invoke it for every frame.
+
+This leads to our question: \emph{can a receiver choose between these two
+disturbance models, without observing the clean image or true interference
+power, more effectively than it can commit to either model?}
+The relevant comparator is a Gaussian receiver that estimates the
+\emph{total} disturbance. Comparing only against a denoiser calibrated to thermal
+noise would mix the benefit of power estimation with the benefit of explicit
+separation. Likewise, a new cancellation scheme with a bypass must be compared
+with an existing cancellation scheme using the same bypass.
+
+We introduce a small, interpretable selector operating before generative
+inference. It uses a global excess-energy statistic and an optional
+block-energy heterogeneity statistic, selects one receiver, and decodes once.
+All neural weights remain fixed. The contribution is this receiver decision and
+its controlled evaluation, not a new diffusion prior or a claim to be the first
+blind generative receiver. Specifically, we provide:
+\begin{itemize}
+\item a receiver-only formulation separating Gaussian disturbance approximation
+from explicit interference reconstruction;
+\item a development-fitted selection rule with image-group validation and no
+test-time clean-image access;
+\item paired independent confirmation, bypass controls, and mismatched-block
+tests reporting reconstruction quality, harmful outcomes, and inference cost.
+\end{itemize}
+
+\section{Related Work and Scope}
+CDDM matches channel noise to a diffusion noise level and includes a three-stage
+training procedure with decoder adaptation \cite{wu2024cddm}. ICDM instead uses
+desired-signal and interference priors for joint inference
+\cite{wu2026icdm}. We adapt these receiver ideas to shared frozen weights to
+isolate the disturbance-model decision. Consequently, our Gaussian receiver is
+a receiver-only port, not a reproduction of the complete CDDM system; our
+results cannot establish superiority over its separately trained codec.
+
+Receiver adaptation also extends beyond these two methods. ISEC iteratively
+corrects latent errors using a learned source prior \cite{pmlr-v206-lee23c}.
+DiffCom uses channel observations to guide generative reconstruction and
+includes blind inference of unknown transmission characteristics
+\cite{wang2025diffcom}. Blind inverse-problem methods such as GibbsDDRM estimate
+unknown forward-model parameters during diffusion inference
+\cite{murata2023gibbsddrm}. These works establish that blind generative inference
+and receiver-side adaptation are existing ideas. Our narrower question concerns
+selecting between two already available disturbance treatments before their
+inference cost is incurred. We do not infer a posterior model probability from
+the selector score, nor interpret residual reduction as a semantic certificate.
+
+\section{System Model and Receiver Choice}
+\subsection{An Interfering Latent Transmission}
+Let $\bm u\in[0,1]^d$ be the desired image, and let the frozen encoder produce
+$\bm x\in\C^n$. A separate transmitter produces interfering symbols
+$\bm z\in\C^n$. Each transmitter normalizes its frame to unit average complex
+symbol power. The additive channel is
+\begin{equation}
+ \bm y_b=\bm x_b+a_b\bm z_b+\bm w_b,\qquad
+ \bm w\sim\mathcal{CN}(\bm0,N_0\bm I),\quad a_b\ge0 ,
+ \label{eq:channel}
+\end{equation}
+where $b$ indexes contiguous symbol blocks. The channel bandwidth ratio is
+$n/d$. The receiver knows $N_0$, the normalization convention, and a chosen
+block partition, but not $a_b$, the interference profile, $\bm z$, or $\bm u$.
+The test channel has unit desired-channel gain. Fading, channel estimation, and
+synchronization are outside this experiment.
+
+For a prescribed nominal SINR $\gamma$, the simulator sets average nominal
+interference power to $10^{-\gamma/10}-N_0$. The instantaneous interference
+energy also depends on the realized block energies of $\bm z$; nominal SINR
+must therefore not be confused with measured per-frame SINR.
+
+The explicit model associates two learned priors with \eqref{eq:channel}:
+\begin{equation}
+ \begin{split}
+ p(\bm x,\bm z\mid\bm y,\bm a)&\propto p_s(\bm x)p_z(\bm z)\\
+ &\quad\times\exp\!\left[-\frac{1}{N_0}\sum_b
+ \norm{\bm y_b-\bm x_b-a_b\bm z_b}^{2}\right].
+ \end{split}
+ \label{eq:joint}
+\end{equation}
+This equation describes the model; our finite-step sampler is an approximation,
+not an exact posterior draw or a proven MAP optimizer.
+Without priors, the change
+$\bm x_b'=\bm x_b+a_b\bm\delta_b$,
+$\bm z_b'=\bm z_b-\bm\delta_b$ leaves the mixture unchanged.
+Power constraints remove some ambiguity but do not generally identify both
+latents. The Gaussian model instead uses
+\begin{equation}
+ p_{\G}(\bm y\mid\bm x;\nu)=
+ \mathcal{CN}(\bm y;\bm x,\nu\bm I),\qquad \nu\ge N_0 .
+ \label{eq:gaussian}
+\end{equation}
+It sacrifices interference structure to avoid explicit component estimation.
+
+\subsection{Two Frozen Candidate Receivers}
+For Gaussian reception, estimate the disturbance from raw received symbols:
+\begin{equation}
+ \begin{gathered}
+ e_b=\frac{\norm{\bm y_b}^2}{L_b},\qquad
+ \bar e=\frac{1}{n}\sum_b L_be_b,\\
+ \widehat P=\pos{\bar e-1-N_0},\qquad
+ \widehat\nu=N_0+\widehat P.
+ \end{gathered}
+ \label{eq:energy}
+\end{equation}
+With unit source power and vanishing signal--interference cross expectation,
+unclipped excess energy estimates mean interference energy. Finite blocks,
+latent correlations, and clipping prevent treating it as an exact amplitude
+estimate. In particular, local desired-signal energy can resemble interference
+heterogeneity.
+
+Let $r(\bm y)\in\R^{2n}$ stack real and imaginary components. Given the training
+diffusion schedule $\bar\alpha_t$, the Gaussian receiver $\G$ starts at the
+nearest noise level satisfying
+\begin{equation}
+ \frac{1-\bar\alpha_{t_0}}{\bar\alpha_{t_0}}
+ \simeq\frac{\widehat\nu}{2},\qquad
+ \bm v_{t_0}=\sqrt{\bar\alpha_{t_0}}\,r(\bm y).
+ \label{eq:match}
+\end{equation}
+The factor $1/2$ converts complex noise power to variance per real coordinate.
+For decreasing respaced indices, a noise predictor $\epsilon_s$ gives
+\begin{align}
+ \widehat{\bm x}_0&=
+ \frac{\bm v_t-\sqrt{1-\bar\alpha_t}\epsilon_s(\bm v_t,t)}
+ {\sqrt{\bar\alpha_t}},\\
+ \bm v_{t'}&=\sqrt{\bar\alpha_{t'}}\widehat{\bm x}_0+
+ \sqrt{1-\bar\alpha_{t'}}\epsilon_s(\bm v_t,t).
+ \label{eq:gaussian_update}
+\end{align}
+At most 40 predictor evaluations are used, with fewer when the matched initial
+index is below 39. A common normalization and the frozen decoder produce the
+reconstructed image.
+
+The structured receiver $\SIC$ initializes
+$a_b^{(0)}=\sqrt{\pos{e_b-1-N_0}}$ and performs joint diffusion inference with
+signal and interference predictors. During late corrector updates it obtains
+denoised, frame-normalized estimates $\widetilde{\bm x}$ and
+$\widetilde{\bm z}$, then updates
+\begin{equation}
+ a_b^{+}=\pos{\frac{
+ \Re\{\widetilde{\bm z}_b^{H}
+       (\bm y_b-\widetilde{\bm x}_b)\}}
+ {\norm{\widetilde{\bm z}_b}^{2}}}.
+ \label{eq:amplitude}
+\end{equation}
+An empty denominator retains the previous amplitude. This is a nonnegative
+least-squares update conditional on point estimates, not a correction for
+their uncertainty. Calibration begins when the signal coefficient
+$\alpha(t)\ge0.5$. Estimated block SINR updates the inherited guidance
+coefficients by clipped linear interpolation of the original AWGN table.
+We use the existing 40-step, order-three joint sampler: 40 signal and 40
+interference evaluations. The initialization-only variant keeps amplitudes
+fixed and supplies an ablation of calibration.
+
+\subsection{Selection Before Generative Inference}
+The selector augments $\widehat P$ with normalized block-energy variation
+\begin{equation}
+ H=\frac{B^{-1}\sum_{b=1}^{B}(e_b-\bar e)^2}
+          {\max(\bar e^2,\varepsilon)}.
+ \label{eq:heterogeneity}
+\end{equation}
+All experimental blocks have equal length. This statistic describes received
+energy variation, not an identified interference distribution. For
+$\theta=(\tau_\ell,\tau_h,\eta)$, define
+\begin{equation}
+ \pi_\theta(\bm y)=
+ \begin{cases}
+ \G,&\widehat P\le \tau_\ell,\ H\le\eta,\\
+ \G,&\widehat P\le \tau_h,\ H>\eta,\\
+ \SIC,&\text{otherwise}.
+ \end{cases}
+ \label{eq:selector}
+\end{equation}
+We also test the reversed assignment of $\G$ and $\SIC$ in
+\eqref{eq:selector}; the Gaussian branch is not assumed to belong to the
+low-power region. The energy-only family sets $\tau_\ell=\tau_h$. Either family can reduce to a
+constant receiver; heterogeneity need not be useful.
+
+We fit thresholds to mean per-image PSNR on development data. Eight folds keep
+all channel conditions belonging to one image together. Each fold is predicted
+using thresholds fitted on the other seven, then the family with the highest
+out-of-fold mean is refitted on all development images. Ties prefer lower
+component inference cost and then the simpler family. If neither family
+improves on the better fixed receiver in development validation, that fixed
+receiver is retained. No threshold is adjusted using confirmation or pressure
+results. At reception, \eqref{eq:selector} is computed first and only its chosen
+branch is executed. Selection adds $O(n)$ energy calculations and no diffusion
+evaluations.
+
+For analysis, let $q_j(\bm u,\bm y)$ be a candidate's PSNR. The unavailable
+per-frame oracle has quality $\max(q_\G,q_\SIC)$. The exact identity
+\begin{equation}
+ \max(q_\G,q_\SIC)-q_{\pi_\theta}
+ =|q_\G-q_\SIC|\,
+ \mathbf1\{\pi_\theta\ne\arg\max_j q_j\}
+ \label{eq:regret}
+\end{equation}
+shows that complementary receivers are necessary but not sufficient: mistakes
+on large-gap frames matter most. This is an accounting identity, not a
+generalization bound. Mean PSNR is the fitting objective; neither mean MSE,
+LPIPS nor harmful-tail probability is implicitly optimized.
+
+\section{Experimental Evaluation}
+\subsection{Protocol and Strong Controls}
+The desired images are $128\times128$ center crops from CelebA
+\cite{liu2015celeba}. CIFAR-10 interference images are cropped at
+$32\times32$ and nearest-neighbor upsampled to the encoder input size.
+The original training sets contain 162,770 desired and 50,000 interference
+images. The inherited codec uses three Swin stages with widths
+$(128,192,256)$ and depths $(2,2,6)$; its 8-channel $16\times16$ real latent
+corresponds to 1,024 complex symbols and CBR $1/48$.
+Five frozen checkpoints contain the desired encoder/decoder, interference
+encoder, and two DiT predictors, each with 28 blocks, width 1,152, 16 heads
+and patch size two. The original training schedule uses
+100 interference-codec epochs, 40 desired-codec epochs, and 50/20 epochs for
+the signal/interference predictors. This study adds no neural retraining.
+
+Development uses 64 validation image pairs and seed 1700. Confirmation reserves
+256 previously unevaluated test pairs with seeds 2700 and 2701.
+SNR is 20 dB; nominal SINR is $-7,-4,0,4,7,10$ dB.
+Sixteen blocks of 64 complex symbols follow stationary, alternating
+$(0.25,1.75)$, or burst $(0,2)$ relative-power patterns.
+Each pair is evaluated under all 18 conditions.
+The confirmation set therefore has 9,216 received frames but only 256
+image-pair clusters. Confirmation starts only after policy fitting ends.
+File-hash audits exclude overlap with development, pressure images and the
+first 200 test pairs used in earlier project evaluations. The independence
+claim is at image-pair level, not at person-identity level.
+
+We compare direct decoding; the same Gaussian port using only $N_0$;
+the blind-total-disturbance Gaussian receiver $\G$; initialization-only joint
+sampling; calibrated joint sampling $\SIC$; and the online selector.
+A same-gate control decodes directly when $\widehat P\le0.15$ and otherwise uses
+$\SIC$. Its output quality is reconstructed exactly from paired branches;
+its reported cost excludes gate overhead. Development additionally examines
+the previous coupled-feedback receiver and a Gaussian port given nominal
+total disturbance power. The latter is a privileged diagnostic, not a
+guaranteed upper bound. Neither diagnostic is used as a confirmatory claim of
+superiority over a published system.
+
+The prespecified power thresholds are
+$0$, $0.1$, $0.2$, $0.35$, $0.5$, $0.75$, $1$, $1.5$, $2$, $3$, $4$, $8$ and $10^6$;
+heterogeneity thresholds are $\{0.05,0.1,0.2,0.4,0.8,1.6\}$.
+Including both assignment directions, the families contain 26 and 2,028
+candidate rules.
+All methods see identical received tensors. Channel randomness is separate from
+sampler randomness; both CPU and GPU sampler states are reset per frame.
+Measurements use float32, batch one, TF32 disabled, four CPU threads, and one
+RTX 4090. Synchronized receiver time includes selection, sampling and decoding,
+but excludes encoding, image-quality evaluation and one-time model loading.
+Signal and interference model calls are counted separately.
+
+We report arithmetic means of per-image PSNR and MSE, LPIPS-VGG v0.1
+\cite{zhang2018lpips}, and four-scale MS-SSIM
+\cite{wang2003msssim}, always clipping RGB to $[0,1]$.
+Four scales fit the image resolution; these values are not compared with
+five-scale scores. Paired 95\% intervals resample image-pair clusters 5,000
+times while retaining both seeds and all conditions. Harm means a PSNR loss
+exceeding 0.5 dB relative to a specified comparator. These descriptive
+intervals do not certify safety over arbitrary future channels.
+
+\subsection{Does Receiver Choice Generalize?}
+\input{generated/development_result.tex}
+\input{generated/confirmation_result.tex}
+\begin{table}[t]
+\centering
+\caption{Independent confirmation. Quality is averaged per image and frame.
+NFE counts both priors; latency is synchronized batch-one receiver time.
+The same-gate control's latency is a component estimate.}
+\label{tab:main}
+\input{generated/main_table.tex}
+\end{table}
+\begin{figure}[t]
+\centering
+\ResultFigure{figures/confirmation_quality.pdf}
+\caption{Independent confirmation by nominal SINR, averaging all three
+interference profiles. Curves distinguish Gaussian denoising, explicit
+separation and their frozen selection; they do not compare separately
+retrained published systems.}
+\label{fig:quality}
+\end{figure}
+
+\subsection{What Is the Cost of a Wrong Decision?}
+\input{generated/tail_result.tex}
+\begin{figure}[t]
+\centering
+\ResultFigure{figures/paired_tail.pdf}
+\caption{Paired PSNR change on independent confirmation relative to calibrated
+joint sampling. Each point in the empirical CDF represents one received
+frame; uncertainty calculations cluster by image pair. The vertical line
+marks the predefined harmful-loss threshold.}
+\label{fig:tail}
+\end{figure}
+
+\subsection{Block Mismatch and No Interference}
+Pressure tests use 64 further test pairs and seed 3700, with nominal SINR
+$-4,4,10$ dB. One profile shifts burst boundaries by half a receiver block;
+another draws segment lengths uniformly from 16 to 128 symbols and normalizes
+the binary on/off amplitude pattern. A separate SNR-20 condition has no
+interference. The receiver keeps its original block partition and frozen rule.
+These families are reported separately from matched confirmation.
+\input{generated/pressure_result.tex}
+\begin{table}[t]
+\centering
+\caption{Pressure tests. Mean PSNR for each family. The no-interference row has
+SNR 20 dB; the other rows average nominal SINR $-4,4,10$ dB.}
+\label{tab:pressure}
+\input{generated/pressure_table.tex}
+\end{table}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/qualitative_prespecified.pdf}
+\caption{All six qualitative examples reserved before confirmation: two image
+pairs crossed with conditions 0, 8 and 15. The gallery is exhaustive for the
+prespecified set and is not selected from observed reconstruction quality.}
+\label{fig:qualitative}
+\end{figure}
+
+\section{Discussion and Conclusion}
+\input{generated/conclusion_result.tex}
+The experiment isolates a receiver decision under a frozen codec and fixed
+source/interference priors. A different encoder, source distribution, SNR,
+interference population or inference budget can change the decision boundary.
+Block-energy heterogeneity can be caused by the desired latent itself, and
+the amplitude update uses uncertain point estimates. These facts limit any
+physical interpretation of the selected label. A branch choice is a prediction
+of reconstruction utility, not proof that the disturbance is Gaussian or that
+an interfering user has been identified.
+
+PSNR and MSE are different aggregations of the same pixel error, so an increase
+in one need not imply an improvement in the other. LPIPS and MS-SSIM provide
+additional reconstruction evidence but do not measure correctness of a driving,
+recognition or control task. Extending to such tasks requires task-specific
+losses, realistic fading and synchronization, and new validation data.
+Within the present scope, the practical question is whether a cheap blind
+decision earns its additional complexity over strong fixed receivers. The
+reported controls and independent evaluation are designed to answer precisely
+that question.
+\balance
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
