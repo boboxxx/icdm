@@ -71,3 +71,10 @@ content hashes. Its completion status is recorded in the final review receipt.
 checkpoints remain on sheng under `research/backbone_baselines/formal/`; their
 best/latest SHA256 identities are in each receipt. No original CDDM/ICDM
 full-system replication or superiority is claimed.
+
+The latest structural revision integrates prior work into the introduction,
+which fills the remainder of page one after the abstract. Section II starts
+on page two and defines the encoders, normalization, interference channel,
+decoder and receiver decision; Section III presents the selection method.
+All five figure/table captions are single sentences. Details and reading
+sources are documented in `research/vtc2027_sheng/VTC_WRITING_REVIEW_ZH.md`.

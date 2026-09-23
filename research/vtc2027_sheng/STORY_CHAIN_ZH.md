@@ -15,3 +15,5 @@
 没有声称：首个盲生成式接收机；复现并击败原始完整CDDM系统；语义安全保证；任意车辆信道、分布或任务上的普适鲁棒性。
 
 2026-09-23：开发、冻结规则、独立确认、压力测试、匹配重训和公开权重实验均已完成。主表与主图加入DeepJSCC/MambaJSCC，正文另报三个公开权重结果。结论仍以冻结SwinJSCC内部配对对照为依据；固定训练预算和协议差异不允许跨骨干SOTA排名。作者信息继续保留占位，未投稿。
+
+最终章节顺序：I Introduction（第一页，含文献与贡献）；II System Model and Problem Formulation（第二页起）；III Blind Disturbance-Model Selection；IV Experimental Evaluation；V Discussion and Conclusion。独立Related Work已删除，所有图表标题简化为单句，新增编码和解码公式仅用于完整呈现既有链路。

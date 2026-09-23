@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_baseline_results_delivered",
-  "updated_at": 1790202791.459135,
+  "updated_at": 1790203345.401629,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -44,7 +44,7 @@
     "status": "complete, excluded"
   },
   "paper_source": "paper/vtc2027_selective_sheng/main.tex",
-  "paper_current_status": "Five-page manuscript rewritten for coherent problem-method-evidence sequence; all baseline results integrated and all five pages visually reviewed.",
+  "paper_current_status": "Revised five-page manuscript: introduction fills page one; no standalone Related Work; explicit encoder/channel/decoder system model starts page two; all captions single sentences; all five pages visually reviewed.",
   "local_draft_pdf": "paper/vtc2027_selective_sheng/build/main.pdf",
   "remote_draft_pdf": "paper/vtc2027_selective_sheng/build_sheng/main.pdf",
   "paper_builds": {
@@ -74,7 +74,7 @@
   "next_action": "No additional experiments needed for this delivery. Author details remain to be supplied. When sheng reconnects, retrieve any existing supplementary file-audit receipt and mirror the reviewed package; do not duplicate jobs.",
   "latest_observed_development_records": 8064,
   "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
-  "last_check_utc": "2026-09-23T22:33:11.459136+00:00",
+  "last_check_utc": "2026-09-23T22:42:25.396038+00:00",
   "last_check": {
     "pipeline_stage": "experiment_complete",
     "server_delivery_stage": "manuscript_assembled",
@@ -218,6 +218,8 @@
     "branch": "codex/published-baseline-artifacts",
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
-    "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git"
-  }
+    "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
+    "editorial_revision": "new structural revision prepared for push"
+  },
+  "latest_editorial_revision": "VTC_WRITING_REVIEW_ZH.md; no experiment or threshold changes"
 }

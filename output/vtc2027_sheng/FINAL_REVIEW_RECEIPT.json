@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-23T22:31:26.926975+00:00",
+  "reviewed_at_utc": "2026-09-23T22:42:25.396038+00:00",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,13 +25,23 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "d46caaa5d37f5bc776f2e6f12cacfe3cc0a3b74d85af80b17e1e495cd59a4bb0",
-  "latex_zip_sha256": "3e4cbfb4d90217f33487748fa3248549c818bbe814819b87fc376835ec345c3e",
-  "main_tex_sha256": "cb246371c4a1dd3a6ba4a89fd1c8094d3b1826dbd70589a7421dd56d6ebe69e8",
+  "manuscript_sha256": "8c6acd977b844fb42d538c435b8de11073e9320878571b1745da60c616fab5c4",
+  "latex_zip_sha256": "4a6923a7adb3c329ea7e16fb9b2daad837729eca04ba5cecf4f49baac6fb47d9",
+  "main_tex_sha256": "082ec02be35bb796e9bf30a889e21ea9c25e543883031e544fa5b3c9d7bad945",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
     "research/vtc2027_sheng/BASELINE_DELIVERY_AUDIT.json",
     "research/vtc2027_sheng/LOCAL_CHECKPOINT_RECOVERY.json"
-  ]
+  ],
+  "structural_revision": {
+    "style_reading": "three public VTC manuscripts; primary URLs archived in VTC_WRITING_REVIEW_ZH.md",
+    "introduction_ends_on_page": 1,
+    "system_model_starts_on_page": 2,
+    "standalone_related_work": false,
+    "captions": 5,
+    "all_captions_single_sentence": true,
+    "encoder_channel_decoder_chain_explicit": true,
+    "experimental_data_changed": false
+  }
 }
