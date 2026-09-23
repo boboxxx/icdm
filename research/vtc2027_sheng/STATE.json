@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_baseline_results_delivered",
-  "updated_at": 1790203345.401629,
+  "updated_at": 1790203413.5588071,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -219,7 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "new structural revision prepared for push"
+    "editorial_revision": "VTC structure revision pushed",
+    "editorial_commit": "8c98a07a5a813a57421e3e6a0db0cf8ebb29ab1c"
   },
   "latest_editorial_revision": "VTC_WRITING_REVIEW_ZH.md; no experiment or threshold changes"
 }
