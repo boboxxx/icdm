@@ -8,14 +8,14 @@ import numpy as np
 
 from scripts.analyze_vtc2027 import read_run
 
-LABEL={'DIRECT':'Direct','CDDM_N0':'Gaussian (N0)','CDDM_BLIND':'Blind Gaussian',
+LABEL={'DIRECT':'SwinJSCC direct','CDDM_N0':'Gaussian (N0)','CDDM_BLIND':'Blind Gaussian',
        'A3':'Init. joint','A4':'Calibrated joint','A4_GATE':'Joint + gate','SELECT':'Selector'}
 COLORS={'DIRECT':'#777777','CDDM_BLIND':'#0072B2','A4':'#E69F00',
         'A4_GATE':'#CC79A7','SELECT':'#009E73'}
 
 
 def write(path,text):
-    path.write_text(text.strip()+'\n')
+    path.write_text('\n'.join(line.rstrip() for line in text.strip().splitlines())+'\n')
 
 
 def signed(value):
@@ -27,6 +27,7 @@ def main():
     p.add_argument('--results',type=Path,required=True)
     p.add_argument('--paper',type=Path,required=True)
     p.add_argument('--backbones',type=Path)
+    p.add_argument('--pretrained',type=Path)
     a=p.parse_args()
     stages={}
     for stage,count in [('development',64),('confirmation',256),('pressure',64)]:
@@ -68,6 +69,22 @@ def main():
             raise ValueError('Stale external backbone analysis')
         if backbone['reference_signature']!=conf[0]['signature']:
             raise ValueError('External backbones use a different confirmation reference')
+    pretrained=None
+    if a.pretrained:
+        pretrained=json.loads((a.pretrained/'analysis.json').read_text())
+        pretrained_meta=json.loads((a.pretrained/'metadata.json').read_text())
+        if pretrained['status']!='complete' or pretrained_meta['status']!='complete':
+            raise ValueError('Public-weight evidence is incomplete')
+        if pretrained['signature']!=pretrained_meta['signature']:
+            raise ValueError('Stale public-weight analysis')
+        if pretrained['reference_signature']!=conf[0]['signature']:
+            raise ValueError('Public weights use a different confirmation reference')
+    for meta in ([backbone_meta] if backbone else [])+([pretrained_meta] if pretrained else []):
+        if meta['images']!=conf[0]['images']:
+            raise ValueError('External evidence uses different input image hashes')
+        for key in ['seeds','conditions','block_size']:
+            if meta['manifest'][key]!=conf[0]['manifest'][key]:
+                raise ValueError(f'External evidence differs in {key}')
     comparisons={r['reference']:r for r in c['comparisons']}
     ca,cg,cgate=(comparisons[k] for k in ['A4','CDDM_BLIND','A4_GATE'])
     nfe=sel['nfe_signal']+sel['nfe_interference']
@@ -102,7 +119,7 @@ def main():
                   f"excess-energy estimate is {max(r['features']['power'] for r in low_region):.3f}; "
                   f"the fitted threshold {policy['power_threshold_low']:g} therefore lies beyond observed support and acts as an always-Gaussian rule in that region. "
                   "It is not an identified physical transition, and the family comparison does not establish that either feature is individually necessary. ")
-    write(generated/'development_result.tex',cv_sentence+decision+support_note+devcontrols)
+    write(generated/'development_result.tex',cv_sentence+decision+'\n\n'+support_note+devcontrols)
 
     def effect(ref,label):
         q=comparisons[ref]
@@ -121,21 +138,41 @@ def main():
         frac=float(np.mean([r['selected']=='CDDM_BLIND' for r in rs if r['mode']=='SELECT']))
         profile_bits.append(f"{profile} {values['CDDM_BLIND']:.3f}/{values['A4']:.3f}/{values['SELECT']:.3f} dB "
                             f"with {100*frac:.1f}\\% Gaussian choices")
-    profile_text=("Disaggregating blind Gaussian/joint/selector PSNR gives "+", ".join(profile_bits)+". "
-                  "This profile dependence is consistent with complementary receiver utility, but does not identify the physical cause of the heterogeneity statistic. ")
+    profile_values={profile:{mode:float(np.mean([r['psnr'] for r in conf[1]
+                    if r['profile']==profile and r['mode']==mode]))
+                    for mode in ['CDDM_BLIND','A4','SELECT']}
+                    for profile in ['stationary','alternating','burst']}
+    stationary,alternating,burst=(profile_values[k] for k in ['stationary','alternating','burst'])
+    profile_text=(f"The fixed receivers are complementary across interference profiles. For stationary interference, "
+                  f"Gaussian denoising reaches {stationary['CDDM_BLIND']:.3f} dB against {stationary['A4']:.3f} dB "
+                  f"for joint sampling. Under burst interference, joint sampling reaches {burst['A4']:.3f} dB "
+                  f"against {burst['CDDM_BLIND']:.3f} dB for Gaussian denoising. "
+                  f"The selector reaches {stationary['SELECT']:.3f}, {alternating['SELECT']:.3f}, and "
+                  f"{burst['SELECT']:.3f} dB for stationary, alternating, and burst interference, respectively. "
+                  "Thus its gain is consistent with using different receivers for different observations; "
+                  "the energy statistic alone does not establish a physical explanation of the interference. ")
     anchor_text=""
     if backbone:
         dm=backbone['means']['deepjscc']; mm=backbone['means']['mambajscc']
         anchor_text=(f"Separately matched direct-codec anchors attain {dm['psnr']:.3f} dB for DeepJSCC "
                      f"and {mm['psnr']:.3f} dB for MambaJSCC; these use independently trained latent spaces "
-                     "and serve as landscape references rather than receiver-only controls. ")
+                     "and provide external codec references. "
+                     "One training seed and a fixed 40-epoch budget do not establish convergence or a general architecture ranking. ")
+    if pretrained:
+        pm=pretrained['means']
+        anchor_text+=(f"Without fine-tuning, public DeepJSCC (ImageNet/SNR 19), MambaJSCC (CLIC2021/AWGN 10), "
+                      f"and MambaJSCC (DIV2K/Rayleigh) weights yield "
+                      f"{pm['deepjscc_public_imagenet_snr19']['psnr']:.3f}, "
+                      f"{pm['mambajscc_public_awgn10_clic2021']['psnr']:.3f}, and "
+                      f"{pm['mambajscc_public_rayleigh_div2k']['psnr']:.3f} dB, respectively. "
+                      "Their protocol mismatches preclude a controlled claim about retraining benefit. ")
     text=(r"Table~\ref{tab:main} and Fig.~\ref{fig:quality} report the independent experiment. "
           +"The selector changes mean PSNR by "+effect('A4','calibrated joint sampling')+", "
           +effect('CDDM_BLIND','blind Gaussian denoising')+", and "
           +effect('A4_GATE','the same-gate control')+". "+interpretation
           +f"Estimating total disturbance changes the Gaussian receiver from {means['CDDM_N0']['psnr']:.3f} to "
            f"{means['CDDM_BLIND']['psnr']:.3f} dB, so the thermal-noise-only port is insufficient as the sole Gaussian baseline. "
-          +profile_text+anchor_text)
+          +'\n\n'+profile_text+'\n\n'+anchor_text)
     write(generated/'confirmation_result.tex',text)
 
     table=[r'\scriptsize\setlength{\tabcolsep}{2.4pt}',r'\begin{tabular}{lrrrrrr}',r'\toprule',
@@ -182,15 +219,19 @@ def main():
                              f"{signed(values['SELECT']-values['CDDM_BLIND'])} dB relative to Gaussian denoising.")
     pressure_table.extend([r'\bottomrule',r'\end{tabular}'])
     write(generated/'pressure_table.tex','\n'.join(pressure_table))
-    write(generated/'pressure_result.tex',r"Table~\ref{tab:pressure} separates the three pressure families. "
-          +' '.join(pressure_text)+" These shifted populations are diagnostic tests; no rule is refitted and their averages are not pooled with matched confirmation.")
+    shifted=pressure_details['shifted']; random=pressure_details['random_length']
+    write(generated/'pressure_result.tex',
+          rf"Table~\ref{{tab:pressure}} shows a {signed(shifted['SELECT']-shifted['CDDM_BLIND'])} dB selector change "
+          f"against Gaussian reception for shifted blocks and {signed(random['SELECT']-random['CDDM_BLIND'])} dB "
+          "for random lengths. With no interference, selection matches Gaussian reception and avoids the joint receiver's loss. "
+          "These are diagnostic populations; no rule is refitted or result pooled with matched confirmation.")
 
-    ending=("The frozen blind selector improves mean PSNR over both fixed receiver choices in the matched independent study. "
+    ending=("On independent image pairs, the frozen selector improves mean PSNR over both blind Gaussian denoising and calibrated joint sampling. "
             if conclusion_support else
             "The independent study does not establish that the frozen blind selector improves mean PSNR over both fixed receivers. ")
     ending+=("It also improves on the same-gate control. " if cgate['ci95_image_cluster'][0]>0 else
              "The same-gate comparison does not establish an additional positive effect with a wholly positive paired interval. ")
-    ending+=("Thus receiver-model choice earns a bounded empirical role, while harmful frames and mismatch results limit its deployment claim. "
+    ending+=("The same-gate result shows that the gain cannot be explained solely by bypassing joint inference. "
              if conclusion_support else
              "A low-dimensional receiver decision alone is therefore insufficient evidence for universal adaptation, even when the candidate receivers are complementary. ")
     write(generated/'conclusion_result.tex',ending)
@@ -257,6 +298,9 @@ def main():
     if backbone:
         receipt['backbone_signature']=backbone['signature']
         receipt['backbone_reference_signature']=backbone['reference_signature']
+    if pretrained:
+        receipt['public_pretrained_signature']=pretrained['signature']
+        receipt['public_pretrained_scope']='Protocol-mismatched transfer diagnostics; no controlled retraining effect'
     write(generated/'evidence_receipt.json',json.dumps(receipt,indent=2))
     print(json.dumps(receipt,indent=2))
 

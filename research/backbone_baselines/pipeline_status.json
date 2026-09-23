@@ -1,0 +1,15 @@
+{
+  "stage": "complete_pending_human_review",
+  "updated_at": 1790186883.8869686,
+  "pdf": "/home/sheng/ICDM_VTC2027_20260921/output/vtc2027_sheng/VTC2027_Sheng_Manuscript_BackboneAnchors.pdf",
+  "archive": "/home/sheng/ICDM_VTC2027_20260921/output/vtc2027_sheng/VTC2027_Sheng_LaTeX_BackboneAnchors.zip",
+  "pdf_audit": {
+    "status": "mechanical_checks_passed",
+    "pages": 6,
+    "overflows_pt": [],
+    "author_placeholder": true,
+    "scientific_and_visual_final_review": "not performed by this script"
+  },
+  "expected_confirmation_records": 18432,
+  "note": "Scientific and page-by-page visual review required before delivery"
+}

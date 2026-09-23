@@ -1,12 +1,8 @@
 {
-  "status": "scientific_and_visual_review_complete",
-  "reviewed_at_utc": "2026-09-22T16:05:20Z",
+  "status": "five_page_manuscript_and_local_evidence_review_complete",
+  "reviewed_at_utc": "2026-09-23T22:31:26.926975+00:00",
   "paper_pages": 5,
-  "paired_record_audit": "passed",
-  "source_weight_policy_signature_audit": "passed",
-  "citation_audit": "passed",
-  "latex_compile": "passed",
-  "pdf_mechanical_audit": "passed",
+  "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
     1,
     2,
@@ -14,11 +10,28 @@
     4,
     5
   ],
+  "latex_compile": "passed",
+  "pdf_mechanical_audit": "passed; no unresolved citations or overfull boxes",
+  "citation_audit": "11 actual citations verified; MambaJSCC updated to publisher-deposited 2026 IEEE TWC record",
+  "analysis_tests": "5/5 passed via unittest",
+  "matched_records": 18432,
+  "public_pretrained_records": 27648,
+  "paired_inputs_audit": "passed: image hashes, seeds, conditions, run signatures",
+  "analysis_replay": "both external analysis files exactly reproduced from raw records",
+  "training_audit": "four runs, 40 scheduled epochs, finite metrics, validation-selected best checkpoints, matching inventory hashes",
+  "local_checkpoint_recovery": "8/8 best/latest files recovered and SHA256 verified",
+  "supplementary_live_server_reaudit": "Unconfirmed: audit was launched, then SSH became unreachable; this does not replace archived training inventory receipts or local checkpoint verification.",
+  "server_final_upload": "not completed: SSH connection timed out",
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
-  "scope_caveat": "Shared-DiT receiver-only CDDM port; not a reproduction of the full retrained published CDDM system",
-  "public_pretrained_diagnostic_audit": "passed: 27648/27648 unique finite records; protocol mismatch label retained",
-  "public_pretrained_signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
-  "manuscript_sha256": "4812cdd1d6c738d54917b6fa57ca2c37ccfd7a4497272d6bf568e53a9634e8c9",
-  "latex_zip_sha256": "3760d17fbf4c5a9bfcd5b38bef36ad5ed0fb93de6810be4b25cd71aa48a13ee6"
+  "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
+  "manuscript_sha256": "d46caaa5d37f5bc776f2e6f12cacfe3cc0a3b74d85af80b17e1e495cd59a4bb0",
+  "latex_zip_sha256": "3e4cbfb4d90217f33487748fa3248549c818bbe814819b87fc376835ec345c3e",
+  "main_tex_sha256": "cb246371c4a1dd3a6ba4a89fd1c8094d3b1826dbd70589a7421dd56d6ebe69e8",
+  "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
+  "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
+  "audit_receipts": [
+    "research/vtc2027_sheng/BASELINE_DELIVERY_AUDIT.json",
+    "research/vtc2027_sheng/LOCAL_CHECKPOINT_RECOVERY.json"
+  ]
 }

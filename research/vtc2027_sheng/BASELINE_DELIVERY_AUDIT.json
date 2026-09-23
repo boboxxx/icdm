@@ -1,0 +1,108 @@
+{
+  "status": "passed",
+  "checked_at": 1790199645.716661,
+  "reference_signature": "4413eb09d4bb999452546332fb590aa910dbdaaaf6cc66aac71a45d582a0f23d",
+  "checks": {
+    "matched": {
+      "signature": "e98fb10dc24cde69e2719b2e24fe3a535d1dd328ba414bb3ea37d66436143e28",
+      "records": 18432,
+      "image_pairs": 256,
+      "input_hashes_seeds_conditions_match_frozen_confirmation": true
+    },
+    "public": {
+      "signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
+      "records": 27648,
+      "image_pairs": 256,
+      "input_hashes_seeds_conditions_match_frozen_confirmation": true
+    }
+  },
+  "training": {
+    "deepjscc_source": {
+      "epochs": 40,
+      "train_images": 162770,
+      "batches_per_epoch": 635,
+      "drop_last": true,
+      "validation_images": 1024,
+      "best_sha256": "5496d89e8d5326600bfe2e206ca5c68cd529fe0d9205cdb1ebb7d7f848cfae79",
+      "latest_sha256": "e48bee433e05b043257ce3a78bdcbbe773ba1c14bc8cfc6ac3d2bd1349d0be13",
+      "data_inventories": {
+        "train": {
+          "sha256": "9e4683eda5e0f63da8a52b306affabfb89114cdb4de5d208a18fe3a2333be0f4",
+          "files": 162770,
+          "bytes": 9403275432
+        },
+        "validation_full": {
+          "sha256": "f0c8d990af9613a76b13a658a0392256c7109a56857482ae68ff5f203f305cab",
+          "files": 19867,
+          "bytes": 1154463697
+        }
+      }
+    },
+    "deepjscc_interference": {
+      "epochs": 40,
+      "train_images": 50000,
+      "batches_per_epoch": 195,
+      "drop_last": true,
+      "validation_images": 1024,
+      "best_sha256": "4110b5fcf6c1ada98181b899d45b8497d8d8407b98a532c56a60f1a890559139",
+      "latest_sha256": "1e9d91a68a5a2f30be09645c697a3ea4952bd2342124dbe478a6309c639c8436",
+      "data_inventories": {
+        "train": {
+          "sha256": "ddfe9732f0df0ce5afaf00fedce556be5ebe2737be283877bbf247350d6dd8c5",
+          "files": 50000,
+          "bytes": 113048310
+        },
+        "validation_full": {
+          "sha256": "599fa3f8870ff9bbf8c749ee4dee7c0e61f1efcc68a285f22d5f84f31e136236",
+          "files": 5000,
+          "bytes": 11302883
+        }
+      }
+    },
+    "mambajscc_source": {
+      "epochs": 40,
+      "train_images": 162770,
+      "batches_per_epoch": 5086,
+      "drop_last": true,
+      "validation_images": 1024,
+      "best_sha256": "46d380c496e8842414478be7c690f4fee2b1e1211344db253680c0af5c0794aa",
+      "latest_sha256": "ac191ffa805f8eeead7431ed5686e95198acfd992ab0c1a8cd6c029efb274247",
+      "data_inventories": {
+        "train": {
+          "sha256": "9e4683eda5e0f63da8a52b306affabfb89114cdb4de5d208a18fe3a2333be0f4",
+          "files": 162770,
+          "bytes": 9403275432
+        },
+        "validation_full": {
+          "sha256": "f0c8d990af9613a76b13a658a0392256c7109a56857482ae68ff5f203f305cab",
+          "files": 19867,
+          "bytes": 1154463697
+        }
+      }
+    },
+    "mambajscc_interference": {
+      "epochs": 40,
+      "train_images": 50000,
+      "batches_per_epoch": 1562,
+      "drop_last": true,
+      "validation_images": 1024,
+      "best_sha256": "b90edabc213ce96f9648a41f09a80e5ac129fcdcb000cf0ce39877019b7be30f",
+      "latest_sha256": "b9e158068b8faa14c2ac33b442cc76ad0fe0b1184018967134f12954e1a49467",
+      "data_inventories": {
+        "train": {
+          "sha256": "ddfe9732f0df0ce5afaf00fedce556be5ebe2737be283877bbf247350d6dd8c5",
+          "files": 50000,
+          "bytes": 113048310
+        },
+        "validation_full": {
+          "sha256": "599fa3f8870ff9bbf8c749ee4dee7c0e61f1efcc68a285f22d5f84f31e136236",
+          "files": 5000,
+          "bytes": 11302883
+        }
+      }
+    }
+  },
+  "source_protocol_hashes_verified": true,
+  "server_weight_extension_input_training_file_hashes_verified": false,
+  "scope": "Cross-backbone inputs match; encoded received tensors differ. Forty scheduled epochs drop final incomplete training batches."
+}

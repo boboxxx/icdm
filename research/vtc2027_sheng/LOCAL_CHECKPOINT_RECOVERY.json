@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "checked_at": 1790200100.992212,
+  "files": {
+    "research/backbone_baselines/formal/mambajscc_source/best.pt": {
+      "sha256": "46d380c496e8842414478be7c690f4fee2b1e1211344db253680c0af5c0794aa",
+      "bytes": 58347885
+    },
+    "research/backbone_baselines/formal/mambajscc_source/latest.pt": {
+      "sha256": "ac191ffa805f8eeead7431ed5686e95198acfd992ab0c1a8cd6c029efb274247",
+      "bytes": 175172956
+    },
+    "research/backbone_baselines/formal/deepjscc_interference/best.pt": {
+      "sha256": "4110b5fcf6c1ada98181b899d45b8497d8d8407b98a532c56a60f1a890559139",
+      "bytes": 543854
+    },
+    "research/backbone_baselines/formal/deepjscc_interference/latest.pt": {
+      "sha256": "1e9d91a68a5a2f30be09645c697a3ea4952bd2342124dbe478a6309c639c8436",
+      "bytes": 1639987
+    },
+    "research/backbone_baselines/formal/deepjscc_source/best.pt": {
+      "sha256": "5496d89e8d5326600bfe2e206ca5c68cd529fe0d9205cdb1ebb7d7f848cfae79",
+      "bytes": 543854
+    },
+    "research/backbone_baselines/formal/deepjscc_source/latest.pt": {
+      "sha256": "e48bee433e05b043257ce3a78bdcbbe773ba1c14bc8cfc6ac3d2bd1349d0be13",
+      "bytes": 1639987
+    },
+    "research/backbone_baselines/formal/mambajscc_interference/best.pt": {
+      "sha256": "b90edabc213ce96f9648a41f09a80e5ac129fcdcb000cf0ce39877019b7be30f",
+      "bytes": 58347885
+    },
+    "research/backbone_baselines/formal/mambajscc_interference/latest.pt": {
+      "sha256": "b9e158068b8faa14c2ac33b442cc76ad0fe0b1184018967134f12954e1a49467",
+      "bytes": 175172956
+    }
+  },
+  "git_policy": "Large weight files kept locally and on sheng; GitHub includes hash receipts and raw result records."
+}

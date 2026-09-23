@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "architecture": "deepjscc",
+  "role": "source",
+  "external_repo": "external_baselines/deepjscc",
+  "external_commit": "2665e0dc6d8bf216daf9442c5d6e5d69c5ad2f06",
+  "data_root": "/mnt/d/ICDM_SC_data_full",
+  "train_images": 162770,
+  "validation_images": 4,
+  "image_size": 128,
+  "snr_db": 20,
+  "complex_channel_uses": 1024,
+  "cbr": 0.020833333333333332,
+  "epochs": 1,
+  "batch_size": 2,
+  "seed": 20260922,
+  "learning_rate": 0.001,
+  "effective_model": {
+    "c": 1,
+    "complex_pairing": "channel"
+  },
+  "torch": "2.5.0+cu118",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "started_at": 1790086344.573694,
+  "smoke_batches": 1,
+  "completed_at": 1790086344.859273,
+  "best_val_mse": 0.0602613960703214,
+  "best_sha256": "595e3a2dbe98ca1a27a9dfeb39484d7301997dc4186e668d1794a0354011dda6",
+  "latest_sha256": "00ad6bffb3062c36e4792fa8066bc22d5873c764d4e1b6cd06c3efc297d6586a"
+}

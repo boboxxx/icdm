@@ -7,10 +7,11 @@ threshold directions are tested on development data; a fixed receiver is
 retained if image-group validation does not support adaptation.
 
 The source now contains the complete development, independent-confirmation and
-pressure-test evidence. `scripts/build_vtc2027_evidence.py` generated the
+pressure-test evidence, 18,432 matched-retrained DeepJSCC/MambaJSCC records,
+and 27,648 public-weight diagnostic records. `scripts/build_vtc2027_evidence.py` generated the
 numerical sections only after the policy freeze, paired-input checks and data
 audit passed. The final manuscript was reviewed scientifically and visually on
-2026-09-22. Author names, affiliations and correspondence remain explicit
+2026-09-23. Author names, affiliations and correspondence remain explicit
 placeholders and must be supplied before submission.
 
 Build with a standard TeX Live installation:
@@ -18,6 +19,12 @@ Build with a standard TeX Live installation:
 ```
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
+
+Table I and Figure 1 now include matched-retrained external codec anchors.
+Section IV-B reports all three public-weight PSNR results separately. Training
+uses one seed and a fixed 40-epoch budget, so these anchors do not establish
+convergence or a general architecture ranking. Each matched anchor also trains
+its own interference encoder; cross-backbone received tensors differ.
 
 The reviewed manuscript is five pages. Figures are vector PDFs, with PNG
 previews. The six
@@ -40,8 +47,27 @@ protocol-mismatched external anchors. They are not mixed with the matched
 confirmation ranking; the public DeepJSCC checkpoint also uses substantially
 more channel symbols than the locked 1/48-CBR protocol.
 
-Target checked 2026-09-21: IEEE VTC 2027 Spring, Hamburg, 20–23 June 2027.
+Target checked 2026-09-23: IEEE VTC 2027 Spring, Hamburg, 20–23 June 2027.
 Official regular-paper deadline at that check: 30 September 2026.
 https://events.vtsociety.org/vtc2027-spring/
 
 No conference submission has been made.
+
+Regenerate all numeric content from the project root (CPU only):
+
+```sh
+python3 -m scripts.build_vtc2027_evidence \
+  --results research/vtc2027_sheng/completed_bundle/results \
+  --paper paper/vtc2027_selective_sheng \
+  --backbones research/backbone_baselines/confirmation \
+  --pretrained research/pretrained_baselines/confirmation
+```
+
+`research/vtc2027_sheng/BASELINE_DELIVERY_AUDIT.json` records locked-input
+checks; the optional server-file re-audit additionally checks training/validation
+content hashes. Its completion status is recorded in the final review receipt.
+`LOCAL_CHECKPOINT_RECOVERY.json` verifies all eight recovered best/latest weights. Raw confirmation records and
+40-epoch logs are archived under `research/backbone_baselines/`. Large training
+checkpoints remain on sheng under `research/backbone_baselines/formal/`; their
+best/latest SHA256 identities are in each receipt. No original CDDM/ICDM
+full-system replication or superiority is claimed.

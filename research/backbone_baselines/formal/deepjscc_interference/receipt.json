@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "architecture": "deepjscc",
+  "role": "interference",
+  "external_repo": "external_baselines/deepjscc",
+  "external_commit": "2665e0dc6d8bf216daf9442c5d6e5d69c5ad2f06",
+  "data_root": "/mnt/d/ICDM_SC_data_full",
+  "train_images": 50000,
+  "data_inventories": {
+    "train": {
+      "sha256": "ddfe9732f0df0ce5afaf00fedce556be5ebe2737be283877bbf247350d6dd8c5",
+      "files": 50000,
+      "bytes": 113048310
+    },
+    "validation_full": {
+      "sha256": "599fa3f8870ff9bbf8c749ee4dee7c0e61f1efcc68a285f22d5f84f31e136236",
+      "files": 5000,
+      "bytes": 11302883
+    }
+  },
+  "validation_images": 1024,
+  "image_size": 128,
+  "snr_db": 20.0,
+  "complex_channel_uses": 1024,
+  "cbr": 0.020833333333333332,
+  "epochs": 40,
+  "batch_size": 256,
+  "seed": 20260922,
+  "learning_rate": 0.001,
+  "effective_model": {
+    "c": 1,
+    "complex_pairing": "channel"
+  },
+  "torch": "2.5.0+cu118",
+  "optimizer": "Adam",
+  "scheduler": "StepLR(step_size=640,gamma=0.1)",
+  "adapter_sha256": "d70738316ac77f90e1cefbcefda2bc118115618ba5fca6d7a5028f7d7f2035c0",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "started_at": 1790093736.6110876,
+  "encoder_parameters": 66919,
+  "decoder_parameters": 66916,
+  "smoke_batches": 0,
+  "completed_at": 1790094237.0459921,
+  "best_val_mse": 0.002222797367721796,
+  "best_sha256": "4110b5fcf6c1ada98181b899d45b8497d8d8407b98a532c56a60f1a890559139",
+  "latest_sha256": "1e9d91a68a5a2f30be09645c697a3ea4952bd2342124dbe478a6309c639c8436"
+}

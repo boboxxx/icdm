@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "architecture": "mambajscc",
+  "role": "source",
+  "external_repo": "external_baselines/mambajscc",
+  "external_commit": "8323f9799f48c0efddce0521100d5c4e12ebf699",
+  "data_root": "/mnt/d/ICDM_SC_data_full",
+  "train_images": 162770,
+  "validation_images": 2,
+  "image_size": 128,
+  "snr_db": 20,
+  "complex_channel_uses": 1024,
+  "cbr": 0.020833333333333332,
+  "epochs": 1,
+  "batch_size": 1,
+  "seed": 20260922,
+  "learning_rate": 0.0001,
+  "effective_model": {
+    "out_channels": 32,
+    "channel_adaptive": "ssm",
+    "complex_pairing": "height",
+    "config_yaml": "AMP_ENABLE: true\nAMP_OPT_LEVEL: ''\nAUG:\n  AUTO_AUGMENT: rand-m9-mstd0.5-inc1\n  COLOR_JITTER: 0.4\n  CUTMIX: 1.0\n  CUTMIX_MINMAX: null\n  MIXUP: 0.8\n  MIXUP_MODE: batch\n  MIXUP_PROB: 1.0\n  MIXUP_SWITCH_PROB: 0.5\n  RECOUNT: 1\n  REMODE: pixel\n  REPROB: 0.25\nBASE:\n- ''\nCHANNEL:\n  ADAPTIVE: ssm\n  SNR:\n  - 20\n  TYPE: awgn\nDATA:\n  CACHE_MODE: part\n  DATASET: CelebA\n  DATA_PATH: ''\n  IMG_SIZE: 128\n  INTERPOLATION: bicubic\n  MASK_PATCH_SIZE: 32\n  MASK_RATIO: 0.6\n  NUM_WORKERS: 8\n  PIN_MEMORY: true\n  RANGE: 5\n  REQUIRE_DISTRIBUTION: true\n  SCALE: 10000\n  TEST_BATCH: 1\n  TRAIN_BATCH: 20\n  ZIP_MODE: false\n  test_data_dir: /mnt/sda/datasets/CelebA/Img/validset\n  train_data_dir: /mnt/sda/datasets/CelebA/Img/trainset\nENABLE_AMP: false\nEVAL_MODE: false\nFUSED_LAYERNORM: false\nMODEL:\n  DROP_PATH_RATE: 0.2\n  DROP_RATE: 0.0\n  LABEL_SMOOTHING: 0.1\n  MMCKPT: false\n  NAME: vssm_tiny\n  PRETRAINED: ''\n  RESUME: ''\n  TYPE: vssm\n  VSSM:\n    DEPTHS:\n    - 2\n    - 2\n    - 6\n    - 2\n    DOWNSAMPLE: v1\n    EMBED_DIM:\n    - 128\n    - 192\n    - 256\n    - 320\n    Extent: MLP\n    IN_CHANS: 3\n    MLP_ACT_LAYER: gelu\n    MLP_DROP_RATE: 0.0\n    MLP_RATIO: 4.0\n    NORM_LAYER: ln\n    OUT_CHANS: 32\n    PATCHEMBED: v1\n    PATCH_NORM: true\n    PATCH_SIZE: 2\n    PE: 'no'\n    SCAN: cross\n    SCAN_NUMBER: 2\n    SSM_ACT_LAYER: gelu\n    SSM_CONV: 3\n    SSM_CONV_BIAS: true\n    SSM_DROP_RATE: 0.0\n    SSM_DT_RANK: auto\n    SSM_D_STATE: 16\n    SSM_FORWARDTYPE: v2\n    SSM_RANK_RATIO: 2.0\n    SSM_RATIO: 2.0\n    SSM_SIMPLE_INIT: false\n    channel_input: conv\n  disc_num_layers: 3\n  use_actnorm: false\nOUTPUT: ''\nPRINT_FREQ: 10\nSAVE_FREQ: 1\nSEED: 0\nTAG: default\nTEST:\n  CROP: true\n  SEQUENTIAL: false\n  SHUFFLE: false\nTHROUGHPUT_MODE: false\nTRAIN:\n  ACCUMULATION_STEPS: 1\n  AUTO_RESUME: true\n  BASE_LR: 0.0001\n  CLIP_GRAD: 5.0\n  DATA_PARALLEL: false\n  DECODER_PATH: /mnt/sda/wt/MambaJSCCcheckpoints/CelebA/decoder\n  DIS_WEIGHT: 0.5\n  ENCODER_PATH: /mnt/sda/wt/MambaJSCCcheckpoints/CelebA/encoder\n  EPOCHS: 40\n  EVAL_MATRIX: PSNR\n  GAN_LOSS: false\n  LAYER_DECAY: 1.0\n  LOSS: MSE\n  LR_SCHEDULER:\n    DECAY_EPOCHS: 30\n    DECAY_RATE: 0.1\n    GAMMA: 0.1\n    MULTISTEPS: []\n    NAME: cosine\n    WARMUP_PREFIX: true\n  MIN_LR: 5.0e-06\n  MOE:\n    SAVE_MASTER: false\n  OPTIMIZER:\n    BETAS:\n    - 0.9\n    - 0.999\n    EPS: 1.0e-08\n    MOMENTUM: 0.9\n    NAME: adamw\n  SAVE_FRE: 10\n  START_EPOCH: 10\n  USE_CHECKPOINT: false\n  WARMUP_EPOCHS: 20\n  WARMUP_LR: 5.0e-07\n  WEIGHT_DECAY: 0.05\n"
+  },
+  "torch": "2.5.0+cu118",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "started_at": 1790086424.4966853,
+  "smoke_batches": 1,
+  "completed_at": 1790086425.0459952,
+  "best_val_mse": 0.19366673628489176,
+  "best_sha256": "ac77baf80b436ae4d68e23a624984647dd458d1d440d017aa10e04ba99d8367a",
+  "latest_sha256": "2e7f9699f429ae411b9735626dd81b7457842a95c5080033f1e633838c92fb58"
+}

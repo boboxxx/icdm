@@ -3,7 +3,9 @@
 \toprule
 Receiver & PSNR & MSE$\times10^3$ & LPIPS & MS-SSIM & NFE & ms\\
 \midrule
-Direct & 18.67 & 29.14 & 0.440 & 0.697 & 0.0 & 8\\
+SwinJSCC direct & 18.67 & 29.14 & 0.440 & 0.697 & 0.0 & 8\\
+DeepJSCC direct & 17.39 & 24.71 & 0.575 & 0.684 & 0.0 & 1\\
+MambaJSCC direct & 16.92 & 44.13 & 0.463 & 0.613 & 0.0 & 10\\
 Gaussian (N0) & 18.83 & 28.70 & 0.438 & 0.700 & 18.0 & 225\\
 Blind Gaussian & 20.84 & 24.90 & 0.378 & 0.782 & 40.0 & 488\\
 Init. joint & 19.61 & 20.15 & 0.363 & 0.793 & 80.0 & 1110\\

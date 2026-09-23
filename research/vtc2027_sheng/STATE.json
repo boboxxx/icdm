@@ -1,6 +1,6 @@
 {
-  "status": "backbone_extension_training_public_pretrained_complete",
-  "updated_at": 1790092777,
+  "status": "manuscript_complete_github_sync_pending",
+  "updated_at": 1790202686.931125,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -13,7 +13,7 @@
   },
   "local_delivery_session_id": 79985,
   "heartbeat_id": "sheng-vtc-2027",
-  "heartbeat_status": "ACTIVE for DeepJSCC/MambaJSCC extension",
+  "heartbeat_status": "PAUSED (existing user automation state verified)",
   "old_artemis_automations": "PAUSED; do not resume",
   "expected_records": {
     "development": 8064,
@@ -44,7 +44,7 @@
     "status": "complete, excluded"
   },
   "paper_source": "paper/vtc2027_selective_sheng/main.tex",
-  "paper_current_status": "Complete five-page manuscript with audited experimental evidence and final scientific/visual review",
+  "paper_current_status": "Five-page manuscript rewritten for coherent problem-method-evidence sequence; all baseline results integrated and all five pages visually reviewed.",
   "local_draft_pdf": "paper/vtc2027_selective_sheng/build/main.pdf",
   "remote_draft_pdf": "paper/vtc2027_selective_sheng/build_sheng/main.pdf",
   "paper_builds": {
@@ -71,10 +71,10 @@
     "Negative confirmation changes claims, not data",
     "Final scientific and visual review is still required, even when automatic assembly succeeds"
   ],
-  "next_action": "Continue the nonduplicated matched DeepJSCC/MambaJSCC pipeline; then audit, retrieve, update Table I/Fig. 1, recompile, visually review, and push final evidence.",
+  "next_action": "Push final reviewed five-page manuscript and raw baseline records. Optional server live-file re-audit and final mirror upload can be checked when sheng reconnects; do not rerun GPU jobs.",
   "latest_observed_development_records": 8064,
   "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
-  "last_check_utc": "2026-09-22T16:03:43Z",
+  "last_check_utc": "2026-09-23T22:31:26.926975+00:00",
   "last_check": {
     "pipeline_stage": "experiment_complete",
     "server_delivery_stage": "manuscript_assembled",
@@ -134,10 +134,10 @@
     "scope": "matched confirmation population only"
   },
   "final_review": {
-    "paired_record_audit": "passed",
+    "paired_record_audit": "passed including both external tracks",
     "data_hash_audit": "passed",
-    "source_weight_policy_hash_audit": "passed",
-    "citation_audit": "passed",
+    "source_weight_policy_hash_audit": "archived signatures and recovered weights passed; optional live server inventory recheck unconfirmed",
+    "citation_audit": "passed, 11 references",
     "latex_compile": "passed",
     "pdf_pages_visual_reviewed": [
       1,
@@ -158,20 +158,41 @@
   "remote_final_sync": {
     "server_assembled_package_present": true,
     "local_post_review_package_newer": true,
-    "post_review_upload": "blocked by Tailscale SSH additional authentication check",
-    "local_delivery_complete": true
+    "post_review_upload": "SSH timed out; reviewed local and GitHub versions are authoritative",
+    "local_delivery_complete": true,
+    "supplementary_server_file_reaudit": "unconfirmed after network loss; do not duplicate running audit blindly"
   },
   "backbone_extension": {
     "scope": "matched-retrained DeepJSCC and official MambaJSCC direct-codec anchors",
     "remote_pipeline_pid": 95566,
     "remote_status": "research/backbone_baselines/pipeline_status.json",
-    "remote_stage": "training_deepjscc_source",
+    "remote_stage": "experiments_complete",
     "expected_confirmation_records": 18432,
     "deepjscc_repo_commit": "2665e0dc6d8bf216daf9442c5d6e5d69c5ad2f06",
     "mambajscc_repo_commit": "8323f9799f48c0efddce0521100d5c4e12ebf699",
     "implementation_commit": "db2755f",
     "started_at": 1790087992.989041,
-    "scientific_boundary": "Direct codec anchors only; not full original CDDM or ICDM reproductions."
+    "scientific_boundary": "Direct codec anchors only; not full original CDDM or ICDM reproductions.",
+    "latest_completed_epoch": 40,
+    "planned_epochs_current_stage": 40,
+    "failure_observed": false,
+    "completed_training_stages": [
+      "deepjscc_source_40_epochs",
+      "deepjscc_interference_40_epochs",
+      "mambajscc_source_40_epochs",
+      "mambajscc_interference_40_epochs"
+    ],
+    "remaining_stages": [
+      "github_delivery"
+    ],
+    "gpu_utilization_percent": 0,
+    "records": 18432,
+    "signature": "e98fb10dc24cde69e2719b2e24fe3a535d1dd328ba414bb3ea37d66436143e28",
+    "means_psnr_db": {
+      "deepjscc": 17.394034907221794,
+      "mambajscc": 16.923192606773227
+    },
+    "local_weights_recovered_and_verified": true
   },
   "public_pretrained_extension": {
     "status": "complete",

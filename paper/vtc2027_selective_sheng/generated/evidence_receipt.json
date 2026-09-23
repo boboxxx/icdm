@@ -39,5 +39,9 @@
     }
   },
   "nfe_reduction_percent": 34.72778320312499,
-  "author_information": "pending"
+  "author_information": "pending",
+  "backbone_signature": "e98fb10dc24cde69e2719b2e24fe3a535d1dd328ba414bb3ea37d66436143e28",
+  "backbone_reference_signature": "4413eb09d4bb999452546332fb590aa910dbdaaaf6cc66aac71a45d582a0f23d",
+  "public_pretrained_signature": "6f1dbd81eadee9cd4548a5734a99405d1ac3d3ede5250679774b71f54ce9a896",
+  "public_pretrained_scope": "Protocol-mismatched transfer diagnostics; no controlled retraining effect"
 }
