@@ -1,6 +1,6 @@
 {
-  "status": "manuscript_complete_github_sync_pending",
-  "updated_at": 1790202686.931125,
+  "status": "five_page_manuscript_and_baseline_results_delivered",
+  "updated_at": 1790202791.459135,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -13,7 +13,7 @@
   },
   "local_delivery_session_id": 79985,
   "heartbeat_id": "sheng-vtc-2027",
-  "heartbeat_status": "PAUSED (existing user automation state verified)",
+  "heartbeat_status": "PAUSED; existing automation state verified, manuscript delivery complete",
   "old_artemis_automations": "PAUSED; do not resume",
   "expected_records": {
     "development": 8064,
@@ -71,10 +71,10 @@
     "Negative confirmation changes claims, not data",
     "Final scientific and visual review is still required, even when automatic assembly succeeds"
   ],
-  "next_action": "Push final reviewed five-page manuscript and raw baseline records. Optional server live-file re-audit and final mirror upload can be checked when sheng reconnects; do not rerun GPU jobs.",
+  "next_action": "No additional experiments needed for this delivery. Author details remain to be supplied. When sheng reconnects, retrieve any existing supplementary file-audit receipt and mirror the reviewed package; do not duplicate jobs.",
   "latest_observed_development_records": 8064,
   "source_archive_sha256": "1a5c1637eeeb7cf47362274eaa0be8ab434c1a2ca195ceb11a398559b131c3ac",
-  "last_check_utc": "2026-09-23T22:31:26.926975+00:00",
+  "last_check_utc": "2026-09-23T22:33:11.459136+00:00",
   "last_check": {
     "pipeline_stage": "experiment_complete",
     "server_delivery_stage": "manuscript_assembled",
@@ -182,9 +182,7 @@
       "mambajscc_source_40_epochs",
       "mambajscc_interference_40_epochs"
     ],
-    "remaining_stages": [
-      "github_delivery"
-    ],
+    "remaining_stages": [],
     "gpu_utilization_percent": 0,
     "records": 18432,
     "signature": "e98fb10dc24cde69e2719b2e24fe3a535d1dd328ba414bb3ea37d66436143e28",
@@ -213,5 +211,13 @@
     },
     "scientific_boundary": "Mamba weights match 1/48 CBR but not training domain/channel/resolution; Deep checkpoint uses CBR 0.16256. Contrasts are descriptive only.",
     "github_commit": "d9f4602"
+  },
+  "github_delivery": {
+    "status": "pushed",
+    "repository": "https://github.com/boboxxx/icdm",
+    "branch": "codex/published-baseline-artifacts",
+    "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
+    "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
+    "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git"
   }
 }
