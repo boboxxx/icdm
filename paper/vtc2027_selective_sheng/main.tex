@@ -104,6 +104,9 @@ presents the two candidates and selection rule, Section IV reports the
 experiments, and Section V concludes the paper.
 
 \section{System Model and Problem Formulation}
+In this section, we introduce the image transmission model with co-channel
+interference and formulate the receiver-selection problem.
+
 \subsection{Image Transmission with Co-Channel Interference}
 We consider a desired image transmitter, a co-channel interferer, and a
 receiver that reconstructs the desired image. Let $\bm u\in[0,1]^d$ denote a
@@ -151,6 +154,9 @@ receiver decision from codec retraining and makes its additional inference
 cost explicit.
 
 \section{Blind Disturbance-Model Selection}
+In this section, we describe the two candidate receivers and develop a blind
+selection rule that chooses one receiver before diffusion inference.
+
 \subsection{Candidate Disturbance Models}
 The explicit model associates two learned priors with \eqref{eq:channel}:
 \begin{equation}
@@ -161,13 +167,11 @@ The explicit model associates two learned priors with \eqref{eq:channel}:
  \end{split}
  \label{eq:joint}
 \end{equation}
-This equation describes the model; our finite-step sampler is an approximation,
-not an exact posterior draw or a proven MAP optimizer.
-Without priors, the change
+The sampler approximates this posterior with finitely many updates.
+The mixture alone cannot identify both latents: the change
 $\bm x_b'=\bm x_b+a_b\bm\delta_b$,
 $\bm z_b'=\bm z_b-\bm\delta_b$ leaves the mixture unchanged.
-Power constraints remove some ambiguity but do not generally identify both
-latents. The Gaussian model instead uses
+The Gaussian model instead uses
 \begin{equation}
  p_{\G}(\bm y\mid\bm x;\nu)=
  \mathcal{CN}(\bm y;\bm x,\nu\bm I),\qquad \nu\ge N_0 .
@@ -176,8 +180,7 @@ latents. The Gaussian model instead uses
 It sacrifices interference structure to avoid explicit component estimation.
 
 \subsection{Candidate Receivers}
-Both candidates process the same received frame and use the same desired-signal
-prior and decoder. They differ in how they represent the disturbance.
+Both receivers use the same frozen desired-signal prior and decoder.
 For Gaussian reception, estimate the disturbance from raw received symbols:
 \begin{equation}
  \begin{gathered}
@@ -214,8 +217,7 @@ For decreasing respaced indices, a noise predictor $\epsilon_s$ gives
  \label{eq:gaussian_update}
 \end{align}
 At most 40 predictor evaluations are used, with fewer when the matched initial
-index is below 39. A common normalization and the frozen decoder produce the
-reconstructed image.
+index is below 39.
 
 The structured receiver $\SIC$ initializes
 $a_b^{(0)}=\sqrt{\pos{e_b-1-N_0}}$ and performs joint diffusion inference with
@@ -287,6 +289,10 @@ generalization bound. Mean PSNR is the fitting objective; neither mean MSE,
 LPIPS nor harmful-tail probability is implicitly optimized.
 
 \section{Experimental Evaluation}
+In this section, we evaluate reconstruction quality and inference cost against
+fixed receivers and external codecs, followed by tests of harmful decisions
+and interference mismatch.
+
 \subsection{Experimental Setup}
 Desired images are $128\times128$ CelebA center crops \cite{liu2015celeba};
 $32\times32$ CIFAR-10 interference images are nearest-neighbor upsampled.
@@ -340,10 +346,6 @@ use 5,000 bootstrap resamples of image pairs, retaining both seeds and all
 conditions. A harmful decision loses more than 0.5 dB against its comparator.
 
 \subsection{Frozen Rule and Receiver Comparison}
-\input{generated/development_result.tex}
-\input{generated/confirmation_result.tex}
-In Fig.~\ref{fig:quality}, solid curves use the frozen SwinJSCC latent space,
-whereas dashed curves use the separately retrained codecs.
 \begin{table}[t]
 \centering
 \caption{Reconstruction quality and receiver cost on the confirmation set.}
@@ -357,16 +359,23 @@ whereas dashed curves use the separately retrained codecs.
 \label{fig:quality}
 \end{figure}
 
-\subsection{Inference Cost and Harmful Decisions}
-\input{generated/tail_result.tex}
-The CDF in Fig.~\ref{fig:tail} uses received frames; its vertical line marks
-the $-0.5$ dB harmful-loss threshold.
 \begin{figure}[t]
 \centering
 \ResultFigure{figures/paired_tail.pdf}
 \caption{Empirical CDF of per-frame PSNR change relative to calibrated joint sampling.}
 \label{fig:tail}
 \end{figure}
+
+\input{generated/development_result.tex}
+\input{generated/confirmation_result.tex}
+In Fig.~\ref{fig:quality}, solid curves use the frozen SwinJSCC latent space,
+whereas dashed curves use the separately retrained codecs.
+
+\subsection{Inference Cost and Harmful Decisions}
+\input{generated/tail_result.tex}
+The CDF in Fig.~\ref{fig:tail} uses received frames; its vertical line marks
+the $-0.5$ dB harmful-loss threshold.
+
 
 \subsection{Block Mismatch and No Interference}
 Pressure tests use 64 further test pairs and seed 3700, with nominal SINR
@@ -392,22 +401,12 @@ prespecified examples: image pairs
 \label{fig:qualitative}
 \end{figure}
 
-\section{Discussion and Conclusion}
+\section{Conclusion}
 \input{generated/conclusion_result.tex}
-The gain is supported for the evaluated source, interference population and
-inference budget. It is not a guarantee for individual frames: the harmful
-tail persists, and block-boundary mismatch nearly removes the advantage over
-Gaussian denoising. Received-energy heterogeneity can also originate from the
-desired signal, so the branch label should be interpreted as a reconstruction
-decision rather than identification of the interferer.
-
-PSNR and MSE aggregate the same pixel errors differently; LPIPS and MS-SSIM
-add perceptual evidence but do not measure success in a driving, recognition
-or control task. Applying this receiver decision to vehicular communication
-requires evaluation with task-specific losses, fading, channel estimation and
-synchronization. The present results establish a narrower point: selecting
-between existing disturbance models can improve average reconstruction while
-reducing the cost of always invoking joint inference.
+These gains are population-specific: harmful decisions remain, and block
+mismatch nearly removes the advantage over Gaussian denoising. Future work
+will address fading, synchronization errors, and task-oriented evaluation
+for vehicular links.
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

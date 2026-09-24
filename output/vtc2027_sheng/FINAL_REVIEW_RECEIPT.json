@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-23T22:42:25.396038+00:00",
+  "reviewed_at_utc": "2026-09-24T10:08:48.570521+00:00",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "8c6acd977b844fb42d538c435b8de11073e9320878571b1745da60c616fab5c4",
-  "latex_zip_sha256": "4a6923a7adb3c329ea7e16fb9b2daad837729eca04ba5cecf4f49baac6fb47d9",
-  "main_tex_sha256": "082ec02be35bb796e9bf30a889e21ea9c25e543883031e544fa5b3c9d7bad945",
+  "manuscript_sha256": "529ca6bf7c5c7fa69cbb2848d4c45de39fc441c0ae5e7be555832e02ee864fcc",
+  "latex_zip_sha256": "259f20999877b71aabac6875aeffbf571b15ee77c91cf833c697092fafe81a5b",
+  "main_tex_sha256": "d8ca16b87af90469c86c24b58cc42ee8652b58256b02aa373c2488ca740e157e",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -42,6 +42,12 @@
     "captions": 5,
     "all_captions_single_sentence": true,
     "encoder_channel_decoder_chain_explicit": true,
-    "experimental_data_changed": false
+    "experimental_data_changed": false,
+    "section_opening_roadmaps": [
+      2,
+      3,
+      4
+    ],
+    "conclusion_opening": "In this paper, we proposed"
   }
 }

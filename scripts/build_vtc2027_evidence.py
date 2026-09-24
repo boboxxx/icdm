@@ -226,14 +226,12 @@ def main():
           "for random lengths. With no interference, selection matches Gaussian reception and avoids the joint receiver's loss. "
           "These are diagnostic populations; no rule is refitted or result pooled with matched confirmation.")
 
-    ending=("On independent image pairs, the frozen selector improves mean PSNR over both blind Gaussian denoising and calibrated joint sampling. "
+    ending=("In this paper, we proposed a blind selector that uses received energy and block-energy heterogeneity "
+            "to choose between Gaussian denoising and joint signal--interference reconstruction with frozen neural weights. ")
+    ending+=(f"Independent confirmation shows PSNR gains of {cg['mean_delta_psnr']:.3f} and {ca['mean_delta_psnr']:.3f} dB "
+             f"over the respective receivers, with {saving:.1f}\\% fewer predictor evaluations than joint sampling. "
             if conclusion_support else
-            "The independent study does not establish that the frozen blind selector improves mean PSNR over both fixed receivers. ")
-    ending+=("It also improves on the same-gate control. " if cgate['ci95_image_cluster'][0]>0 else
-             "The same-gate comparison does not establish an additional positive effect with a wholly positive paired interval. ")
-    ending+=("The same-gate result shows that the gain cannot be explained solely by bypassing joint inference. "
-             if conclusion_support else
-             "A low-dimensional receiver decision alone is therefore insufficient evidence for universal adaptation, even when the candidate receivers are complementary. ")
+            "The independent study does not establish a mean-PSNR improvement over both fixed receivers. ")
     write(generated/'conclusion_result.tex',ending)
 
     import matplotlib

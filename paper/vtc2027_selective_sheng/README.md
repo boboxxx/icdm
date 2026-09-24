@@ -11,7 +11,7 @@ pressure-test evidence, 18,432 matched-retrained DeepJSCC/MambaJSCC records,
 and 27,648 public-weight diagnostic records. `scripts/build_vtc2027_evidence.py` generated the
 numerical sections only after the policy freeze, paired-input checks and data
 audit passed. The final manuscript was reviewed scientifically and visually on
-2026-09-23. Author names, affiliations and correspondence remain explicit
+2026-09-24. Author names, affiliations and correspondence remain explicit
 placeholders and must be supplied before submission.
 
 Build with a standard TeX Live installation:
@@ -78,3 +78,7 @@ on page two and defines the encoders, normalization, interference channel,
 decoder and receiver decision; Section III presents the selection method.
 All five figure/table captions are single sentences. Details and reading
 sources are documented in `research/vtc2027_sheng/VTC_WRITING_REVIEW_ZH.md`.
+
+The section-opening revision adds explicit “In this section” roadmaps to
+Sections II–IV and starts the concise conclusion with “In this paper”.
+The five-page layout was recompiled and visually checked on 2026-09-24.

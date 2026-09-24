@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_baseline_results_delivered",
-  "updated_at": 1790203413.5588071,
+  "updated_at": 1790244528.640687,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -44,7 +44,7 @@
     "status": "complete, excluded"
   },
   "paper_source": "paper/vtc2027_selective_sheng/main.tex",
-  "paper_current_status": "Revised five-page manuscript: introduction fills page one; no standalone Related Work; explicit encoder/channel/decoder system model starts page two; all captions single sentences; all five pages visually reviewed.",
+  "paper_current_status": "Five pages, all pages visually reviewed; explicit In this section roadmaps in II–IV; Conclusion begins In this paper. First-page Introduction and second-page System Model retained.",
   "local_draft_pdf": "paper/vtc2027_selective_sheng/build/main.pdf",
   "remote_draft_pdf": "paper/vtc2027_selective_sheng/build_sheng/main.pdf",
   "paper_builds": {
@@ -219,8 +219,9 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "VTC structure revision pushed",
+    "editorial_revision": "section-opening revision prepared locally; push pending",
     "editorial_commit": "8c98a07a5a813a57421e3e6a0db0cf8ebb29ab1c"
   },
-  "latest_editorial_revision": "VTC_WRITING_REVIEW_ZH.md; no experiment or threshold changes"
+  "latest_editorial_revision": "Section roadmaps and concise conventional conclusion; no experiment or threshold changes",
+  "last_editorial_check_utc": "2026-09-24T10:08:48.570521+00:00"
 }
