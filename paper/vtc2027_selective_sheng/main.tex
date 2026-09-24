@@ -39,69 +39,70 @@ receiver adaptation, deep joint source--channel coding.
 \DraftNotice
 
 \section{Introduction}
-Deep joint source--channel coding (JSCC) transmits an image by mapping its
-pixels directly to channel symbols. The encoder and decoder are trained
-together, enabling reconstruction quality to degrade gradually as the channel
-worsens \cite{bourtsoulatze2019deep}. SwinJSCC uses transformer features for
-image transmission \cite{yang2025swinjscc}, while MambaJSCC adopts a state-space
-architecture \cite{wu2024mambajscc}. These learned codecs address the bandwidth
-and noise constraints of wireless image transmission. A deployed receiver,
-however, may also encounter co-channel interference whose strength and
-structure differ from the channel used in training.
+Wireless image reception under co-channel interference requires recovering
+the desired image from a mixture whose interference power and structure are
+unknown. Deep joint source--channel coding (JSCC) maps images directly to
+channel symbols, enabling gradual quality degradation as noise increases
+\cite{bourtsoulatze2019deep}. SwinJSCC and MambaJSCC extend this approach with
+transformer and state-space architectures \cite{yang2025swinjscc,wu2024mambajscc}.
+A deployed codec must handle interference without changing the transmitted
+representation or incurring unnecessary inference cost.
 
-Generative receivers can improve reconstruction without redesigning the
-transmitted representation. CDDM matches the channel disturbance to a diffusion
-noise level and denoises the received latent \cite{wu2024cddm}. ICDM explicitly
-models the desired and interfering latents and recovers them jointly
-\cite{wu2026icdm}. Receiver adaptation has also been studied through iterative
-source error correction \cite{pmlr-v206-lee23c}, channel-conditioned diffusion
-reconstruction \cite{wang2025diffcom}, and blind estimation of forward-model
-parameters \cite{murata2023gibbsddrm}. These methods motivate using learned
-priors at reception, but leave a practical choice for a receiver equipped with
-both denoising and interference-reconstruction capabilities.
+Generative receivers address this problem by using learned signal priors.
+CDDM denoises the received latent after matching the channel disturbance to
+a diffusion noise level \cite{wu2024cddm}; ICDM explicitly reconstructs the
+desired and interfering latents jointly \cite{wu2026icdm}. Iterative source
+error correction \cite{pmlr-v206-lee23c}, channel-conditioned diffusion
+reconstruction \cite{wang2025diffcom}, and blind inverse-problem inference
+\cite{murata2023gibbsddrm} further motivate adapting recovery at the receiver.
+A receiver equipped with Gaussian denoising and joint reconstruction must
+still choose a disturbance model for each observation.
 
-Explicit separation need not be preferable on every received frame. A Gaussian
-approximation ignores the interferer's structure, yet avoids estimating a
-second latent signal and its unknown amplitude. Joint reconstruction exploits
-that structure but must infer two signals from one mixture using imperfect
-priors and finite-step sampling. Errors in the inferred interferer can distort
-the desired signal even when the reconstructed mixture fits the observation.
-Always invoking the joint receiver can therefore increase both reconstruction
-error and computation. Conversely, always denoising the aggregate disturbance
-can discard structure that would help recover the image.
+Always choosing joint reconstruction assumes that exploiting interference
+structure offsets the errors introduced by estimating it. This need not hold:
+the receiver must infer two latent signals and an unknown amplitude from one
+mixture, using imperfect priors and finite-step sampling. An inaccurate
+interference estimate can distort the desired signal while adding computation.
+Gaussian denoising avoids this estimation burden, but discards potentially
+useful structure. Can a receiver retain the benefit of joint reconstruction while avoiding it
+when Gaussian denoising would recover the image more accurately?
 
-This paper studies when to use each receiver while keeping the codec and
-learned priors fixed. The choice must be made from the received symbols,
-without the clean image or true interference power. Evaluating both branches
-would incur both inference costs, and their true reconstruction errors are
-unavailable at reception. We instead use excess received energy and its
-variation across symbol blocks to select one branch before diffusion sampling.
-A threshold rule is fitted on separate development images, after which its
-parameters remain fixed. The selected latent estimate is passed to the common
-image decoder.
+The key insight is that modeling more interference structure introduces both
+information and estimation uncertainty; the appropriate model therefore
+depends on the received frame. This motivates selecting model complexity
+before reconstruction. Excess received energy measures the aggregate
+disturbance relative to known signal and noise powers, while variation across
+blocks describes how unevenly energy is distributed. These observable
+statistics can inform the choice without identifying the interfering image.
+Desired-signal variation also affects these statistics, so their usefulness
+requires validation.
+
+We propose a blind disturbance-model selector based on these two statistics.
+Image-group validation chooses a threshold rule on separate development
+images, retaining a fixed receiver if adaptation gives no validation gain.
+The rule is then frozen and executes only the selected branch, avoiding the
+cost of running both receivers. All neural weights remain fixed, so the
+comparison isolates the receiver decision from codec retraining.
+
+On 256 independent image pairs, selection improves mean PSNR by 0.750 dB
+over blind Gaussian denoising and 1.334 dB over calibrated joint sampling,
+with 34.7\% fewer predictor evaluations than joint sampling. A same-gate
+control separates model selection from merely bypassing joint inference.
+Harmful decisions and block mismatch delimit the benefit. External DeepJSCC
+and MambaJSCC codecs provide reference points; the shared-prior receiver
+adaptations do not reproduce the complete published CDDM/ICDM systems.
 
 The contributions are as follows:
 \begin{itemize}
-\item We formulate blind disturbance-model selection between Gaussian denoising
-and joint signal--interference reconstruction for a frozen codec, requiring
-only $O(n)$ energy calculations before the chosen receiver runs.
-\item We fit energy-only and two-feature rules by image-group validation, with
-a fixed-receiver fallback when validation finds no selection gain.
-\item We evaluate the frozen rule on independent image pairs using identical
-received signals, a blind total-disturbance Gaussian baseline, and a joint
-receiver with the same direct-decoding gate; the comparison includes quality,
-inference cost, and harmful decisions.
+\item We formulate blind disturbance-model selection for a frozen semantic
+codec, making receiver choice an explicit reconstruction decision.
+\item We develop an energy-based rule that selects one receiver before
+generative inference using $O(n)$ calculations and no neural retraining.
+\item We establish a mean-quality and computation benefit on independent
+paired observations, while identifying harmful decisions and mismatch sensitivity.
 \end{itemize}
-The controls distinguish model selection from improved power estimation or
-simply bypassing separation. Separately trained DeepJSCC and MambaJSCC codecs
-provide external references, while public checkpoints test transfer without
-fine-tuning. The Gaussian and joint receivers share frozen priors and are
-receiver-only adaptations; this study does not reproduce the complete
-published CDDM or ICDM training pipelines.
-
-Section II defines the transmission model and receiver decision. Section III
-presents the two candidates and selection rule, Section IV reports the
-experiments, and Section V concludes the paper.
+Sections II and III present the system model and selector; Sections IV and V
+report experiments and conclusions.
 
 \section{System Model and Problem Formulation}
 In this section, we introduce the image transmission model with co-channel

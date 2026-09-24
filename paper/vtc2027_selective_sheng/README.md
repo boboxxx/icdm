@@ -82,3 +82,5 @@ sources are documented in `research/vtc2027_sheng/VTC_WRITING_REVIEW_ZH.md`.
 The section-opening revision adds explicit “In this section” roadmaps to
 Sections II–IV and starts the concise conclusion with “In this paper”.
 The five-page layout was recompiled and visually checked on 2026-09-24.
+
+The introduction now follows the user-provided problem–gap–insight–method–evidence argument, retaining the first-page boundary and five-page manuscript.

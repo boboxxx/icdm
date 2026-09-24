@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-24T10:08:48.570521+00:00",
+  "reviewed_at_utc": "2026-09-24T10:19:12.805281+00:00",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "529ca6bf7c5c7fa69cbb2848d4c45de39fc441c0ae5e7be555832e02ee864fcc",
-  "latex_zip_sha256": "259f20999877b71aabac6875aeffbf571b15ee77c91cf833c697092fafe81a5b",
-  "main_tex_sha256": "d8ca16b87af90469c86c24b58cc42ee8652b58256b02aa373c2488ca740e157e",
+  "manuscript_sha256": "5920cb41b90de50a74587926ba8676e7543474d9a76c8a090d9b0d44a3999d1b",
+  "latex_zip_sha256": "48f952da5b08398fbec4921e14eac4d2a7659cccc283bf1c10e2c9f95b9bc984",
+  "main_tex_sha256": "8ba4edba9dae00211f2414b69f8a6a5ee34acc8ae5a4f9e4040840e54d491239",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -48,6 +48,8 @@
       3,
       4
     ],
-    "conclusion_opening": "In this paper, we proposed"
+    "conclusion_opening": "In this paper, we proposed",
+    "introduction_argument_chain": "problem, existing mechanisms, estimation burden, observation-dependent model choice, selector, independent evidence, contributions",
+    "latest_edit_scope": "Introduction only; abstract and Sections II–V unchanged"
   }
 }
