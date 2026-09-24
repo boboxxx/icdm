@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-24T10:19:12.805281+00:00",
+  "reviewed_at_utc": "2026-09-24T13:19:28.607844+00:00",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "5920cb41b90de50a74587926ba8676e7543474d9a76c8a090d9b0d44a3999d1b",
-  "latex_zip_sha256": "48f952da5b08398fbec4921e14eac4d2a7659cccc283bf1c10e2c9f95b9bc984",
-  "main_tex_sha256": "8ba4edba9dae00211f2414b69f8a6a5ee34acc8ae5a4f9e4040840e54d491239",
+  "manuscript_sha256": "8e54ba549240de8207584b04e19e992a12be76a592339b593a23f4ad910f2475",
+  "latex_zip_sha256": "51db9fa7744a2fa3a770004a68c6444e0b2dca0789881085ecc83883d951c777",
+  "main_tex_sha256": "962a7baa717099beef8c89d4286690770a888b8c55c995511469fbd0380700a2",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -50,6 +50,11 @@
     ],
     "conclusion_opening": "In this paper, we proposed",
     "introduction_argument_chain": "problem, existing mechanisms, estimation burden, observation-dependent model choice, selector, independent evidence, contributions",
-    "latest_edit_scope": "Introduction only; abstract and Sections II–V unchanged"
+    "latest_edit_scope": "System Model rewritten; candidate disturbance models moved from III to II; actual PSNR fitting objective formalized; sampler, policy and experiments unchanged",
+    "system_model_chain": [
+      "image representation and transmission",
+      "diffusion-assisted image recovery",
+      "quality, cost, and receiver selection"
+    ]
   }
 }

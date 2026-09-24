@@ -105,61 +105,37 @@ Sections II and III present the system model and selector; Sections IV and V
 report experiments and conclusions.
 
 \section{System Model and Problem Formulation}
-In this section, we introduce the image transmission model with co-channel
-interference and formulate the receiver-selection problem.
+In this section, we model image encoding, transmission, diffusion-assisted
+latent recovery and image decoding, then formulate receiver selection.
 
-\subsection{Image Transmission with Co-Channel Interference}
-We consider a desired image transmitter, a co-channel interferer, and a
-receiver that reconstructs the desired image. Let $\bm u\in[0,1]^d$ denote a
-vectorized RGB image, where $d=3H_{\rm img}W_{\rm img}$ for image height $H_{\rm img}$ and width $W_{\rm img}$. The frozen
-source encoder $f_s$ maps $\bm u$ to $n$ complex channel symbols, and a separate
-encoder $f_z$ maps an interfering image $\bm v$ to the same dimension:
+\subsection{Image Representation and Transmission}
+Let $\bm u\in[0,1]^d$ be an RGB image, with $d=3H_{\rm img}W_{\rm img}$.
+The JSCC encoder $f_s$ combines representation learning and channel mapping;
+$f_z$ encodes an interfering image $\bm v$ into the same dimension:
 \begin{equation}
  \bm x=\mathcal N(f_s(\bm u)),\qquad
  \bm z=\mathcal N(f_z(\bm v)),\quad
  \mathcal N(\bm t)=\frac{\sqrt n\,\bm t}{\norm{\bm t}}.
  \label{eq:encode}
 \end{equation}
-Thus $\norm{\bm x}^2=\norm{\bm z}^2=n$, and the channel bandwidth ratio is
-$n/d$. The nonzero codewords are divided into $B$ contiguous blocks, with
-$L_b$ symbols in block $b$ and $\sum_bL_b=n$.
-The additive channel is
+Nonzero codewords have $n$ complex symbols and unit average power. The
+bandwidth ratio is $n/d$. Partition the symbols into $B$ blocks of lengths
+$L_b$, where $\sum_bL_b=n$. Transmission gives
 \begin{equation}
  \bm y_b=\bm x_b+a_b\bm z_b+\bm w_b,\qquad
- \bm w\sim\mathcal{CN}(\bm0,N_0\bm I),\quad a_b\ge0 ,
+ \bm w\sim\mathcal{CN}(\bm0,N_0\bm I),\quad a_b\ge0 .
  \label{eq:channel}
 \end{equation}
-Here $a_b$ is the unknown interference amplitude in block $b$, and $N_0$ is
-the complex AWGN power. We assume unit desired-channel gain and known symbol
-alignment. The receiver knows $N_0$, the normalization convention, and its
-block partition, but has no access to $a_b$, $\bm z$, or $\bm u$.
-For a prescribed nominal SINR $\gamma$, the simulator sets average nominal
-interference power to $10^{-\gamma/10}-N_0$. The instantaneous interference
-energy also depends on the realized block energies of $\bm z$; nominal SINR
-must therefore not be confused with measured per-frame SINR.
+Here $a_b$ is the unknown block interference amplitude and $N_0$ the complex
+noise power. Desired-channel gain is unity and symbol alignment is known.
+The receiver knows $N_0$, normalization and block boundaries, but not
+$\bm u$, $\bm z$ or $a_b$. The simulator sets nominal interference power to
+$10^{-\gamma/10}-N_0$ for nominal SINR $\gamma$; realized block energies of
+$\bm z$ make per-frame SINR differ from this setting.
 
-\subsection{Receiver Decision}
-Let $\mathcal R_{\G}$ and $\mathcal R_{\SIC}$ denote Gaussian denoising and
-joint signal--interference reconstruction, respectively. A selector
-$\pi_\theta(\bm y)\in\{\G,\SIC\}$ chooses one receiver from the observation.
-The common frozen decoder $g_s$ then reconstructs
-\begin{equation}
- \widehat{\bm u}_\theta
- =g_s\!\left(\mathcal N\!\left(\mathcal R_{\pi_\theta(\bm y)}(\bm y)\right)\right).
- \label{eq:decode}
-\end{equation}
-The design objective is to maximize mean per-image PSNR over a development
-set by choosing $\theta$, with all encoder, decoder and diffusion weights
-held fixed. Only the chosen branch is evaluated online. This separates the
-receiver decision from codec retraining and makes its additional inference
-cost explicit.
-
-\section{Blind Disturbance-Model Selection}
-In this section, we describe the two candidate receivers and develop a blind
-selection rule that chooses one receiver before diffusion inference.
-
-\subsection{Candidate Disturbance Models}
-The explicit model associates two learned priors with \eqref{eq:channel}:
+\subsection{Diffusion-Assisted Image Recovery}
+Recovery combines frame-specific evidence in $\bm y$ with learned signal
+and interference priors. Joint reconstruction uses
 \begin{equation}
  \begin{split}
  p(\bm x,\bm z\mid\bm y,\bm a)&\propto p_s(\bm x)p_z(\bm z)\\
@@ -168,17 +144,46 @@ The explicit model associates two learned priors with \eqref{eq:channel}:
  \end{split}
  \label{eq:joint}
 \end{equation}
-The sampler approximates this posterior with finitely many updates.
-The mixture alone cannot identify both latents: the change
-$\bm x_b'=\bm x_b+a_b\bm\delta_b$,
-$\bm z_b'=\bm z_b-\bm\delta_b$ leaves the mixture unchanged.
-The Gaussian model instead uses
+Amplitudes require estimation, and a matching mixture alone cannot identify
+both latents: $(\bm x_b+a_b\bm\delta_b,\bm z_b-\bm\delta_b)$ gives
+the same observation. Alternatively, Gaussian recovery uses $p_s$ with
 \begin{equation}
  p_{\G}(\bm y\mid\bm x;\nu)=
  \mathcal{CN}(\bm y;\bm x,\nu\bm I),\qquad \nu\ge N_0 .
  \label{eq:gaussian}
 \end{equation}
-It sacrifices interference structure to avoid explicit component estimation.
+Gaussian and joint receivers $\mathcal R_{\G}$ and $\mathcal R_{\SIC}$ use
+frozen diffusion priors with observation-based initialization or guidance,
+not exact posterior sampling. Only joint recovery estimates a second latent.
+A blind rule
+$\pi_\theta(\bm y)\in\{\G,\SIC\}$ selects one branch, followed by the common decoder:
+\begin{equation}
+ \widehat{\bm u}_\theta
+ =g_s\!\left(\mathcal N\!\left(\mathcal R_{\pi_\theta(\bm y)}(\bm y)\right)\right).
+ \label{eq:decode}
+\end{equation}
+
+\subsection{Quality, Cost, and Receiver Selection}
+We optimize image reconstruction using per-image PSNR, $q(\bm u,\widehat{\bm u})=
+-10\log_{10}(\|\bm u-\widehat{\bm u}\|^2/d)$ for clipped RGB outputs.
+LPIPS and MS-SSIM supplement fidelity, not downstream task accuracy. Cost
+counts both priors' predictor calls; latency includes selection and decoding.
+
+For development pairs $\mathcal D=\{(\bm u_i,\bm y_i)\}_{i=1}^{M}$, we fit
+\begin{equation}
+ \theta^\star\in\arg\max_{\theta\in\Theta}
+ \frac{1}{M}\sum_{i=1}^{M}q(\bm u_i,\widehat{\bm u}_\theta(\bm y_i)),
+ \label{eq:objective}
+\end{equation}
+where $\Theta$ is the family retained by image-group validation, including
+a constant-receiver fallback. Bandwidth, power and neural weights are fixed;
+cost is reported separately. This fitting is offline. Online, the frozen
+rule executes one branch without access to its reconstruction error,
+motivating the observable-statistic selector in Section III.
+
+\section{Blind Disturbance-Model Selection}
+In this section, we describe the two candidate receivers and develop a blind
+selection rule that chooses one receiver before diffusion inference.
 
 \subsection{Candidate Receivers}
 Both receivers use the same frozen desired-signal prior and decoder.

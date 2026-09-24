@@ -84,3 +84,5 @@ Sections II–IV and starts the concise conclusion with “In this paper”.
 The five-page layout was recompiled and visually checked on 2026-09-24.
 
 The introduction now follows the user-provided problem–gap–insight–method–evidence argument, retaining the first-page boundary and five-page manuscript.
+
+Section II now follows representation/transmission, diffusion-assisted recovery, and quality/cost/selection. It states the actual fixed-codec PSNR fitting objective; the candidate sampler implementations remain in Section III.

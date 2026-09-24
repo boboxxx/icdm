@@ -49,3 +49,14 @@ Figure 3: Reconstructed images for six prespecified confirmation examples.
 7. 贡献：接收决策问题、低成本推理前选择、配对独立评估形成对应关系，无未经证实的SOTA主张。
 
 仅修改Introduction，摘要及第II节以后的正文与上一版逐字一致；未增加或替换引用，保留完整CDDM/ICDM未复现的范围说明。全文仍为5页，Introduction在第一页结束，第二页以System Model开始。重新编译与五页视觉检查通过，未缩小字体或页边距。
+
+
+## System Model 链路与问题定义修订（2026-09-24）
+
+按照用户提供的 source → representation → transmission → corruption → diffusion recovery → quality 思路，将第II节改为三个小节：
+
+- Image Representation and Transmission：定义RGB源、JSCC联合表示与信道映射、归一化、带宽比例、分块干扰信道以及接收机已知/未知信息。
+- Diffusion-Assisted Image Recovery：把原第III节的两种扰动模型移入系统模型，说明观测提供帧级证据、先验提供分布信息，随后由选定接收机恢复潜变量并交给公共解码器。保留未知幅度估计与混合信号非唯一性的说明。模型使用现有冻结先验和观测初始化/引导，不宣称精确后验采样或新增条件去噪网络。
+- Quality, Cost, and Receiver Selection：定义逐图像PSNR、预测器调用数和接收延迟，并加入开发集平均PSNR最大化公式。规则族先由图像分组验证确定，包含固定接收机回退，再拟合规则参数。明确带宽、功率和神经权重固定；成本独立报告，未虚构功率/码率/步数联合优化、端到端时延约束或语义任务指标。
+
+第III节接续具体候选接收机更新与推理前选择规则。Introduction、候选接收机实现说明、选择算法、实验和结论与上一版逐字一致；全部实验数据、冻结阈值与权重未改动。全文仍为IEEE标准双栏5页，第一页Introduction、第二页System Model，保持三个主要章节的“In this section”导语与“In this paper”结论。重新编译、交叉引用和五页视觉检查通过，无横向溢出。
