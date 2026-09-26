@@ -219,8 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "VGGT sentence-structure revision prepared for push",
-    "editorial_commit": "237e40f56337a274f4c98ddb502e669b9c00bb9a"
+    "editorial_revision": "VGGT sentence-structure revision pushed",
+    "editorial_commit": "f5723cc4a0640ceee2e59307fac918de7f1df269"
   },
   "latest_editorial_revision": "Whole manuscript revised with action-first clauses, stable paragraph subjects, old-to-new flow and goal-protocol-result-interpretation paragraphs; no experiment or threshold changes",
   "last_editorial_check_utc": "2026-09-26T10:06:32Z"
