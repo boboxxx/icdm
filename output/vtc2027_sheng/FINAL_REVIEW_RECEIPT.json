@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-24T13:19:28.607844+00:00",
+  "reviewed_at_utc": "2026-09-26T10:06:32Z",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "8e54ba549240de8207584b04e19e992a12be76a592339b593a23f4ad910f2475",
-  "latex_zip_sha256": "51db9fa7744a2fa3a770004a68c6444e0b2dca0789881085ecc83883d951c777",
-  "main_tex_sha256": "962a7baa717099beef8c89d4286690770a888b8c55c995511469fbd0380700a2",
+  "manuscript_sha256": "ab640ff0b24a6629143dd3c89b63f423c9934d71a4e26737fb3acb5a7899cd29",
+  "latex_zip_sha256": "0324763ef1ab9ca62a22366d9febe3c47b1da012cd2ebf5e40b325e75ce70559",
+  "main_tex_sha256": "5d8d3d1e53e9a007507b9f6a4b83effb21e8cd7131238545b85063d7763b9008",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -35,7 +35,9 @@
     "research/vtc2027_sheng/LOCAL_CHECKPOINT_RECOVERY.json"
   ],
   "structural_revision": {
-    "style_reading": "three public VTC manuscripts; primary URLs archived in VTC_WRITING_REVIEW_ZH.md",
+    "style_reading": "three public VTC manuscripts plus the official CVPR 2025 VGGT paper; primary URLs and observations archived in the writing notes",
+    "sentence_style_reference": "VGGT (CVPR 2025): action-first, stable topic, old-to-new, goal-protocol-result-interpretation",
+    "sentence_style_note": "research/vtc2027_sheng/VGGT_SENTENCE_STYLE_ANALYSIS_ZH.md",
     "introduction_ends_on_page": 1,
     "system_model_starts_on_page": 2,
     "standalone_related_work": false,
@@ -48,9 +50,9 @@
       3,
       4
     ],
-    "conclusion_opening": "In this paper, we proposed",
+    "conclusion_opening": "In this paper, we presented",
     "introduction_argument_chain": "problem, existing mechanisms, estimation burden, observation-dependent model choice, selector, independent evidence, contributions",
-    "latest_edit_scope": "System Model rewritten; candidate disturbance models moved from III to II; actual PSNR fitting objective formalized; sampler, policy and experiments unchanged",
+    "latest_edit_scope": "Whole-paper prose revised using VGGT sentence organization; scientific content and experimental evidence unchanged",
     "system_model_chain": [
       "image representation and transmission",
       "diffusion-assisted image recovery",

@@ -60,3 +60,8 @@ Figure 3: Reconstructed images for six prespecified confirmation examples.
 - Quality, Cost, and Receiver Selection：定义逐图像PSNR、预测器调用数和接收延迟，并加入开发集平均PSNR最大化公式。规则族先由图像分组验证确定，包含固定接收机回退，再拟合规则参数。明确带宽、功率和神经权重固定；成本独立报告，未虚构功率/码率/步数联合优化、端到端时延约束或语义任务指标。
 
 第III节接续具体候选接收机更新与推理前选择规则。Introduction、候选接收机实现说明、选择算法、实验和结论与上一版逐字一致；全部实验数据、冻结阈值与权重未改动。全文仍为IEEE标准双栏5页，第一页Introduction、第二页System Model，保持三个主要章节的“In this section”导语与“In this paper”结论。重新编译、交叉引用和五页视觉检查通过，无横向溢出。
+
+
+## VGGT句法参照（2026-09-26）
+
+在VTC篇章结构基础上，本稿进一步参考CVPR 2025 VGGT论文的句子组织方式，对全文英文表达进行逐段修订。分析包括动作先行、稳定主语、旧信息到新信息、长关系句后的短落点，以及实验段的目标—协议—结果—解释顺序。完整来源、统计观察和本稿映射见 `VGGT_SENTENCE_STYLE_ANALYSIS_ZH.md`。这次修订只改变表述，不改变科学内容、引用集合或任何实验结果。

@@ -86,3 +86,12 @@ The five-page layout was recompiled and visually checked on 2026-09-24.
 The introduction now follows the user-provided problem–gap–insight–method–evidence argument, retaining the first-page boundary and five-page manuscript.
 
 Section II now follows representation/transmission, diffusion-assisted recovery, and quality/cost/selection. It states the actual fixed-codec PSNR fitting objective; the candidate sampler implementations remain in Section III.
+
+The 2026-09-26 prose revision follows sentence-organization patterns extracted
+from the official CVPR 2025 VGGT paper: action-first clauses, stable paragraph
+subjects, old-to-new information flow, short landing sentences after dense
+relations, and goal--protocol--result--interpretation ordering in experiments.
+These patterns were applied throughout the abstract, introduction, system
+model, method, experiments and conclusion without copying VGGT wording or
+changing scientific claims. The analysis and sentence-level mapping are in
+`research/vtc2027_sheng/VGGT_SENTENCE_STYLE_ANALYSIS_ZH.md`.
