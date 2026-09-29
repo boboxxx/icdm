@@ -100,7 +100,7 @@ def main():
         f"compared with {nfe_s:.0f} for joint sampling.")
 
     cv=d['selection']
-    cv_sentence=(f"Image-group validation compares the two rule families. Energy-only selection yields "
+    cv_sentence=(f"We first test whether block heterogeneity improves rule selection under the same image-group folds. Energy-only selection yields "
                  f"{cv['energy']['cv_psnr']:.3f} dB, whereas the two-feature family yields "
                  f"{cv['energy_heterogeneity']['cv_psnr']:.3f} dB. ")
     if policy['scientific_status']=='no_cv_gain_over_fixed':
@@ -128,7 +128,7 @@ def main():
         return f"{signed(q['mean_delta_psnr'])} dB relative to {label} (95\\% interval [{lo:.3f}, {hi:.3f}])"
 
     conclusion_support=all(comparisons[k]['ci95_image_cluster'][0]>0 for k in ['A4','CDDM_BLIND'])
-    interpretation=("Both fixed-receiver comparisons have positive paired intervals. This supports a mean-PSNR benefit within the matched confirmation population. "
+    interpretation=("Both fixed-receiver comparisons have positive paired intervals. The same-gate comparison also supports a benefit beyond the tested bypass alone. These results establish a mean-PSNR gain within the matched population. "
                     if conclusion_support else
                     "The paired intervals do not establish a positive mean-PSNR effect over both fixed receivers; the evidence therefore does not support an unqualified adaptive-superiority claim. ")
     profile_bits=[]
@@ -144,18 +144,18 @@ def main():
                     for mode in ['CDDM_BLIND','A4','SELECT']}
                     for profile in ['stationary','alternating','burst']}
     stationary,alternating,burst=(profile_values[k] for k in ['stationary','alternating','burst'])
-    profile_text=(f"The fixed receivers are complementary across interference profiles. Under stationary interference, "
+    profile_text=(f"To examine where selection helps, we compare fixed receivers across profiles. Under stationary interference, "
                   f"Gaussian denoising reaches {stationary['CDDM_BLIND']:.3f} dB, compared with {stationary['A4']:.3f} dB "
                   f"for joint sampling. Under burst interference, joint sampling reaches {burst['A4']:.3f} dB, "
                   f"compared with {burst['CDDM_BLIND']:.3f} dB for Gaussian denoising. "
                   f"The selector reaches {stationary['SELECT']:.3f}, {alternating['SELECT']:.3f}, and "
                   f"{burst['SELECT']:.3f} dB for stationary, alternating, and burst interference, respectively. "
-                  "These results are consistent with using different receivers for different observations. "
-                  "They do not establish a physical interpretation of the energy statistic. ")
+                  "The reversed ordering of the fixed receivers supports adapting the disturbance model. "
+                  "It does not establish a causal interpretation of either energy statistic. ")
     anchor_text=""
     if backbone:
         dm=backbone['means']['deepjscc']; mm=backbone['means']['mambajscc']
-        anchor_text=(f"Separately matched direct-codec anchors reach {dm['psnr']:.3f} dB for DeepJSCC "
+        anchor_text=(f"For external context, matched direct-codec anchors reach {dm['psnr']:.3f} dB for DeepJSCC "
                      f"and {mm['psnr']:.3f} dB for MambaJSCC. They use independently trained latent spaces "
                      "and serve only as external codec references. "
                      "One training seed and a fixed 40-epoch budget do not establish convergence or a general architecture ranking. ")
@@ -167,7 +167,7 @@ def main():
                       f"{pm['mambajscc_public_awgn10_clic2021']['psnr']:.3f}, and "
                       f"{pm['mambajscc_public_rayleigh_div2k']['psnr']:.3f} dB, respectively. "
                       "Their protocol mismatches preclude a controlled claim about retraining benefit. ")
-    text=(r"Table~\ref{tab:main} and Fig.~\ref{fig:quality} summarize independent confirmation. "
+    text=(r"We next test the frozen rule on independent paired observations (Table~\ref{tab:main} and Fig.~\ref{fig:quality}). "
           +"The selector changes mean PSNR by "+effect('A4','calibrated joint sampling')+", "
           +effect('CDDM_BLIND','blind Gaussian denoising')+", and "
           +effect('A4_GATE','the same-gate control')+". "+interpretation
@@ -190,8 +190,8 @@ def main():
     table.extend([r'\bottomrule',r'\end{tabular}'])
     write(generated/'main_table.tex','\n'.join(table))
 
-    text=(f"The selector chooses Gaussian reception on {100*c['selector']['gaussian_fraction']:.1f}\\% of confirmation frames. "
-          f"Its average cost is therefore {nfe:.1f} predictor evaluations and {1000*sel['receiver_seconds']:.0f} ms, "
+    text=(f"We next assess savings and harmful decisions. The selector chooses Gaussian reception on {100*c['selector']['gaussian_fraction']:.1f}\\% of confirmation frames. "
+          f"It averages {nfe:.1f} predictor evaluations and {1000*sel['receiver_seconds']:.0f} ms, "
           f"versus {nfe_s:.0f} evaluations and {1000*means['A4']['receiver_seconds']:.0f} ms for joint sampling. "
           f"This saving does not remove harmful decisions. Against joint sampling, {100*ca['harm_gt_half_db']:.2f}\\% of frames lose more than 0.5 dB, "
           f"and the fifth percentile of the paired change is {ca['fifth_percentile']:.3f} dB "
@@ -201,7 +201,7 @@ def main():
           f"Mean MSE changes from {means['A4']['mse']:.5f} to {sel['mse']:.5f}, LPIPS from "
           f"{means['A4']['lpips_vgg']:.4f} to {sel['lpips_vgg']:.4f}, and MS-SSIM from "
           f"{means['A4']['ms_ssim']:.4f} to {sel['ms_ssim']:.4f}. "
-          "Together, these metrics qualify the average PSNR gain.")
+          "These mean improvements coexist with frame-level losses; selection provides no per-frame guarantee.")
     write(generated/'tail_result.tex',text)
 
     families=[('shifted','Shifted blocks'),('random_length','Random lengths'),('stationary','No interference')]
@@ -225,7 +225,7 @@ def main():
           rf"Table~\ref{{tab:pressure}} reports the robustness tests. The selector changes PSNR relative to Gaussian reception by "
           f"{signed(shifted['SELECT']-shifted['CDDM_BLIND'])} dB for shifted blocks and "
           f"{signed(random['SELECT']-random['CDDM_BLIND'])} dB for random lengths. With no interference, it matches Gaussian reception "
-          "and avoids the joint receiver's loss. These are diagnostic populations; we neither refit the rule nor pool the results with matched confirmation.")
+          "and avoids the joint receiver's loss. The near-zero shifted-block gain limits transfer beyond the fitted partition. Diagnostics neither alter the rule nor enter confirmation averages.")
 
     ending=("In this paper, we presented a blind selector that uses received energy and block-energy heterogeneity "
             "to choose between Gaussian denoising and joint signal--interference reconstruction with frozen neural weights. ")

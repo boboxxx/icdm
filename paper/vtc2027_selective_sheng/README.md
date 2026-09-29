@@ -95,3 +95,10 @@ These patterns were applied throughout the abstract, introduction, system
 model, method, experiments and conclusion without copying VGGT wording or
 changing scientific claims. The analysis and sentence-level mapping are in
 `research/vtc2027_sheng/VGGT_SENTENCE_STYLE_ANALYSIS_ZH.md`.
+
+The 2026-09-29 revision applies the user's expanded VGGT writing template at
+paragraph level: a six-paragraph introduction, method--finding--evidence
+contributions, purpose-driven method descriptions, and result interpretation
+beside each experimental comparison. The complete mapping and scope checks
+are in `research/vtc2027_sheng/VGGT_TEMPLATE_APPLICATION_ZH.md`. The paper
+retains the five-page IEEE layout and the original experimental evidence.

@@ -18,18 +18,18 @@
 \maketitle
 \begin{abstract}
 We present a blind disturbance-model selector for diffusion-aided semantic
-image reception. Given a received latent, the selector uses excess energy and
-block-energy heterogeneity to choose Gaussian denoising or joint
-signal--interference reconstruction before diffusion inference. This choice
-addresses a practical limitation of joint reconstruction: estimating an
-unknown interferer can add both reconstruction error and computation. We fit
-the rule on separate development images and then freeze it together with all
-neural weights. Only the selected receiver is executed. We evaluate the rule
-on CelebA images with CIFAR-10 interference, using identical observations for
-all receiver comparisons and a same-gate joint receiver as a control.
+image reception. Given a received latent, it selects Gaussian denoising or
+joint signal--interference reconstruction and decodes the recovered latent
+into an image. Rather than reconstructing an unknown interferer on every
+frame, the selector uses received energy and block-energy heterogeneity to
+choose one receiver before diffusion inference. The rule requires only
+$O(n)$ calculations and no neural retraining; its thresholds are fitted on
+development images and frozen before evaluation. Experiments use CelebA
+images with CIFAR-10 interference and identical observations across receivers.
 \input{generated/abstract_result.tex}
-Separately trained DeepJSCC and MambaJSCC codecs provide external performance
-references under the same channel-use budget.
+An additional same-gate control tests whether the gain extends beyond bypassing
+joint inference; separately trained DeepJSCC and MambaJSCC codecs provide
+external references under the same channel-use budget.
 \end{abstract}
 \begin{IEEEkeywords}
 Semantic communications, interference cancellation, diffusion models,
@@ -38,73 +38,71 @@ receiver adaptation, deep joint source--channel coding.
 \DraftNotice
 
 \section{Introduction}
-We consider semantic image reception under co-channel interference of unknown
-power and structure. Deep joint source--channel coding (JSCC) maps images
-directly to channel symbols and degrades gradually as channel noise increases
-\cite{bourtsoulatze2019deep}. SwinJSCC and MambaJSCC implement this principle
-with transformer and state-space architectures
-\cite{yang2025swinjscc,wu2024mambajscc}. Even so, a deployed codec must recover
-images from unmodeled interference without changing the transmitted latent or
-adding unnecessary receiver computation.
+Semantic image communication requires recovering image content from limited,
+corrupted channel observations. Deep joint source--channel coding (JSCC)
+addresses this task by mapping images directly to channel symbols, with
+gradual quality degradation as noise increases \cite{bourtsoulatze2019deep}.
+SwinJSCC and MambaJSCC extend this approach through transformer and state-space
+architectures \cite{yang2025swinjscc,wu2024mambajscc}. Generative receivers
+further exploit learned priors to recover corrupted representations. Even so,
+co-channel interference of unknown power and structure leaves a deployed
+receiver with a choice: approximate the disturbance as noise or reconstruct
+the interfering signal explicitly.
 
-Generative receivers use learned priors to recover corrupted latents. CDDM
-matches the aggregate disturbance to a diffusion noise level and denoises the
-received latent \cite{wu2024cddm}. ICDM instead reconstructs the desired and
-interfering latents jointly \cite{wu2026icdm}. Iterative source error correction
-\cite{pmlr-v206-lee23c}, channel-conditioned diffusion reconstruction
-\cite{wang2025diffcom}, and blind inverse-problem inference
-\cite{murata2023gibbsddrm} provide related forms of receiver adaptation. These
-methods provide recovery mechanisms, but they do not resolve which disturbance
-model a receiver should use for a particular observation.
+CDDM and ICDM provide two relevant recovery mechanisms. CDDM matches the
+aggregate disturbance to a diffusion noise level \cite{wu2024cddm}, whereas
+ICDM jointly reconstructs desired and interfering latents \cite{wu2026icdm}.
+Iterative source error correction \cite{pmlr-v206-lee23c}, channel-conditioned
+diffusion reconstruction \cite{wang2025diffcom}, and blind inverse-problem
+inference \cite{murata2023gibbsddrm} also advance receiver adaptation. However,
+joint reconstruction must infer two latents and unknown interference
+amplitudes from one mixture. Estimation errors can offset the benefit of
+modeling interference structure while consuming additional computation.
+Gaussian denoising avoids that estimation burden but discards useful
+structure. This raises the question: can the receiver choose between these
+models from the observation alone, before paying for generative inference?
 
-Joint reconstruction is preferable only when the recovered interference
-structure offsets its estimation error. The receiver must otherwise infer two
-latents and an unknown amplitude from one mixture using imperfect priors and
-finite-step sampling. An inaccurate interference estimate can distort the
-desired latent and still consume twice the predictor evaluations. Gaussian
-denoising avoids this burden, but discards structure that can aid recovery. We
-therefore ask whether the receiver can exploit joint reconstruction only when
-the received frame supports its additional model assumptions.
+In this paper, we take a step toward observation-dependent generative
+reception. We introduce a blind disturbance-model selector that takes a
+received latent and chooses either Gaussian denoising or joint reconstruction.
+The selected receiver recovers the desired latent for a common image decoder.
+The selector computes two energy statistics in $O(n)$ time and executes only
+one branch. All neural weights remain frozen. This design tests whether
+changing the receiver decision alone can improve image recovery, without
+changing the transmitted representation or training new neural modules.
 
-Our key observation is that a richer disturbance model contributes both
-structure and estimation uncertainty. The preferred model can therefore vary
-from frame to frame. Excess received energy measures aggregate disturbance
-relative to the known signal and noise powers. Block-energy variation measures
-how unevenly that energy is distributed. Both statistics are available before
-diffusion inference and do not require identifying the interfering image.
-Because desired-signal variation also affects them, their value must be
-established on held-out images.
+Our key observation is that explicit interference modeling offers structure
+at the cost of estimation uncertainty. Its value can therefore vary across
+received frames. To inform this choice, we use excess received energy to
+measure aggregate disturbance and block-energy heterogeneity to describe its
+variation across latent blocks. Neither statistic identifies the
+interfering image; desired-signal variation also affects both. We therefore
+use image-group validation to compare energy-only and two-feature rules on
+separate development images, retaining a fixed receiver if adaptation gives
+no validation gain. The chosen rule is frozen before independent confirmation.
 
-We address this decision with a blind selector based on the two statistics.
-Image-group validation compares energy-only and two-feature threshold rules on
-separate development images. It retains a fixed receiver when selection gives
-no validation gain. The resulting rule is frozen and executes one branch per
-frame. All neural weights remain fixed, isolating receiver selection from codec
-or prior retraining. The experiment therefore asks a narrow question: whether
-observation-dependent receiver choice improves a fixed generative receiver
-stack.
+Experiments on 256 independent image pairs show a mean PSNR gain of 0.750 dB
+over blind Gaussian denoising and 1.334 dB over calibrated joint sampling,
+with 34.7\% fewer predictor evaluations than joint sampling. These gains require
+no neural retraining. A same-gate control tests whether selection adds value
+beyond bypassing joint inference. Profile-wise comparisons reveal that the
+preferred fixed receiver changes with interference structure, while harmful
+decisions and block mismatch delimit the benefit. Separately trained DeepJSCC
+and MambaJSCC provide external codec references. Our shared-prior receiver
+ports do not reproduce the complete published CDDM or ICDM systems.
 
-On 256 independent image pairs, the selector improves mean PSNR by 0.750 dB
-over blind Gaussian denoising and 1.334 dB over calibrated joint sampling. It
-also uses 34.7\% fewer predictor evaluations than joint sampling. A same-gate
-control distinguishes model selection from merely bypassing joint inference,
-while harmful decisions and block mismatch expose its limits. Separately
-trained DeepJSCC and MambaJSCC codecs provide external reference points. The
-shared-prior receiver ports do not reproduce the complete published CDDM or
-ICDM systems.
-
-To summarize, we make three contributions. (1) We formulate disturbance-model
-selection as a blind reconstruction decision for a frozen semantic codec.
-(2) We develop an $O(n)$ energy-based rule that selects one receiver before
-generative inference without neural retraining. (3) We evaluate the frozen
-rule on paired independent observations, establishing its mean-quality and
-computation benefit while measuring harmful decisions and mismatch sensitivity.
+Our contributions are threefold. (1) We introduce a blind selector that
+chooses a disturbance model before generative inference using two energy
+statistics. (2) We show that the preferred fixed receiver differs across
+interference profiles, motivating observation-dependent selection.
+(3) We establish a mean-quality and computation benefit on independent paired
+observations, while quantifying harmful decisions and mismatch sensitivity.
 Sections II and III present the system model and selector; Sections IV and V
 report experiments and conclusions.
 
 \section{System Model and Problem Formulation}
-In this section, we first model image transmission, then introduce the two
-diffusion-assisted recovery models, and finally formulate receiver selection.
+In this section, we define the communication chain and receiver information,
+then formulate model selection under fixed bandwidth, power, and weights.
 
 \subsection{Image Representation and Transmission}
 Let $\bm u\in[0,1]^d$ be an RGB image, with $d=3H_{\rm img}W_{\rm img}$.
@@ -116,17 +114,16 @@ $f_z$ encodes an interfering image $\bm v$ into the same dimension:
  \mathcal N(\bm t)=\frac{\sqrt n\,\bm t}{\norm{\bm t}}.
  \label{eq:encode}
 \end{equation}
-Each nonzero codeword contains $n$ complex symbols with unit average power,
-giving bandwidth ratio $n/d$. We partition the symbols into $B$ blocks of
-lengths $L_b$, where $\sum_bL_b=n$. The received symbols are
+Each nonzero codeword has unit average power and bandwidth ratio $n/d$. For $B$
+blocks of lengths $L_b$, with $\sum_bL_b=n$, the received symbols are
 \begin{equation}
  \bm y_b=\bm x_b+a_b\bm z_b+\bm w_b,\qquad
  \bm w\sim\mathcal{CN}(\bm0,N_0\bm I),\quad a_b\ge0 .
  \label{eq:channel}
 \end{equation}
-Here $a_b$ denotes the unknown interference amplitude in block $b$, and $N_0$
-denotes the complex noise power. We assume unit desired-channel gain and known
-symbol alignment. The receiver knows $N_0$, the normalization, and the block
+Here $a_b$ is the unknown interference amplitude and $N_0$ the complex noise
+power. Desired-channel gain is unity; symbol alignment is known.
+The receiver knows $N_0$, the normalization, and block
 boundaries, but not $\bm u$, $\bm z$, or $a_b$. For nominal SINR $\gamma$, the
 simulator sets the average interference power to $10^{-\gamma/10}-N_0$.
 Realized block energies of $\bm z$ make the per-frame SINR differ from this
@@ -165,9 +162,8 @@ The common decoder then reconstructs
 \subsection{Quality, Cost, and Receiver Selection}
 We measure image reconstruction with per-image PSNR, $q(\bm u,\widehat{\bm u})=
 -10\log_{10}(\|\bm u-\widehat{\bm u}\|^2/d)$ for clipped RGB outputs.
-LPIPS and MS-SSIM provide additional fidelity measures; they do not measure
-downstream task accuracy. We measure computation by counting calls to both
-priors, and receiver latency includes selection and decoding.
+LPIPS and MS-SSIM measure fidelity, not downstream accuracy. Computation counts
+calls to both priors; receiver latency includes selection and decoding.
 
 For development pairs $\mathcal D=\{(\bm u_i,\bm y_i)\}_{i=1}^{M}$, we fit
 \begin{equation}
@@ -177,17 +173,17 @@ For development pairs $\mathcal D=\{(\bm u_i,\bm y_i)\}_{i=1}^{M}$, we fit
 \end{equation}
 where $\Theta$ contains the rule family retained by image-group validation and
 a constant-receiver fallback. Bandwidth, power, and neural weights remain
-fixed; we report computation separately from the PSNR objective. This fitting
-is offline. At inference, the frozen rule executes one branch without access
-to its reconstruction error. Section III develops the observable decision.
+fixed; computation is reported separately. Fitting is offline; at inference,
+the frozen rule executes one branch without knowing its reconstruction error.
 
 \section{Blind Disturbance-Model Selection}
-In this section, we first describe the two candidate receivers and then develop
-a blind rule that selects one before diffusion inference.
+In this section, we present the candidate receivers, energy statistics, and
+rule-fitting procedure that map received symbols to a receiver choice.
 
 \subsection{Candidate Receivers}
-Both receivers share the frozen desired-signal prior and decoder. The Gaussian
-receiver first estimates aggregate disturbance from the received symbols:
+Both receivers share the frozen desired-signal prior and decoder, isolating
+the disturbance-model choice. To account for unknown interference power, the
+Gaussian receiver estimates aggregate disturbance from the received symbols:
 \begin{equation}
  \begin{gathered}
  e_b=\frac{\norm{\bm y_b}^2}{L_b},\qquad
@@ -224,7 +220,7 @@ For decreasing respaced indices, a noise predictor $\epsilon_s$ gives
 The receiver uses at most 40 predictor evaluations and fewer when the matched
 initial index is below 39.
 
-The joint receiver $\SIC$ initializes
+To exploit interference structure, the joint receiver $\SIC$ initializes
 $a_b^{(0)}=\sqrt{\pos{e_b-1-N_0}}$ and performs joint diffusion inference with
 signal and interference predictors. During late corrector updates it obtains
 denoised, frame-normalized estimates $\widetilde{\bm x}$ and
@@ -246,7 +242,8 @@ initialization-only variant keeps the amplitudes fixed and isolates the effect
 of calibration.
 
 \subsection{Selection Before Generative Inference}
-The selector combines $\widehat P$ with normalized block-energy variation:
+To distinguish frames with similar total energy but different block profiles,
+the selector combines $\widehat P$ with normalized block-energy variation:
 \begin{equation}
  H=\frac{B^{-1}\sum_{b=1}^{B}(e_b-\bar e)^2}
           {\max(\bar e^2,\varepsilon)}.
@@ -269,11 +266,10 @@ We also test the reversed assignment of $\G$ and $\SIC$ in
 region a priori. The energy-only family sets $\tau_\ell=\tau_h$. Either family
 can reduce to a constant receiver, allowing validation to reject adaptation.
 
-We fit the thresholds to mean per-image PSNR on development data. Eight folds
-keep all channel conditions for an image together. For each fold, thresholds
-are fitted on the other seven folds and evaluated on the held-out images. We
-then refit the family with the highest out-of-fold mean on all development
-images. Ties favor lower inference cost and then the simpler family. If neither
+To assess transfer across images, eight development folds keep each image's
+conditions together. We fit thresholds on seven folds and evaluate PSNR on
+the eighth, then refit the best out-of-fold family on all development images.
+Ties favor lower cost, then the simpler family. If neither
 family improves on the better fixed receiver, validation retains that receiver.
 Confirmation and pressure results never alter the thresholds. At inference,
 the selector evaluates \eqref{eq:selector} and executes only the chosen branch.
@@ -293,9 +289,9 @@ generalization bound. The fitting objective is mean PSNR; it does not optimize
 mean MSE, LPIPS, or harmful-tail probability.
 
 \section{Experimental Evaluation}
-In this section, we compare reconstruction quality and inference cost with
-fixed receivers and external codecs. We then examine harmful decisions and
-interference mismatch.
+In this section, we test whether selecting one frozen receiver improves image
+quality while reducing computation. We compare fixed receivers and external
+codecs, then examine harmful decisions and interference mismatch.
 
 \subsection{Experimental Setup}
 We use $128\times128$ CelebA center crops as desired images
@@ -308,16 +304,14 @@ Each DiT prior has 28 blocks, width 1,152, 16 heads and patch size two.
 The inherited training schedule uses 40/100 desired/interference-codec epochs
 and 50/20 desired/interference-prior epochs; selection adds no neural training.
 
-For external references, DeepJSCC and MambaJSCC each train desired and
-interference codecs for 40 epochs at SNR 20 dB and CBR $1/48$, using one seed
-and validation MSE for checkpoint selection. DeepJSCC uses a pinned third-party
-PyTorch reproduction; MambaJSCC uses official code. Public checkpoints are
-also evaluated without fine-tuning, with one encoder processing both image
-streams. Public MambaJSCC differs in training domain, channel and resolution;
-public DeepJSCC additionally uses CBR $0.16256$. We treat these results as
-transfer diagnostics. The SwinJSCC-specific diffusion priors cannot be attached
-to either codec without new prior training. We do not reproduce the complete
-published CDDM or ICDM systems.
+DeepJSCC and MambaJSCC each train desired and interference codecs for 40 epochs
+at SNR 20 dB and CBR $1/48$, with one seed and validation-MSE checkpoint
+selection. DeepJSCC uses a pinned third-party PyTorch reproduction; MambaJSCC
+uses official code. Public checkpoints also provide transfer diagnostics
+without fine-tuning, using one encoder for both streams. Public MambaJSCC
+differs in training domain, channel and resolution; public DeepJSCC also uses
+CBR $0.16256$. Either codec would require newly trained, compatible diffusion
+priors. Complete published CDDM/ICDM systems are not reproduced.
 
 Development uses 64 validation pairs and seed 1700. For independent
 confirmation, we use 256 test pairs, seeds 2700/2701, SNR 20 dB, and nominal SINRs
@@ -341,11 +335,10 @@ given nominal disturbance power, a privileged diagnostic. All SwinJSCC variants
 share received tensors and sampler seeds; external codecs share image pairs,
 conditions and channel seeds but generate their own codewords.
 
-We measure all receivers in float32 with batch size one, TF32 disabled, four
-CPU threads, and an RTX 4090. Synchronized receiver time includes selection,
-sampling, and decoding;
-encoding, metric computation and loading are excluded. The number of function
-evaluations (NFE) counts calls to both priors.
+Measurements use float32, batch size one, TF32 disabled, four CPU threads, and
+an RTX 4090. Synchronized receiver time includes selection, sampling and
+decoding, excluding encoding, metrics and loading. Function evaluations (NFE)
+count calls to both priors.
 Quality metrics are per-image PSNR and MSE, LPIPS-VGG v0.1 \cite{zhang2018lpips},
 and four-scale MS-SSIM \cite{wang2003msssim}, averaged arithmetically after RGB
 clipping to $[0,1]$; four scales fit the image resolution. Paired 95\% intervals
@@ -379,13 +372,13 @@ Figure~\ref{fig:quality} uses solid curves for the frozen SwinJSCC latent space
 and dashed curves for the separately trained codecs.
 
 \subsection{Inference Cost and Harmful Decisions}
-\input{generated/tail_result.tex}
 Figure~\ref{fig:tail} shows the frame-level CDF; the vertical line marks the
 $-0.5$ dB harmful-loss threshold.
+\input{generated/tail_result.tex}
 
 
 \subsection{Block Mismatch and No Interference}
-We test robustness on 64 additional pairs with seed 3700 and nominal SINR
+To test block-partition sensitivity, we use 64 additional pairs, seed 3700, and SINR
 $-4,4,10$ dB. One profile shifts burst boundaries by half a receiver block;
 another draws segment lengths uniformly from 16 to 128 symbols and normalizes
 the binary on/off amplitude pattern. A separate SNR-20 condition has no
@@ -410,10 +403,11 @@ No example was selected by reconstruction quality.
 
 \section{Conclusion}
 \input{generated/conclusion_result.tex}
-The gain is specific to the evaluated population. Harmful decisions remain,
-and block mismatch nearly removes the advantage over Gaussian denoising.
-Future work will address fading, synchronization errors, and task-oriented
-evaluation for vehicular links.
+Choosing the disturbance model per observation thus improves this frozen
+receiver stack without neural adaptation. The benefit remains population
+specific: harmful decisions persist, and shifted blocks nearly remove the
+advantage over Gaussian denoising. Fading, synchronization errors, and
+vehicular task accuracy require further evaluation.
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
