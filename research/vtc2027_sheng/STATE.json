@@ -219,8 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "Interval-prose removal prepared; editorial_commit identifies the previous pushed manuscript",
-    "editorial_commit": "7172d3ff5387a181a394048d989fa7ee2501f041"
+    "editorial_revision": "Interval-prose removal pushed",
+    "editorial_commit": "b557d6d47cea3c253ae90edda7adfe74488e6eda"
   },
   "latest_editorial_revision": "Removed 95% intervals and bootstrap explanations from manuscript at user request; generator updated, archived statistics preserved, four-section five-page layout verified",
   "last_editorial_check_utc": "2026-09-29T16:15:00Z"
