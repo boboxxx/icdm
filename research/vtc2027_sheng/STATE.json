@@ -219,8 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "2026-09-29 user VGGT template revision prepared; previous editorial_commit remains the last pushed revision",
-    "editorial_commit": "f5723cc4a0640ceee2e59307fac918de7f1df269"
+    "editorial_revision": "2026-09-29 user VGGT template revision pushed",
+    "editorial_commit": "17f14eb1f62791028a63b1fe1dda1cb7cf820ada"
   },
   "latest_editorial_revision": "User VGGT template applied: six-paragraph Introduction, method-finding-evidence contributions, design purposes and quantitative-result interpretation; no experimental changes",
   "last_editorial_check_utc": "2026-09-29T15:54:37Z"
