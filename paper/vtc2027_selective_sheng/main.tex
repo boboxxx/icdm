@@ -342,9 +342,8 @@ decoding, excluding encoding, metrics and loading. Function evaluations (NFE)
 count calls to both priors.
 Quality metrics are per-image PSNR and MSE, LPIPS-VGG v0.1 \cite{zhang2018lpips},
 and four-scale MS-SSIM \cite{wang2003msssim}, averaged arithmetically after RGB
-clipping to $[0,1]$; four scales fit the image resolution. Paired 95\% intervals
-use 5,000 bootstrap resamples of image pairs, retaining both seeds and all
-conditions. A harmful decision loses more than 0.5 dB against its comparator.
+clipping to $[0,1]$; four scales fit the image resolution.
+A harmful decision loses more than 0.5 dB against its comparator.
 
 \subsection{Frozen Rule and Receiver Comparison}
 \begin{table}[t]

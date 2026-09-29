@@ -110,3 +110,8 @@ candidate receivers, and blind selection rule. The introduction ends on page
 one and Method begins on page two. This structure supersedes the section
 numbering described in the earlier revision notes above. The final section
 discusses scope and limitations before summarizing the measured result.
+
+At the user's request, the manuscript omits 95% interval values and bootstrap
+method prose. Raw statistical estimates remain archived in the result files;
+the manuscript reports observed mean differences and retains the paired-input
+design and harmful-decision analysis. The generator preserves this choice.

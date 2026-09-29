@@ -124,13 +124,12 @@ def main():
 
     def effect(ref,label):
         q=comparisons[ref]
-        lo,hi=q['ci95_image_cluster']
-        return f"{signed(q['mean_delta_psnr'])} dB relative to {label} (95\\% interval [{lo:.3f}, {hi:.3f}])"
+        return f"{signed(q['mean_delta_psnr'])} dB relative to {label}"
 
     conclusion_support=all(comparisons[k]['ci95_image_cluster'][0]>0 for k in ['A4','CDDM_BLIND'])
-    interpretation=("Both fixed-receiver comparisons have positive paired intervals. The same-gate comparison also supports a benefit beyond the tested bypass alone. These results establish a mean-PSNR gain within the matched population. "
-                    if conclusion_support else
-                    "The paired intervals do not establish a positive mean-PSNR effect over both fixed receivers; the evidence therefore does not support an unqualified adaptive-superiority claim. ")
+    interpretation=("These observed averages favor selection over both fixed receivers and the tested bypass control on the confirmation set. "
+                    if all(comparisons[k]['mean_delta_psnr']>0 for k in ['A4','CDDM_BLIND','A4_GATE']) else
+                    "The observed averages do not favor selection over every comparator; an unqualified superiority claim is therefore unwarranted. ")
     profile_bits=[]
     for profile in ['stationary','alternating','burst']:
         rs=[r for r in conf[1] if r['profile']==profile]

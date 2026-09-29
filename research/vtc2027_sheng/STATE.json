@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_baseline_results_delivered",
-  "updated_at": 1790698100,
+  "updated_at": 1790698500,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -219,9 +219,9 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "Four-section manuscript revision pushed",
+    "editorial_revision": "Interval-prose removal prepared; editorial_commit identifies the previous pushed manuscript",
     "editorial_commit": "7172d3ff5387a181a394048d989fa7ee2501f041"
   },
-  "latest_editorial_revision": "Reorganized into Introduction, Method, Experiments, and Discussion and Conclusion; system model integrated into Method, navigation updated, discussion added before conclusion; no experimental changes",
-  "last_editorial_check_utc": "2026-09-29T16:08:20Z"
+  "latest_editorial_revision": "Removed 95% intervals and bootstrap explanations from manuscript at user request; generator updated, archived statistics preserved, four-section five-page layout verified",
+  "last_editorial_check_utc": "2026-09-29T16:15:00Z"
 }

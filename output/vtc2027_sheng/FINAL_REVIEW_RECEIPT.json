@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-29T16:08:20Z",
+  "reviewed_at_utc": "2026-09-29T16:15:00Z",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "8c23b453d06d1dca61d07e65b8bc13312aca15d2401646f3cdca4044c1bf6f54",
-  "latex_zip_sha256": "9260f23931d7ec00a5f922d7d1804df52a20e4e01026e7de949766f08e7c844e",
-  "main_tex_sha256": "a40912c4e3b44dae3e8568caf45ed5f65b4649890c7fa2dbcb3e5c895c06ab64",
+  "manuscript_sha256": "06acd031c760b42c5fcaa648654dd3cf5b117e72a9984a7b144d8457389819d3",
+  "latex_zip_sha256": "c0066af36ad38cca52c30849f7fdb326c26421c13c4cf62cf4f1805f54d9b9e2",
+  "main_tex_sha256": "6d96b12c53f5d14e38ceafc7ed73938828a04756f24e43b52202c8515abb2dab",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -56,7 +56,8 @@
     "discussion_opening": "In this section, we discuss the scope of the findings and conclude the study.",
     "conclusion_paragraph_opening": "In this paper, we presented",
     "introduction_argument_chain": "six paragraphs: progress, closest mechanisms and research question, selector input/output, insight and rationale, evidence and limits, method-finding-evidence contributions",
-    "latest_edit_scope": "Four-section structure; system model and objective integrated into Method; cross-referenced section roadmap; discussion precedes concluding paragraph; equations and experimental evidence unchanged",
+    "latest_edit_scope": "Removed manuscript 95% intervals, bootstrap prose and positive-interval interpretation at user request; raw statistics retained; means, equations and four-section structure unchanged",
+    "interval_reporting": "omitted from manuscript; retained in archived analysis",
     "system_model_chain": [
       "image representation and transmission",
       "diffusion-assisted image recovery",

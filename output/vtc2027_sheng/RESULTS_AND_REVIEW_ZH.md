@@ -156,3 +156,7 @@ DeepJSCC相对SwinJSCC direct为−1.271 dB，图像对聚类95%区间[−1.545,
 按用户最新要求，正文改为I Introduction、II Method、III Experiments、IV Discussion and Conclusion。原系统模型和问题定义并入Method，其五个小节依次为Communication Model、Generative Image Recovery、Receiver-Selection Objective、Candidate Receivers、Blind Selection Before Inference。统一方法导语，删除中途重复的节级导语；引言末的章节导航改用LaTeX交叉引用。最后一节先讨论冻结接收机上的收益、逐帧风险与块错位局限，再以“In this paper”总结方法和测得的结果。
 
 重新编译及五页视觉检查通过，Introduction仍在第一页结束，第二页以Method开始。公式、引用、图表、原始实验结果与阈值保持不变；本次结构取代前文历史修订记录中的五节编号。
+
+## 删除正文区间表述（2026-09-29）
+
+按用户要求，删除实验设置中的“Paired 95% intervals”及5,000次bootstrap说明，删除结果段三组95%区间数值和正区间解释，改为描述确认集上的观测平均值。生成脚本同步修改，避免重建时重新插入这些文字。原始记录、统计区间计算与审计文件保留，配对输入设计、平均值和有害决策结果不变。四节五页结构保持，编译与受影响页面的视觉检查通过。
