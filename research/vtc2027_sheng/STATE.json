@@ -219,8 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "Four-section revision prepared; editorial_commit identifies the previous pushed manuscript",
-    "editorial_commit": "17f14eb1f62791028a63b1fe1dda1cb7cf820ada"
+    "editorial_revision": "Four-section manuscript revision pushed",
+    "editorial_commit": "7172d3ff5387a181a394048d989fa7ee2501f041"
   },
   "latest_editorial_revision": "Reorganized into Introduction, Method, Experiments, and Discussion and Conclusion; system model integrated into Method, navigation updated, discussion added before conclusion; no experimental changes",
   "last_editorial_check_utc": "2026-09-29T16:08:20Z"
