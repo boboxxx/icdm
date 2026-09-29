@@ -102,3 +102,11 @@ contributions, purpose-driven method descriptions, and result interpretation
 beside each experimental comparison. The complete mapping and scope checks
 are in `research/vtc2027_sheng/VGGT_TEMPLATE_APPLICATION_ZH.md`. The paper
 retains the five-page IEEE layout and the original experimental evidence.
+
+The current manuscript has four sections: I Introduction, II Method,
+III Experiments, and IV Discussion and Conclusion. Method contains the
+communication model, generative recovery, receiver-selection objective,
+candidate receivers, and blind selection rule. The introduction ends on page
+one and Method begins on page two. This structure supersedes the section
+numbering described in the earlier revision notes above. The final section
+discusses scope and limitations before summarizing the measured result.

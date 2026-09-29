@@ -150,3 +150,9 @@ DeepJSCC相对SwinJSCC direct为−1.271 dB，图像对聚类95%区间[−1.545,
 本轮按新附件将模板落实到段落功能：摘要按方法、输入输出、计算方式和证据组织；Introduction重排为六段，依次承接领域进展、最近相关方法与研究问题、方法概览、关键观察与设计、实验支持及三项贡献。贡献区分方法、发现和实证三个层次。第II节保持通信链路和实际决策目标；第III节给统计量、候选恢复和分组验证增加设计理由；第IV节明确每组比较验证什么，并把数值和解释相连；结论回收决策价值及其边界。
 
 没有套用模板中未经实验支持的SOTA、多任务、端到端训练或泛化结论。所有原始数值、确认阈值与来源限制保留，更新了证据生成脚本以使重建稿件保留新表述。详细映射见 `research/vtc2027_sheng/VGGT_TEMPLATE_APPLICATION_ZH.md`。全文维持IEEE标准五页，第一页Introduction、第二页System Model，保留三个“In this section”导语和“In this paper”结论。
+
+## 四节结构重组（2026-09-29）
+
+按用户最新要求，正文改为I Introduction、II Method、III Experiments、IV Discussion and Conclusion。原系统模型和问题定义并入Method，其五个小节依次为Communication Model、Generative Image Recovery、Receiver-Selection Objective、Candidate Receivers、Blind Selection Before Inference。统一方法导语，删除中途重复的节级导语；引言末的章节导航改用LaTeX交叉引用。最后一节先讨论冻结接收机上的收益、逐帧风险与块错位局限，再以“In this paper”总结方法和测得的结果。
+
+重新编译及五页视觉检查通过，Introduction仍在第一页结束，第二页以Method开始。公式、引用、图表、原始实验结果与阈值保持不变；本次结构取代前文历史修订记录中的五节编号。

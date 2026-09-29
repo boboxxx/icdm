@@ -97,14 +97,18 @@ statistics. (2) We show that the preferred fixed receiver differs across
 interference profiles, motivating observation-dependent selection.
 (3) We establish a mean-quality and computation benefit on independent paired
 observations, while quantifying harmful decisions and mismatch sensitivity.
-Sections II and III present the system model and selector; Sections IV and V
-report experiments and conclusions.
+Section~\ref{sec:method} develops the method, Section~\ref{sec:experiments}
+reports experiments, and Section~\ref{sec:discussion} discusses the findings
+and concludes the paper.
 
-\section{System Model and Problem Formulation}
-In this section, we define the communication chain and receiver information,
-then formulate model selection under fixed bandwidth, power, and weights.
+\section{Method}
+\label{sec:method}
+In this section, we develop a blind selector that maps a received latent to
+one of two generative receivers. We first define the communication model,
+recovery models, and selection objective, then describe the candidate
+receivers and the rule fitted on development images.
 
-\subsection{Image Representation and Transmission}
+\subsection{Communication Model}
 Let $\bm u\in[0,1]^d$ be an RGB image, with $d=3H_{\rm img}W_{\rm img}$.
 The JSCC encoder $f_s$ combines representation learning and channel mapping;
 $f_z$ encodes an interfering image $\bm v$ into the same dimension:
@@ -129,7 +133,7 @@ simulator sets the average interference power to $10^{-\gamma/10}-N_0$.
 Realized block energies of $\bm z$ make the per-frame SINR differ from this
 nominal setting.
 
-\subsection{Diffusion-Assisted Image Recovery}
+\subsection{Generative Image Recovery}
 The receiver combines the frame-specific evidence in $\bm y$ with learned
 latent priors. Joint reconstruction uses both priors:
 \begin{equation}
@@ -159,7 +163,7 @@ The common decoder then reconstructs
  \label{eq:decode}
 \end{equation}
 
-\subsection{Quality, Cost, and Receiver Selection}
+\subsection{Receiver-Selection Objective}
 We measure image reconstruction with per-image PSNR, $q(\bm u,\widehat{\bm u})=
 -10\log_{10}(\|\bm u-\widehat{\bm u}\|^2/d)$ for clipped RGB outputs.
 LPIPS and MS-SSIM measure fidelity, not downstream accuracy. Computation counts
@@ -175,10 +179,6 @@ where $\Theta$ contains the rule family retained by image-group validation and
 a constant-receiver fallback. Bandwidth, power, and neural weights remain
 fixed; computation is reported separately. Fitting is offline; at inference,
 the frozen rule executes one branch without knowing its reconstruction error.
-
-\section{Blind Disturbance-Model Selection}
-In this section, we present the candidate receivers, energy statistics, and
-rule-fitting procedure that map received symbols to a receiver choice.
 
 \subsection{Candidate Receivers}
 Both receivers share the frozen desired-signal prior and decoder, isolating
@@ -241,7 +241,7 @@ The existing 40-step, order-three sampler calls each prior 40 times. An
 initialization-only variant keeps the amplitudes fixed and isolates the effect
 of calibration.
 
-\subsection{Selection Before Generative Inference}
+\subsection{Blind Selection Before Inference}
 To distinguish frames with similar total energy but different block profiles,
 the selector combines $\widehat P$ with normalized block-energy variation:
 \begin{equation}
@@ -288,7 +288,8 @@ frames dominate regret. This identity is an accounting relation, not a
 generalization bound. The fitting objective is mean PSNR; it does not optimize
 mean MSE, LPIPS, or harmful-tail probability.
 
-\section{Experimental Evaluation}
+\section{Experiments}
+\label{sec:experiments}
 In this section, we test whether selecting one frozen receiver improves image
 quality while reducing computation. We compare fixed receivers and external
 codecs, then examine harmful decisions and interference mismatch.
@@ -401,13 +402,19 @@ No example was selected by reconstruction quality.
 \label{fig:qualitative}
 \end{figure}
 
-\section{Conclusion}
+\section{Discussion and Conclusion}
+\label{sec:discussion}
+In this section, we discuss the scope of the findings and conclude the study.
+The comparisons support adapting the disturbance model within a fixed
+receiver stack. They do not establish a universal preference for either
+receiver: harmful decisions persist, and shifted blocks nearly remove the
+advantage over Gaussian denoising. The energy statistics provide a validated
+decision rule for this population, rather than a physical identification of
+the interferer.
+
 \input{generated/conclusion_result.tex}
-Choosing the disturbance model per observation thus improves this frozen
-receiver stack without neural adaptation. The benefit remains population
-specific: harmful decisions persist, and shifted blocks nearly remove the
-advantage over Gaussian denoising. Fading, synchronization errors, and
-vehicular task accuracy require further evaluation.
+Fading, synchronization errors, and vehicular task accuracy require further
+evaluation.
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

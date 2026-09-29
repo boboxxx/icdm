@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_baseline_results_delivered",
-  "updated_at": 1790697277,
+  "updated_at": 1790698100,
   "objective": "Finish sheng experiments, scientifically review and deliver a coherent IEEE VTC 2027 Spring manuscript",
   "local_root": "/Users/chen/.codex/.chatgpt-projects/g-p-6aacf60c6fb88191a1d37d6d7288c808/ICDM_A4",
   "remote_host": "sheng@100.94.183.27",
@@ -44,7 +44,7 @@
     "status": "complete, excluded"
   },
   "paper_source": "paper/vtc2027_selective_sheng/main.tex",
-  "paper_current_status": "Five pages, all pages visually reviewed; first-page six-paragraph Introduction, second-page System Model; user VGGT template applied to paragraph roles, design rationale, contributions and evidence interpretation.",
+  "paper_current_status": "Five pages, all pages visually reviewed; four sections: Introduction, Method, Experiments, Discussion and Conclusion. Method integrates the system model and selector and begins on page two.",
   "local_draft_pdf": "paper/vtc2027_selective_sheng/build/main.pdf",
   "remote_draft_pdf": "paper/vtc2027_selective_sheng/build_sheng/main.pdf",
   "paper_builds": {
@@ -219,9 +219,9 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "2026-09-29 user VGGT template revision pushed",
+    "editorial_revision": "Four-section revision prepared; editorial_commit identifies the previous pushed manuscript",
     "editorial_commit": "17f14eb1f62791028a63b1fe1dda1cb7cf820ada"
   },
-  "latest_editorial_revision": "User VGGT template applied: six-paragraph Introduction, method-finding-evidence contributions, design purposes and quantitative-result interpretation; no experimental changes",
-  "last_editorial_check_utc": "2026-09-29T15:54:37Z"
+  "latest_editorial_revision": "Reorganized into Introduction, Method, Experiments, and Discussion and Conclusion; system model integrated into Method, navigation updated, discussion added before conclusion; no experimental changes",
+  "last_editorial_check_utc": "2026-09-29T16:08:20Z"
 }

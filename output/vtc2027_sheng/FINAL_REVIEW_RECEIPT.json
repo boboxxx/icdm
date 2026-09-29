@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-29T15:54:37Z",
+  "reviewed_at_utc": "2026-09-29T16:08:20Z",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "68020f62a2adc73a88f5422c77188cd9137aca6533884408f8f33d8139408806",
-  "latex_zip_sha256": "3db3fae96cc587f05eb51c2401c705b51d24f6e364182c087a7dad54ed1b55eb",
-  "main_tex_sha256": "8a53ed97e9392247ba828325b39c3b35d99491ec6e018c98520d3f695103e0f8",
+  "manuscript_sha256": "8c23b453d06d1dca61d07e65b8bc13312aca15d2401646f3cdca4044c1bf6f54",
+  "latex_zip_sha256": "9260f23931d7ec00a5f922d7d1804df52a20e4e01026e7de949766f08e7c844e",
+  "main_tex_sha256": "a40912c4e3b44dae3e8568caf45ed5f65b4649890c7fa2dbcb3e5c895c06ab64",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -41,6 +41,8 @@
     "template_application_note": "research/vtc2027_sheng/VGGT_TEMPLATE_APPLICATION_ZH.md",
     "introduction_ends_on_page": 1,
     "system_model_starts_on_page": 2,
+    "method_starts_on_page": 2,
+    "section_titles": ["Introduction", "Method", "Experiments", "Discussion and Conclusion"],
     "standalone_related_work": false,
     "captions": 5,
     "all_captions_single_sentence": true,
@@ -51,9 +53,10 @@
       3,
       4
     ],
-    "conclusion_opening": "In this paper, we presented",
+    "discussion_opening": "In this section, we discuss the scope of the findings and conclude the study.",
+    "conclusion_paragraph_opening": "In this paper, we presented",
     "introduction_argument_chain": "six paragraphs: progress, closest mechanisms and research question, selector input/output, insight and rationale, evidence and limits, method-finding-evidence contributions",
-    "latest_edit_scope": "User-supplied VGGT template applied to abstract, six-paragraph introduction, purpose-driven method descriptions, experiment interpretations and conclusion; no scientific data changes",
+    "latest_edit_scope": "Four-section structure; system model and objective integrated into Method; cross-referenced section roadmap; discussion precedes concluding paragraph; equations and experimental evidence unchanged",
     "system_model_chain": [
       "image representation and transmission",
       "diffusion-assisted image recovery",
