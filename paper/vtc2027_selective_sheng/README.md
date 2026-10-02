@@ -21,7 +21,7 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
 Table I and Figure 1 now include matched-retrained external codec anchors.
-Section IV-B reports all three public-weight PSNR results separately. Training
+Section III-B reports all three public-weight PSNR results separately. Training
 uses one seed and a fixed 40-epoch budget, so these anchors do not establish
 convergence or a general architecture ranking. Each matched anchor also trains
 its own interference encoder; cross-backbone received tensors differ.
@@ -47,9 +47,10 @@ protocol-mismatched external anchors. They are not mixed with the matched
 confirmation ranking; the public DeepJSCC checkpoint also uses substantially
 more channel symbols than the locked 1/48-CBR protocol.
 
-Target checked 2026-09-23: IEEE VTC 2027 Spring, Hamburg, 20–23 June 2027.
-Official regular-paper deadline at that check: 30 September 2026.
-https://events.vtsociety.org/vtc2027-spring/
+Target checked 2026-10-02: IEEE VTC 2027 Spring, Hamburg, 20–23 June 2027.
+The official call invites five-page full papers; the extended regular-paper
+deadline is 14 October 2026.
+https://events.vtsociety.org/vtc2027-spring/call-for-papers-2/
 
 No conference submission has been made.
 
@@ -115,3 +116,14 @@ At the user's request, the manuscript omits 95% interval values and bootstrap
 method prose. Raw statistical estimates remain archived in the result files;
 the manuscript reports observed mean differences and retains the paired-input
 design and harmful-decision analysis. The generator preserves this choice.
+
+The 2026-10-02 revision applies ccf-humanization and ccf-paper-writer to the
+existing evidence. It removes repetitive defensive framing, states the
+receiver input/output and model-selection rationale directly, and consolidates
+the external-baseline scope in the setup. The harmful-loss tail, unsupported
+threshold transition, single-seed training budget and block-mismatch result
+remain explicit. All equations, citation keys and generated numerical results
+are unchanged. The standard IEEEtran manuscript is five pages, with
+Introduction ending on page one and Method beginning on page two. All pages
+were visually inspected after compilation. No AI editing disclosure paragraph
+was added. Author information remains pending.

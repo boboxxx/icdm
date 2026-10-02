@@ -113,13 +113,13 @@ def main():
                  f"versus {d['means']['A4']['psnr']:.3f} dB for calibrated joint sampling and "
                  f"{d['means']['A4_GATE']['psnr']:.3f} dB for its same-gate control. "
                  f"The privileged nominal-power Gaussian diagnostic obtains {d['means']['CDDM_ORACLE']['psnr']:.3f} dB. "
-                 "These development comparisons motivate the receiver decision but are not independent confirmation.")
+                 "These development results informed the receiver design before the independent evaluation.")
     dev_unique=[r for r in dev[1] if r['mode']=='CDDM_BLIND']
     low_region=[r for r in dev_unique if r['features']['heterogeneity']<=policy['heterogeneity_threshold']]
     support_note=(f"The low-heterogeneity development region contains {len(low_region)} frames and has a maximum "
                   f"excess-energy estimate of {max(r['features']['power'] for r in low_region):.3f}. The fitted threshold "
                   f"{policy['power_threshold_low']:g} therefore lies beyond observed support and makes this region always Gaussian. "
-                  "This threshold is not an identified physical transition, and the family comparison does not establish that either feature is individually necessary. ")
+                  "The transition beyond this region remains unobserved, and family-level validation leaves each feature's individual contribution unresolved. ")
     write(generated/'development_result.tex',cv_sentence+decision+'\n\n'+support_note+devcontrols)
 
     def effect(ref,label):
@@ -127,7 +127,7 @@ def main():
         return f"{signed(q['mean_delta_psnr'])} dB relative to {label}"
 
     conclusion_support=all(comparisons[k]['ci95_image_cluster'][0]>0 for k in ['A4','CDDM_BLIND'])
-    interpretation=("These observed averages favor selection over both fixed receivers and the tested bypass control on the confirmation set. "
+    interpretation=("The gain over the same-gate control distinguishes changing the recovery model from the tested bypass alone. "
                     if all(comparisons[k]['mean_delta_psnr']>0 for k in ['A4','CDDM_BLIND','A4_GATE']) else
                     "The observed averages do not favor selection over every comparator; an unqualified superiority claim is therefore unwarranted. ")
     profile_bits=[]
@@ -149,15 +149,13 @@ def main():
                   f"compared with {burst['CDDM_BLIND']:.3f} dB for Gaussian denoising. "
                   f"The selector reaches {stationary['SELECT']:.3f}, {alternating['SELECT']:.3f}, and "
                   f"{burst['SELECT']:.3f} dB for stationary, alternating, and burst interference, respectively. "
-                  "The reversed ordering of the fixed receivers supports adapting the disturbance model. "
-                  "It does not establish a causal interpretation of either energy statistic. ")
+                  "This reversal creates an opportunity for observation-dependent receiver choice. ")
     anchor_text=""
     if backbone:
         dm=backbone['means']['deepjscc']; mm=backbone['means']['mambajscc']
-        anchor_text=(f"For external context, matched direct-codec anchors reach {dm['psnr']:.3f} dB for DeepJSCC "
-                     f"and {mm['psnr']:.3f} dB for MambaJSCC. They use independently trained latent spaces "
-                     "and serve only as external codec references. "
-                     "One training seed and a fixed 40-epoch budget do not establish convergence or a general architecture ranking. ")
+        anchor_text=(f"Matched direct-codec references reach {dm['psnr']:.3f} dB for DeepJSCC "
+                     f"and {mm['psnr']:.3f} dB for MambaJSCC in their independently trained latent spaces. "
+                     "These results describe the single-seed, 40-epoch training budget; convergence and architecture-wide rankings remain untested. ")
     if pretrained:
         pm=pretrained['means']
         anchor_text+=(f"Without fine-tuning, public DeepJSCC (ImageNet/SNR 19), MambaJSCC (CLIC2021/AWGN 10), "
@@ -165,13 +163,13 @@ def main():
                       f"{pm['deepjscc_public_imagenet_snr19']['psnr']:.3f}, "
                       f"{pm['mambajscc_public_awgn10_clic2021']['psnr']:.3f}, and "
                       f"{pm['mambajscc_public_rayleigh_div2k']['psnr']:.3f} dB, respectively. "
-                      "Their protocol mismatches preclude a controlled claim about retraining benefit. ")
+                      "The training and protocol differences make these values transfer diagnostics. ")
     text=(r"We next test the frozen rule on independent paired observations (Table~\ref{tab:main} and Fig.~\ref{fig:quality}). "
           +"The selector changes mean PSNR by "+effect('A4','calibrated joint sampling')+", "
           +effect('CDDM_BLIND','blind Gaussian denoising')+", and "
           +effect('A4_GATE','the same-gate control')+". "+interpretation
-          +f"Estimating total disturbance changes the Gaussian receiver from {means['CDDM_N0']['psnr']:.3f} to "
-           f"{means['CDDM_BLIND']['psnr']:.3f} dB, so the thermal-noise-only port is insufficient as the sole Gaussian baseline. "
+          +f"Estimating total disturbance raises the Gaussian receiver from {means['CDDM_N0']['psnr']:.3f} to "
+           f"{means['CDDM_BLIND']['psnr']:.3f} dB, showing the value of accounting for interference power. "
           +'\n\n'+profile_text+'\n\n'+anchor_text)
     write(generated/'confirmation_result.tex',text)
 
@@ -189,10 +187,10 @@ def main():
     table.extend([r'\bottomrule',r'\end{tabular}'])
     write(generated/'main_table.tex','\n'.join(table))
 
-    text=(f"We next assess savings and harmful decisions. The selector chooses Gaussian reception on {100*c['selector']['gaussian_fraction']:.1f}\\% of confirmation frames. "
+    text=(f"The selector uses the less expensive Gaussian branch on {100*c['selector']['gaussian_fraction']:.1f}\\% of confirmation frames. "
           f"It averages {nfe:.1f} predictor evaluations and {1000*sel['receiver_seconds']:.0f} ms, "
           f"versus {nfe_s:.0f} evaluations and {1000*means['A4']['receiver_seconds']:.0f} ms for joint sampling. "
-          f"This saving does not remove harmful decisions. Against joint sampling, {100*ca['harm_gt_half_db']:.2f}\\% of frames lose more than 0.5 dB, "
+          f"Against joint sampling, {100*ca['harm_gt_half_db']:.2f}\\% of frames lose more than 0.5 dB, "
           f"and the fifth percentile of the paired change is {ca['fifth_percentile']:.3f} dB "
           r"(Fig.~\ref{fig:tail}). "
           f"The unavailable per-frame oracle reaches {c['selector']['offline_oracle_psnr']:.3f} dB; "
@@ -200,7 +198,7 @@ def main():
           f"Mean MSE changes from {means['A4']['mse']:.5f} to {sel['mse']:.5f}, LPIPS from "
           f"{means['A4']['lpips_vgg']:.4f} to {sel['lpips_vgg']:.4f}, and MS-SSIM from "
           f"{means['A4']['ms_ssim']:.4f} to {sel['ms_ssim']:.4f}. "
-          "These mean improvements coexist with frame-level losses; selection provides no per-frame guarantee.")
+          "The mean fidelity improvements coexist with the losses visible in the lower CDF tail.")
     write(generated/'tail_result.tex',text)
 
     families=[('shifted','Shifted blocks'),('random_length','Random lengths'),('stationary','No interference')]
@@ -224,7 +222,7 @@ def main():
           rf"Table~\ref{{tab:pressure}} reports the robustness tests. The selector changes PSNR relative to Gaussian reception by "
           f"{signed(shifted['SELECT']-shifted['CDDM_BLIND'])} dB for shifted blocks and "
           f"{signed(random['SELECT']-random['CDDM_BLIND'])} dB for random lengths. With no interference, it matches Gaussian reception "
-          "and avoids the joint receiver's loss. The near-zero shifted-block gain limits transfer beyond the fitted partition. Diagnostics neither alter the rule nor enter confirmation averages.")
+          "and avoids the joint receiver's loss. Shifting the burst boundaries reduces the selection benefit to almost zero, identifying sensitivity to the receiver's block partition.")
 
     ending=("In this paper, we presented a blind selector that uses received energy and block-energy heterogeneity "
             "to choose between Gaussian denoising and joint signal--interference reconstruction with frozen neural weights. ")

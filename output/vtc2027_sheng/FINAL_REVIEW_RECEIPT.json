@@ -1,6 +1,6 @@
 {
   "status": "five_page_manuscript_and_local_evidence_review_complete",
-  "reviewed_at_utc": "2026-09-29T16:15:00Z",
+  "reviewed_at_utc": "2026-10-02T21:49:03Z",
   "paper_pages": 5,
   "page_limit_met_without_font_or_margin_reduction": true,
   "pdf_visual_review_pages": [
@@ -25,9 +25,9 @@
   "author_information": "pending; explicit placeholders retained",
   "submission_performed": false,
   "scope_caveat": "Shared-DiT receiver ports and external direct-codec references; no full original CDDM/ICDM replication or superiority claim.",
-  "manuscript_sha256": "06acd031c760b42c5fcaa648654dd3cf5b117e72a9984a7b144d8457389819d3",
-  "latex_zip_sha256": "c0066af36ad38cca52c30849f7fdb326c26421c13c4cf62cf4f1805f54d9b9e2",
-  "main_tex_sha256": "6d96b12c53f5d14e38ceafc7ed73938828a04756f24e43b52202c8515abb2dab",
+  "manuscript_sha256": "cd3e10a37d63640271f5f8756ef0d6bbedab64546e1b890771666fb0a19dfaec",
+  "latex_zip_sha256": "5dba8c97484c091f277c512065b3ca0fb79665144433958de67ecea064d19946",
+  "main_tex_sha256": "6cda0da4b8e7ee73c6beafdcd5922115dc70424f9b4493d58199eea89294b3fa",
   "matched_analysis_sha256": "b3722adaee2394323e4fdccbdf2dcb64d1df7fd1eeb4ade23b716414c2ad37dd",
   "public_analysis_sha256": "b1a5ed3e70c68ebb94dc28a909919037f48c28fc1e25ba0e111739eb66e1750a",
   "audit_receipts": [
@@ -53,15 +53,37 @@
       3,
       4
     ],
-    "discussion_opening": "In this section, we discuss the scope of the findings and conclude the study.",
+    "discussion_opening": "In this section, we relate receiver complementarity to the selection gain and its sensitivity to interference structure.",
     "conclusion_paragraph_opening": "In this paper, we presented",
     "introduction_argument_chain": "six paragraphs: progress, closest mechanisms and research question, selector input/output, insight and rationale, evidence and limits, method-finding-evidence contributions",
-    "latest_edit_scope": "Removed manuscript 95% intervals, bootstrap prose and positive-interval interpretation at user request; raw statistics retained; means, equations and four-section structure unchanged",
+    "latest_edit_scope": "Applied ccf-humanization and ccf-paper-writer: removed repeated defensive framing, clarified receiver input/output and empirical model-selection rationale, consolidated baseline scope, retained harmful losses and block-partition sensitivity. Equations, citation keys and generated numerical sequences unchanged.",
     "interval_reporting": "omitted from manuscript; retained in archived analysis",
     "system_model_chain": [
       "image representation and transmission",
       "diffusion-assisted image recovery",
       "quality, cost, and receiver selection"
     ]
-  }
+  },
+  "bounded_claim_evidence_review": {
+    "status": "completed locally using ccf-paper-reviewer workflow",
+    "selector_evidence": "Confirmation means and same-gate comparison support observed quality benefit beyond the tested bypass alone; no architecture-wide or full-system superiority claim.",
+    "feature_scope": "Empirical received statistics; desired-signal variation and unobserved threshold transition retained; individual-feature necessity unresolved.",
+    "negative_results": "Harmful-frame fraction, lower CDF tail, near-zero shifted-block gain and protocol mismatch retained.",
+    "evidence_unchanged": "Displayed equation blocks, citation key set and numeric sequences in all generated result paragraphs exactly match pre-edit HEAD. Data, weights and thresholds unchanged."
+  },
+  "prose_quality_check": {
+    "scope": "main.tex with generated inputs expanded",
+    "words_heuristic": 2936,
+    "em_dashes": 0,
+    "defensive_framing_findings": 0,
+    "remaining_heuristic": "Uniform-length sentence runs reviewed in context; retained protocol definitions and parallel comparator sentences where they improve precision."
+  },
+  "venue_page_check": {
+    "checked_on": "2026-10-02",
+    "source": "https://events.vtsociety.org/vtc2027-spring/call-for-papers-2/",
+    "invited_pages": 5,
+    "extended_regular_deadline": "2026-10-14",
+    "full_submission_compliance_audit": "outside this editorial revision"
+  },
+  "ai_editing_disclosure_paragraph_added": false
 }
