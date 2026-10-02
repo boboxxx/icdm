@@ -219,8 +219,8 @@
     "content_commit": "078e34cb5e0990fedd04c5a43d82e1afcaabb58c",
     "includes": "five-page PDF, LaTeX package, raw baseline records, training logs, Chinese report, source and hash receipts",
     "large_weights": "all 8 best/latest files recovered locally; hashes committed, binaries excluded from ordinary Git",
-    "editorial_revision": "2026-10-02 scientific prose revision complete locally; GitHub sync pending",
-    "editorial_commit": "b557d6d47cea3c253ae90edda7adfe74488e6eda"
+    "editorial_revision": "2026-10-02 scientific prose revision pushed",
+    "editorial_commit": "1975635cbb6b0290dd7feb31d801789e66f26b3b"
   },
   "latest_editorial_revision": "Applied ccf-humanization and ccf-paper-writer; clarified argument and mechanisms, consolidated baseline scope, retained negative results; equations, citations and generated numbers unchanged; five standard IEEE pages visually verified",
   "last_editorial_check_utc": "2026-10-02T21:49:03Z"
